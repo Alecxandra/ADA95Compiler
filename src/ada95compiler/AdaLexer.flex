@@ -1,7 +1,6 @@
 /* user code*/
-/*and or not xor*/
-package ada95compiler;
 
+package ada95compiler;
 %%
 
 %class AdaLexer
@@ -9,23 +8,34 @@ package ada95compiler;
 %unicode
 %line
 %column
+%int
 
+/* preguntar por caracteres raros en id o guiones,sentencia goto 
+potencia
+*/
 Number= [0-9]
-/* preguntar por caracteres raros o guiones */
-Id= [A-Za-z][A-Za-z0-9]*
-Integer= Number+
-Float= {Number}+[\.]{Number}
+Id= [_A-Za-z][_A-Za-z0-9]*
+Integer= {Number}+
+Float= {Number}+[\.]{Number}+
 Space= [\s\t\f]
 Nextline= \r|\n|\r\n
+Quote= [\"]
+CommentDelimiter = ["--"]
+StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
+
+
+%state STRING
+%state COMMENT
 
 %%
 <YYINITIAL>{
-   {Id}                        {System.out.println("Identificador: "+ yytext());}
    "procedure"                 {System.out.println("procedure");}
    "is"                        {System.out.println("is");}
    "begin"                     {System.out.println("begin");} 
    "end"                       {System.out.println("end");}
    ":"                         {System.out.println("dos puntos :");}
+   "in out"                    {System.out.println("in out");} 
+   "in"                        {System.out.println("in");}
    "integer"                   {System.out.println("integer");}
    "boolean"                   {System.out.println("boolean");}
    "float"                     {System.out.println("float");}  	
@@ -35,19 +45,17 @@ Nextline= \r|\n|\r\n
    "then"                      {System.out.println("then");}
    "elsif"                     {System.out.println("else if");}
    "for"                       {System.out.println("for");}
-   "in"                        {System.out.println("in");}
    "loop"                      {System.out.println("loop");}
    "exit"                      {System.out.println("exit");}
    "when"                      {System.out.println("when");}
    "while"                     {System.out.println("while");}
    "declare"                   {System.out.println("declare");}
    ":="                        {System.out.println("asignacion");}
-   "="                         {System.out.println("igual");}
    "/="                        {System.out.println("distinto");}
-   ".."	                       {System.out.println("rango");} 
+   "="                         {System.out.println("igual");}   
    "function"                  {System.out.println("function");}
    "return"                    {System.out.println("retorno");}
-   "out"                       {System.out.println("out");} 
+   "out"                       {System.out.println("out");}
    "("                         {System.out.println("parentesis (");}
    ")"                         {System.out.println("parentesis )");}
    "get"                       {System.out.println("get");}
@@ -58,16 +66,35 @@ Nextline= \r|\n|\r\n
    ">="                        {System.out.println("mayor igual");}
    "and"                       {System.out.println("operador and");}
    "or"                        {System.out.println("operador or");}
+   "not"                       {System.out.println("operador not");}
    "true"                      {System.out.println("true");}
    "false"                     {System.out.println("false");}
+   {CommentDelimiter}          {yybegin(COMMENT);}
    "+"                         {System.out.println("mas +");}
    "-"                         {System.out.println("menos -");}
    "*"                         {System.out.println("por *");}
-   "/"                         {System.out.println("/");}
-   "main"                      {System.out.println("main");}   
+   "/"                         {System.out.println("entre /");}
+   "**"                        {System.out.println("potencia **");}
+   "main"                      {System.out.println("main");}
+   {Id}                        {System.out.println("Identificador: "+ yytext());}   
    {Float}                     {System.out.println("float: "+yytext());}
    {Integer}                   {System.out.println("Integer: "+ yytext());}
    {Space}                     {/* Ignore */}
    {Nextline}                  {/* Ignore */} 
+   {Quote}                     {yybegin(STRING);}
+   .                           {System.out.println("Token no reconocido por el lenguaje");}
+}
+
+<STRING>{
+   {Quote}                     {yybegin(YYINITIAL);} 
+   {StringCont}                {System.out.println("Contenido del string: "+yytext());}
+   .                           {System.out.println("Caracter no permitido "+yytext()+" linea: "+yyline+" columna"+ yycolumn);} 
+
+}
+<COMMENT>{
+   {Nextline}                  {System.out.println("se encontro un comentario"); yybegin(YYINITIAL);}
+   {Space}                     { /* Ignore */                                  }
+   .                           { /* Ignore */                                  }
+
 }
 
