@@ -72,9 +72,9 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    {CommentDelimiter}          {yybegin(COMMENT);}
    "+"                         {System.out.println("mas +");}
    "-"                         {System.out.println("menos -");}
+   "**"                        {System.out.println("potencia **");}
    "*"                         {System.out.println("por *");}
    "/"                         {System.out.println("entre /");}
-   "**"                        {System.out.println("potencia **");}
    "main"                      {System.out.println("main");}
    {Id}                        {System.out.println("Identificador: "+ yytext());}   
    {Float}                     {System.out.println("float: "+yytext());}
