@@ -33,6 +33,13 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    "is"                        {System.out.println("is");}
    "begin"                     {System.out.println("begin");} 
    "end"                       {System.out.println("end");}
+   "<="                        {System.out.println("menor igual");}
+   ">="                        {System.out.println("mayor igual");}
+   "/="                        {System.out.println("distinto");}
+   ":="                        {System.out.println("asignacion");}
+   ">"                         {System.out.println("mayor que");}
+   "<"                         {System.out.println("menor que");}  
+   "="                         {System.out.println("igual");}   
    ":"                         {System.out.println("dos puntos :");}
    "in out"                    {System.out.println("in out");} 
    "in"                        {System.out.println("in");}
@@ -50,9 +57,6 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    "when"                      {System.out.println("when");}
    "while"                     {System.out.println("while");}
    "declare"                   {System.out.println("declare");}
-   ":="                        {System.out.println("asignacion");}
-   "/="                        {System.out.println("distinto");}
-   "="                         {System.out.println("igual");}   
    "function"                  {System.out.println("function");}
    "return"                    {System.out.println("retorno");}
    "out"                       {System.out.println("out");}
@@ -60,10 +64,6 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    ")"                         {System.out.println("parentesis )");}
    "get"                       {System.out.println("get");}
    "put"                       {System.out.println("put");}  
-   ">"                         {System.out.println("mayor que");}
-   "<"                         {System.out.println("menor que");}
-   "<="                        {System.out.println("menor igual");}
-   ">="                        {System.out.println("mayor igual");}
    "and"                       {System.out.println("operador and");}
    "or"                        {System.out.println("operador or");}
    "not"                       {System.out.println("operador not");}
