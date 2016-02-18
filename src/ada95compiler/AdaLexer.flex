@@ -83,13 +83,13 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    {Space}                     {/* Ignore */}
    {Nextline}                  {/* Ignore */} 
    {Quote}                     {yybegin(STRING);}
-   .                           {System.out.println("Token no reconocido por el lenguaje");}
+   .                           {System.err.println("<"+yytext()+">"+" en la linea:"+(yyline+1)+", columna: "+(yycolumn+1)+ " caracter no valido");}
 }
 
 <STRING>{
    {Quote}                     {yybegin(YYINITIAL);} 
    {StringCont}                {System.out.println("Contenido del string: "+yytext());}
-   .                           {System.out.println("Caracter no permitido "+yytext()+" linea: "+yyline+" columna"+ yycolumn);} 
+   .                           {System.err.println("Caracter no permitido "+yytext()+" linea: "+(yyline+1)+" columna"+ (yycolumn+1));} 
 
 }
 <COMMENT>{

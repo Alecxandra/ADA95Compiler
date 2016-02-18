@@ -1,5 +1,5 @@
 procedure hola is
-  begin
+  begín
     put("hola mundo cruel");
     --esto es un comentario
     x: integer;

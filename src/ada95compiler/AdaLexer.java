@@ -63,14 +63,14 @@ class AdaLexer {
     "\5\4\1\30\1\31\1\32\3\4\1\33\1\34\1\35"+
     "\1\36\7\4\1\37\1\4\1\0\1\40\1\41\4\4"+
     "\1\42\1\43\1\44\4\4\1\0\2\4\1\45\1\4"+
-    "\1\46\1\47\6\4\1\50\1\51\3\4\1\52\2\4"+
-    "\1\0\2\4\1\53\3\4\1\54\1\4\1\55\2\4"+
-    "\1\56\2\4\1\0\1\4\1\57\1\4\1\60\1\61"+
-    "\1\62\1\63\3\4\1\64\3\4\1\65\1\66\1\67"+
-    "\2\4\1\70\1\71";
+    "\1\46\1\47\6\4\1\50\1\51\2\4\1\52\1\4"+
+    "\1\53\2\4\1\0\2\4\1\54\3\4\1\55\1\4"+
+    "\1\56\2\4\1\57\2\4\1\0\1\4\1\60\1\4"+
+    "\1\61\1\62\1\63\1\64\3\4\1\65\3\4\1\66"+
+    "\1\67\1\70\2\4\1\71\1\72";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[147];
+    int [] result = new int[148];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -108,15 +108,15 @@ class AdaLexer {
     "\0\u095a\0\u0984\0\322\0\322\0\322\0\u09ae\0\u09d8\0\u0a02"+
     "\0\u0a2c\0\u0a56\0\u0a80\0\u0aaa\0\322\0\u0ad4\0\322\0\322"+
     "\0\u0afe\0\u0b28\0\u0b52\0\u0b7c\0\u0ba6\0\u0bd0\0\322\0\322"+
-    "\0\u0bfa\0\u0c24\0\u0c4e\0\322\0\u0c78\0\u0ca2\0\u0ccc\0\u0cf6"+
-    "\0\u0d20\0\322\0\u0d4a\0\u0d74\0\u0d9e\0\322\0\u0dc8\0\322"+
-    "\0\u0df2\0\u0e1c\0\322\0\u0e46\0\u0e70\0\u0e9a\0\u0ec4\0\322"+
-    "\0\u0eee\0\322\0\322\0\322\0\322\0\u0f18\0\u0f42\0\u0f6c"+
-    "\0\176\0\u0f96\0\u0fc0\0\u0fea\0\322\0\322\0\322\0\u1014"+
-    "\0\u103e\0\322\0\322";
+    "\0\u0bfa\0\u0c24\0\322\0\u0c4e\0\322\0\u0c78\0\u0ca2\0\u0ccc"+
+    "\0\u0cf6\0\u0d20\0\322\0\u0d4a\0\u0d74\0\u0d9e\0\322\0\u0dc8"+
+    "\0\322\0\u0df2\0\u0e1c\0\322\0\u0e46\0\u0e70\0\u0e9a\0\u0ec4"+
+    "\0\322\0\u0eee\0\322\0\322\0\322\0\322\0\u0f18\0\u0f42"+
+    "\0\u0f6c\0\176\0\u0f96\0\u0fc0\0\u0fea\0\322\0\322\0\322"+
+    "\0\u1014\0\u103e\0\322\0\322";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[147];
+    int [] result = new int[148];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -215,63 +215,63 @@ class AdaLexer {
     "\1\6\1\0\2\6\10\0\10\6\1\151\4\6\6\0"+
     "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
     "\5\6\1\152\7\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\11\6\1\153\3\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\1\6\1\154\13\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\15\6\6\0\1\155\2\6"+
-    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\6\6"+
-    "\1\156\6\6\6\0\3\6\1\0\3\6\4\0\1\6"+
-    "\17\0\1\157\33\0\2\6\10\0\15\6\6\0\1\160"+
-    "\2\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\11\6\1\161\3\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\3\6\1\162\11\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\5\6\1\163\7\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\15\6\6\0\1\6\1\164"+
-    "\1\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\12\6\1\165\2\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\1\166\14\6\6\0\3\6"+
-    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\15\6"+
-    "\6\0\1\167\2\6\1\0\3\6\4\0\1\6\1\0"+
-    "\2\6\10\0\1\170\14\6\6\0\3\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\2\6\1\171\12\6"+
+    "\1\6\1\0\2\6\10\0\6\6\1\153\2\6\1\154"+
+    "\3\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\1\6\1\155\13\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\15\6\6\0"+
+    "\1\156\2\6\1\0\3\6\4\0\1\6\1\0\2\6"+
+    "\10\0\6\6\1\157\6\6\6\0\3\6\1\0\3\6"+
+    "\4\0\1\6\17\0\1\160\33\0\2\6\10\0\15\6"+
+    "\6\0\1\161\2\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\11\6\1\162\3\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\3\6\1\163"+
+    "\11\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\5\6\1\164\7\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\15\6\6\0"+
+    "\1\6\1\165\1\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\12\6\1\166\2\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\1\167\14\6"+
     "\6\0\3\6\1\0\3\6\4\0\1\6\1\0\2\6"+
-    "\10\0\6\6\1\172\6\6\6\0\3\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\15\6\6\0\2\6"+
-    "\1\173\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\15\6\6\0\1\6\1\174\1\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\14\6\1\175\6\0\3\6"+
-    "\1\0\3\6\4\0\1\6\23\0\1\176\27\0\2\6"+
-    "\10\0\6\6\1\177\6\6\6\0\3\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\1\200\14\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\1\6\1\201\13\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\1\6\1\202\13\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\6\6\1\203\6\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\6\6\1\204\6\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\1\205\14\6\6\0\3\6\1\0\3\6\4\0\1\6"+
-    "\1\0\2\6\10\0\7\6\1\206\5\6\6\0\3\6"+
+    "\10\0\15\6\6\0\1\170\2\6\1\0\3\6\4\0"+
+    "\1\6\1\0\2\6\10\0\1\171\14\6\6\0\3\6"+
     "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\2\6"+
-    "\1\207\12\6\6\0\3\6\1\0\3\6\4\0\1\6"+
-    "\1\0\2\6\10\0\6\6\1\210\6\6\6\0\3\6"+
-    "\1\0\3\6\4\0\1\6\14\0\1\211\36\0\2\6"+
-    "\10\0\15\6\6\0\1\6\1\212\1\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\11\6\1\213\3\6"+
+    "\1\172\12\6\6\0\3\6\1\0\3\6\4\0\1\6"+
+    "\1\0\2\6\10\0\6\6\1\173\6\6\6\0\3\6"+
+    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\15\6"+
+    "\6\0\2\6\1\174\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\15\6\6\0\1\6\1\175\1\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\14\6\1\176"+
+    "\6\0\3\6\1\0\3\6\4\0\1\6\23\0\1\177"+
+    "\27\0\2\6\10\0\6\6\1\200\6\6\6\0\3\6"+
+    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\1\201"+
+    "\14\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\1\6\1\202\13\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\1\6\1\203"+
+    "\13\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\6\6\1\204\6\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\6\6\1\205"+
+    "\6\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\1\206\14\6\6\0\3\6\1\0\3\6"+
+    "\4\0\1\6\1\0\2\6\10\0\7\6\1\207\5\6"+
     "\6\0\3\6\1\0\3\6\4\0\1\6\1\0\2\6"+
-    "\10\0\10\6\1\214\4\6\6\0\3\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\6\6\1\215\6\6"+
-    "\6\0\3\6\1\0\3\6\4\0\1\6\1\0\2\6"+
-    "\10\0\2\6\1\216\12\6\6\0\3\6\1\0\3\6"+
-    "\4\0\1\6\1\0\2\6\10\0\1\217\14\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\4\6\1\220\10\6\6\0\3\6\1\0\3\6\4\0"+
-    "\1\6\1\0\2\6\10\0\2\6\1\221\12\6\6\0"+
-    "\3\6\1\0\3\6\4\0\1\6\1\0\2\6\10\0"+
-    "\1\222\14\6\6\0\3\6\1\0\3\6\4\0\1\6"+
-    "\1\0\2\6\10\0\6\6\1\223\6\6\6\0\3\6"+
-    "\1\0\3\6\4\0\1\6";
+    "\10\0\2\6\1\210\12\6\6\0\3\6\1\0\3\6"+
+    "\4\0\1\6\1\0\2\6\10\0\6\6\1\211\6\6"+
+    "\6\0\3\6\1\0\3\6\4\0\1\6\14\0\1\212"+
+    "\36\0\2\6\10\0\15\6\6\0\1\6\1\213\1\6"+
+    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\11\6"+
+    "\1\214\3\6\6\0\3\6\1\0\3\6\4\0\1\6"+
+    "\1\0\2\6\10\0\10\6\1\215\4\6\6\0\3\6"+
+    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\6\6"+
+    "\1\216\6\6\6\0\3\6\1\0\3\6\4\0\1\6"+
+    "\1\0\2\6\10\0\2\6\1\217\12\6\6\0\3\6"+
+    "\1\0\3\6\4\0\1\6\1\0\2\6\10\0\1\220"+
+    "\14\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\4\6\1\221\10\6\6\0\3\6\1\0"+
+    "\3\6\4\0\1\6\1\0\2\6\10\0\2\6\1\222"+
+    "\12\6\6\0\3\6\1\0\3\6\4\0\1\6\1\0"+
+    "\2\6\10\0\1\223\14\6\6\0\3\6\1\0\3\6"+
+    "\4\0\1\6\1\0\2\6\10\0\6\6\1\224\6\6"+
+    "\6\0\3\6\1\0\3\6\4\0\1\6";
 
   private static int [] zzUnpackTrans() {
     int [] result = new int[4200];
@@ -315,11 +315,11 @@ class AdaLexer {
     "\1\0\1\1\1\0\1\11\2\1\1\11\1\1\1\11"+
     "\1\1\1\11\13\1\1\11\6\1\1\11\1\1\3\11"+
     "\3\1\2\11\2\1\1\11\1\0\1\11\22\1\4\11"+
-    "\7\1\1\11\1\1\1\0\15\1\1\0\24\1\1\0"+
+    "\7\1\1\11\1\1\1\0\15\1\1\0\25\1\1\0"+
     "\16\1\1\0\12\1\1\11\12\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[147];
+    int [] result = new int[148];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -768,231 +768,235 @@ class AdaLexer {
           case 1: 
             { System.out.println("Contenido del string: "+yytext());
             }
-          case 58: break;
-          case 2: 
-            { System.out.println("Token no reconocido por el lenguaje");
-            }
           case 59: break;
+          case 2: 
+            { System.err.println("<"+yytext()+">"+" en la linea:"+(yyline+1)+", columna: "+(yycolumn+1)+ " caracter no valido");
+            }
+          case 60: break;
           case 3: 
             { System.out.println("Integer: "+ yytext());
             }
-          case 60: break;
+          case 61: break;
           case 4: 
             { System.out.println("Identificador: "+ yytext());
             }
-          case 61: break;
+          case 62: break;
           case 5: 
             { /* Ignore */
             }
-          case 62: break;
+          case 63: break;
           case 6: 
             { yybegin(STRING);
             }
-          case 63: break;
+          case 64: break;
           case 7: 
             { System.out.println("menos -");
             }
-          case 64: break;
+          case 65: break;
           case 8: 
             { System.out.println("punto y coma ;");
             }
-          case 65: break;
+          case 66: break;
           case 9: 
             { System.out.println("menor que <");
             }
-          case 66: break;
+          case 67: break;
           case 10: 
             { System.out.println("igual = ");
             }
-          case 67: break;
+          case 68: break;
           case 11: 
             { System.out.println("mayor que >");
             }
-          case 68: break;
+          case 69: break;
           case 12: 
             { System.out.println("entre /");
             }
-          case 69: break;
+          case 70: break;
           case 13: 
             { System.out.println("dos puntos : ");
             }
-          case 70: break;
+          case 71: break;
           case 14: 
             { System.out.println("coma ,");
             }
-          case 71: break;
+          case 72: break;
           case 15: 
             { System.out.println("parentesis (");
             }
-          case 72: break;
+          case 73: break;
           case 16: 
             { System.out.println("parentesis )");
             }
-          case 73: break;
+          case 74: break;
           case 17: 
             { System.out.println("mas +");
             }
-          case 74: break;
+          case 75: break;
           case 18: 
             { System.out.println("por *");
             }
-          case 75: break;
+          case 76: break;
           case 19: 
             { yybegin(YYINITIAL);
             }
-          case 76: break;
-          case 20: 
-            { System.out.println("Caracter no permitido "+yytext()+" linea: "+yyline+" columna"+ yycolumn);
-            }
           case 77: break;
+          case 20: 
+            { System.err.println("Caracter no permitido "+yytext()+" linea: "+(yyline+1)+" columna"+ (yycolumn+1));
+            }
+          case 78: break;
           case 21: 
             { System.out.println("se encontro un comentario"); yybegin(YYINITIAL);
             }
-          case 78: break;
+          case 79: break;
           case 22: 
             { yybegin(COMMENT);
             }
-          case 79: break;
+          case 80: break;
           case 23: 
             { System.out.println("operador or");
             }
-          case 80: break;
+          case 81: break;
           case 24: 
             { System.out.println("<in>");
             }
-          case 81: break;
+          case 82: break;
           case 25: 
             { System.out.println("<is>");
             }
-          case 82: break;
+          case 83: break;
           case 26: 
             { System.out.println("<if>");
             }
-          case 83: break;
+          case 84: break;
           case 27: 
             { System.out.println("menor igual <=");
             }
-          case 84: break;
+          case 85: break;
           case 28: 
             { System.out.println("mayor igual >=");
             }
-          case 85: break;
+          case 86: break;
           case 29: 
             { System.out.println("distinto /=");
             }
-          case 86: break;
+          case 87: break;
           case 30: 
             { System.out.println("asignacion :=");
             }
-          case 87: break;
+          case 88: break;
           case 31: 
             { System.out.println("potencia **");
             }
-          case 88: break;
+          case 89: break;
           case 32: 
             { System.out.println("float: "+yytext());
             }
-          case 89: break;
+          case 90: break;
           case 33: 
             { System.out.println("operador not");
             }
-          case 90: break;
+          case 91: break;
           case 34: 
             { System.out.println("<put>");
             }
-          case 91: break;
+          case 92: break;
           case 35: 
             { System.out.println("<out>");
             }
-          case 92: break;
+          case 93: break;
           case 36: 
             { System.out.println("<end>");
             }
-          case 93: break;
+          case 94: break;
           case 37: 
             { System.out.println("<get>");
             }
-          case 94: break;
+          case 95: break;
           case 38: 
             { System.out.println("operador and");
             }
-          case 95: break;
+          case 96: break;
           case 39: 
             { System.out.println("<for>");
             }
-          case 96: break;
+          case 97: break;
           case 40: 
             { System.out.println("true");
             }
-          case 97: break;
+          case 98: break;
           case 41: 
             { System.out.println("<then>");
             }
-          case 98: break;
-          case 42: 
-            { System.out.println("<exit>");
-            }
           case 99: break;
-          case 43: 
-            { System.out.println("<loop>");
+          case 42: 
+            { System.out.println("<else>");
             }
           case 100: break;
-          case 44: 
-            { System.out.println("<when>");
+          case 43: 
+            { System.out.println("<exit>");
             }
           case 101: break;
-          case 45: 
-            { System.out.println("<main>");
+          case 44: 
+            { System.out.println("<loop>");
             }
           case 102: break;
-          case 46: 
-            { System.out.println("<elsif>");
+          case 45: 
+            { System.out.println("<when>");
             }
           case 103: break;
-          case 47: 
-            { System.out.println("<begin>");
+          case 46: 
+            { System.out.println("<main>");
             }
           case 104: break;
-          case 48: 
-            { System.out.println("<float>");
+          case 47: 
+            { System.out.println("<elsif>");
             }
           case 105: break;
-          case 49: 
-            { System.out.println("false");
+          case 48: 
+            { System.out.println("<begin>");
             }
           case 106: break;
-          case 50: 
-            { System.out.println("<while>");
+          case 49: 
+            { System.out.println("<float>");
             }
           case 107: break;
-          case 51: 
-            { System.out.println("<return>");
+          case 50: 
+            { System.out.println("false");
             }
           case 108: break;
-          case 52: 
-            { System.out.println("<in out>");
+          case 51: 
+            { System.out.println("<while>");
             }
           case 109: break;
-          case 53: 
-            { System.out.println("<declare>");
+          case 52: 
+            { System.out.println("<return>");
             }
           case 110: break;
-          case 54: 
-            { System.out.println("<integer>");
+          case 53: 
+            { System.out.println("<in out>");
             }
           case 111: break;
-          case 55: 
-            { System.out.println("<boolean>");
+          case 54: 
+            { System.out.println("<declare>");
             }
           case 112: break;
-          case 56: 
-            { System.out.println("<function>");
+          case 55: 
+            { System.out.println("<integer>");
             }
           case 113: break;
-          case 57: 
-            { System.out.println("<procedure>");
+          case 56: 
+            { System.out.println("<boolean>");
             }
           case 114: break;
+          case 57: 
+            { System.out.println("<function>");
+            }
+          case 115: break;
+          case 58: 
+            { System.out.println("<procedure>");
+            }
+          case 116: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
