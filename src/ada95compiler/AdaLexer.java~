@@ -770,7 +770,7 @@ class AdaLexer {
             }
           case 59: break;
           case 2: 
-            { System.out.println("<"+yytext()+">"+" en la linea:"+(yyline+1)+", columna: "+(yycolumn+1)+ " caracter no valido");
+            { System.err.println("<"+yytext()+">"+" en la linea:"+(yyline+1)+", columna: "+(yycolumn+1)+ " caracter no valido");
             }
           case 60: break;
           case 3: 
@@ -842,7 +842,7 @@ class AdaLexer {
             }
           case 77: break;
           case 20: 
-            { System.out.println("Caracter no permitido "+yytext()+" linea: "+(yyline+1)+" columna"+ (yycolumn+1));
+            { System.err.println("Caracter no permitido "+yytext()+" linea: "+(yyline+1)+" columna"+ (yycolumn+1));
             }
           case 78: break;
           case 21: 

@@ -8,11 +8,23 @@ package ada95compiler;
 %unicode
 %line
 %column
-%int
+%cup
 
-/* preguntar por caracteres raros en id o guiones,sentencia goto 
-potencia
-*/
+%{
+  private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
+%}
+
+%eofval{ 
+    return symbol(sym.EOF);
+%eofval}
+
+
+
 Number= [0-9]
 Id= [_A-Za-z][_A-Za-z0-9]*
 Integer= {Number}+
@@ -29,57 +41,57 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
 
 %%
 <YYINITIAL>{
-   "procedure"                 {System.out.println("<procedure>");}
-   "is"                        {System.out.println("<is>");}
-   "begin"                     {System.out.println("<begin>");} 
-   "end"                       {System.out.println("<end>");}
-   "<="                        {System.out.println("menor igual <=");}
-   ">="                        {System.out.println("mayor igual >=");}
-   "/="                        {System.out.println("distinto /=");}
-   ":="                        {System.out.println("asignacion :=");}
-   ">"                         {System.out.println("mayor que >");}
-   "<"                         {System.out.println("menor que <");}  
-   "="                         {System.out.println("igual = ");}   
-   ":"                         {System.out.println("dos puntos : ");}
-   "in out"                    {System.out.println("<in out>");} 
-   "in"                        {System.out.println("<in>");}
-   "integer"                   {System.out.println("<integer>");}
-   "boolean"                   {System.out.println("<boolean>");}
-   "float"                     {System.out.println("<float>");}  	
-   ","                         {System.out.println("coma ,");}
-   ";"                         {System.out.println("punto y coma ;");}
-   "if"                        {System.out.println("<if>");}
-   "then"                      {System.out.println("<then>");}
-   "elsif"                     {System.out.println("<elsif>");}
-   "else"                      {System.out.println("<else>");}
-   "for"                       {System.out.println("<for>");}
-   "loop"                      {System.out.println("<loop>");}
-   "exit"                      {System.out.println("<exit>");}
-   "when"                      {System.out.println("<when>");}
-   "while"                     {System.out.println("<while>");}
-   "declare"                   {System.out.println("<declare>");}
-   "function"                  {System.out.println("<function>");}
-   "return"                    {System.out.println("<return>");}
-   "out"                       {System.out.println("<out>");}
-   "("                         {System.out.println("parentesis (");}
-   ")"                         {System.out.println("parentesis )");}
-   "get"                       {System.out.println("<get>");}
-   "put"                       {System.out.println("<put>");}  
-   "and"                       {System.out.println("operador and");}
-   "or"                        {System.out.println("operador or");}
-   "not"                       {System.out.println("operador not");}
-   "true"                      {System.out.println("true");}
-   "false"                     {System.out.println("false");}
+   "procedure"                 {return symbol(sym.PROCEDURE);}
+   "is"                        {return symbol(sym.IS);}
+   "begin"                     {return symbol(sym.BEGIN);} 
+   "end"                       {return symbol(sym.END);}
+   "<="                        {return symbol(sym.LEQUAL);}
+   ">="                        {return symbol(sym.GEQUAL);}
+   "/="                        {return symbol(sym.DISTINCT);}
+   ":="                        {return symbol(sym.ASSIGN);}
+   ">"                         {return symbol(sym.GREATER);}
+   "<"                         {return symbol(sym.LESS);}  
+   "="                         {return symbol(sym.EQUAL);}   
+   ":"                         {return symbol(sym.COLON);}
+   "in out"                    {return symbol(sym.INOUT);} 
+   "in"                        {return symbol(sym.IN);}
+   "integer"                   {return symbol(sym.INTEGER);}
+   "boolean"                   {return symbol(sym.BOOLEAN);}
+   "float"                     {return symbol(sym.FLOAT);}  	
+   ","                         {return symbol(sym.COMMA);}
+   ";"                         {return symbol(sym.SEMICOLON);}
+   "if"                        {return symbol(sym.IF);}
+   "then"                      {return symbol(sym.THEN);}
+   "elsif"                     {return symbol(sym.ELSIF);}
+   "else"                      {return symbol(sym.ELSE);}
+   "for"                       {return symbol(sym.FOR);}
+   "loop"                      {return symbol(sym.LOOP);}
+   "exit"                      {return symbol(sym.EXIT);}
+   "when"                      {return symbol(sym.WHEN);}
+   "while"                     {return symbol(sym.WHILE);}
+   "declare"                   {return symbol(sym.DECLARE);}
+   "function"                  {return symbol(sym.FUNCTION);}
+   "return"                    {return symbol(sym.RETURN);}
+   "out"                       {return symbol(sym.OUT);}
+   "("                         {return symbol(sym.LPAR);}
+   ")"                         {return symbol(sym.RPAR);}
+   "get"                       {return symbol(sym.GET);}
+   "put"                       {return symbol(sym.PUT);}  
+   "and"                       {return symbol(sym.AND);}
+   "or"                        {return symbol(sym.OR);}
+   "not"                       {return symbol(sym.NOT);}
+   "true"                      {return symbol(sym.TRUE);}
+   "false"                     {return symbol(sym.FALSE);}
    {CommentDelimiter}          {yybegin(COMMENT);}
-   "+"                         {System.out.println("mas +");}
-   "-"                         {System.out.println("menos -");}
-   "**"                        {System.out.println("potencia **");}
-   "*"                         {System.out.println("por *");}
-   "/"                         {System.out.println("entre /");}
-   "main"                      {System.out.println("<main>");}
-   {Id}                        {System.out.println("Identificador: "+ yytext());}   
-   {Float}                     {System.out.println("float: "+yytext());}
-   {Integer}                   {System.out.println("Integer: "+ yytext());}
+   "+"                         {return symbol(sym.ADD);}
+   "-"                         {return symbol(sym.MIN);}
+   "**"                        {return symbol(sym.POT);}
+   "*"                         {return symbol(sym.MUL);}
+   "/"                         {return symbol(sym.DIV);}
+   "main"                      {return symbol(sym.MAIN);}
+   {Id}                        {return symbol(sym.ID, yytext()); }   
+   {Float}                     {return symbol(sym.FLOATN, new Float(Float.parseFloat(yytext())));}
+   {Integer}                   {System.out.println( return symbol(sym.INTEGERN, new Integer(Integer.parseInt(yytext())));}
    {Space}                     {/* Ignore */}
    {Nextline}                  {/* Ignore */} 
    {Quote}                     {yybegin(STRING);}
@@ -88,12 +100,12 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
 
 <STRING>{
    {Quote}                     {yybegin(YYINITIAL);} 
-   {StringCont}                {System.out.println("Contenido del string: "+yytext());}
-   .                           {System.err.println("Caracter no permitido "+yytext()+" linea: "+(yyline+1)+" columna"+ (yycolumn+1));} 
+   {StringCont}                {return symbol(sym.STRINGCONT, yytext());}
+   .                           {System.err.println("<"+yytext()+">"+" en la linea:"+(yyline+1)+", columna: "+(yycolumn+1)+ " caracter no valido");} 
 
 }
 <COMMENT>{
-   {Nextline}                  {System.out.println("se encontro un comentario"); yybegin(YYINITIAL);}
+   {Nextline}                  {yybegin(YYINITIAL);}
    {Space}                     { /* Ignore */                                  }
    .                           { /* Ignore */                                  }
 
