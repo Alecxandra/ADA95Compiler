@@ -26,8 +26,9 @@ public class ADA95Compiler {
          try {
             File file = new File("./archivo.adb");
             AdaLexer lexer = new AdaLexer(new InputStreamReader(new FileInputStream(file)));
-            lexer.yylex();
-            
+            ParserAda parse= new ParserAda(lexer);
+            parse.parse();
+
         } catch (FileNotFoundException ex) {
             
         }

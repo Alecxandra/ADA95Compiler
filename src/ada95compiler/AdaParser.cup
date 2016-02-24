@@ -1,5 +1,18 @@
 import java_cup.runtime.*;
 
+/* Lexer*/
+  parser code {:
+      AdaLexer lexer;
+
+      public ParserAda(AdaLexer lex){
+       super(lex);
+       lexer = lex;
+      }
+
+
+  :}
+
+
  /* Terminals */
 
  /* Types*/
@@ -53,8 +66,24 @@ import java_cup.runtime.*;
   terminal        MAIN;  
 
  /* Non terminals*/
-  non terminal Object program;
+ non terminal            logical_expre, arit_expre, num_expre; 
+
+/* precedence */
+precedence left   ADD, MIN;
+precedence left   MUL, DIV;
+precedence right  POT; 
 
  /* CFG */
-  program ::=          {:  :}
+
+arit_expre ::= num_expre:e1 ADD num_expre:e2 
+               {: System.out.println(e1+"+"+e2); :}  
+               | num_expre:e1 MIN num_expre:e2 
+               {: System.out.println(e1+"-"+e2); :}
+               | num_expre:e1 MUL num_expre:e2
+               {: System.out.println(e1+"*"+e2); :} 
+               |num_expre:e1 DIV num_expre:e2
+               {: System.out.println(e1+"/"+e2); :}  
+               | num_expre:e1 POT num_expre:e2
+               {: System.out.println(e1+"**"+e2); :} ;
+num_expre ::= ID | FLOATN | INTEGERN
 ;
