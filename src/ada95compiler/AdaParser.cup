@@ -1,0 +1,60 @@
+import java_cup.runtime.*;
+
+ /* Terminals */
+
+ /* Types*/
+  terminal        INTEGER,BOOLEAN,FLOAT;    
+
+ /* Booleans*/
+  terminal        TRUE,FALSE;
+
+ /* arithmetic operations*/
+  terminal        ADD,MIN,POT,MUL,DIV; 
+  
+ /* logical expressions */
+  terminal        AND,OR,NOT;
+
+ /* I/O */
+  terminal        GET,PUT;
+
+ /* control structures */
+  terminal        IF,THEN,ELSIF,ELSE,FOR,LOOP,EXIT,WHEN,WHILE;
+
+ /* other symbols */
+  terminal        COMMA,SEMICOLON,COLON,LPAR,RPAR;
+
+ /* Blocks */
+  terminal        PROCEDURE,IS,BEGIN,END,DECLARE;
+
+ /* Functions*/
+  terminal        FUNCTION,RETURN;
+
+ /* variables */
+  terminal String ID;
+
+ /* Numbers */
+  terminal Float   FLOATN;
+  terminal Integer INTEGERN;
+
+ /* Strings*/
+  terminal String  STRINGCONT;
+
+ 
+ /* Boolean operators*/
+  terminal        LEQUAL,GEQUAL,DISTINCT,GREATER,LESS,EQUAL;
+ 
+ /*  Assignment operator */
+  terminal        ASSIGN;
+
+ /* parameters */
+  terminal        INOUT,IN,OUT;
+
+ /* main */
+  terminal        MAIN;  
+
+ /* Non terminals*/
+  non terminal Object program;
+
+ /* CFG */
+  program ::=          {:  :}
+;

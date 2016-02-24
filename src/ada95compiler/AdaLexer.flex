@@ -1,6 +1,7 @@
 /* user code*/
 
 package ada95compiler;
+import java_cup.runtime.*;
 %%
 
 %class AdaLexer
@@ -91,7 +92,7 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    "main"                      {return symbol(sym.MAIN);}
    {Id}                        {return symbol(sym.ID, yytext()); }   
    {Float}                     {return symbol(sym.FLOATN, new Float(Float.parseFloat(yytext())));}
-   {Integer}                   {System.out.println( return symbol(sym.INTEGERN, new Integer(Integer.parseInt(yytext())));}
+   {Integer}                   {return symbol(sym.INTEGERN, new Integer(Integer.parseInt(yytext())));}
    {Space}                     {/* Ignore */}
    {Nextline}                  {/* Ignore */} 
    {Quote}                     {yybegin(STRING);}
