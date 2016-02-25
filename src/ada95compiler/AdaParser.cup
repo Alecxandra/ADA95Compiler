@@ -69,11 +69,16 @@ import java_cup.runtime.*;
 
  /* Non terminals*/
  non terminal         arit_expre, expression; 
- non terminal         literal_expre; 
+ non terminal         literal_expre;
+ non terminal         boolean_expre;
+ non terminal         logical_expre;
+
 /* precedence */
-precedence left   ADD, MIN;
-precedence left   MUL, DIV;
-precedence right  POT; 
+precedence left   AND,OR;
+precedence left   LEQUAL,GEQUAL,GREATER,DISTINCT,LESS,EQUAL; 
+precedence left   ADD,MIN;
+precedence left   MUL,DIV;
+precedence right  POT,NOT; 
 
  /* CFG */
 expression ::= ID:id
@@ -84,7 +89,12 @@ expression ::= ID:id
                 {: RESULT = ar;:}
                 | LPAR expression:e1 RPAR
                 {:RESULT=e1; :}
- ;               
+                | boolean_expre:be
+                {: RESULT=be; :}
+                |logical_expre:le
+                {:RESULT=le; :}  
+ ; 
+
  literal_expre ::= FLOATN:num
                    {: RESULT = num;:} 
                    |INTEGERN:num1
@@ -105,4 +115,30 @@ expression ::= ID:id
                | expression:e1 POT expression:e2
                {: System.out.println(e1+"**"+e2); :}
 
+ ;
+
+ boolean_expre ::= expression:e1 LEQUAL expression:e2
+                  {: System.out.println(e1+"<="+e2); :}
+                  | expression:e1 GEQUAL expression:e2
+                  {: System.out.println(e1+">="+e2); :}  
+                  | expression:e1 DISTINCT expression:e2
+                  {: System.out.println(e1+"/="+e2); :}
+                  | expression:e1 GREATER expression:e2
+                  {: System.out.println(e1+">"+e2); :}
+                  | expression:e1 LESS expression:e2
+                  {: System.out.println(e1+"<"+e2); :} 
+                  | expression:e1 EQUAL expression:e2
+                  {: System.out.println(e1+"="+e2); :} 
+ ;
+
+ logical_expre ::= expression:e1 AND expression:e2
+                   {: System.out.println(e1+"and"+e2); :} 
+                   | expression:e1 OR expression:e2
+                   {: System.out.println(e1+"or"+e2);:}
+                   | NOT expression:e1
+                   {: System.out.println("not"+e1);:}
+                   |TRUE
+                   {: System.out.println("true");:}
+                   |FALSE
+                   {: System.out.println("false");:} 
  ;
