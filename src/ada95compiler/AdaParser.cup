@@ -1,3 +1,5 @@
+package ada95compiler;
+
 import java_cup.runtime.*;
 
 /* Lexer*/
@@ -66,24 +68,41 @@ import java_cup.runtime.*;
   terminal        MAIN;  
 
  /* Non terminals*/
- non terminal            logical_expre, arit_expre, num_expre; 
-
+ non terminal         arit_expre, expression; 
+ non terminal         literal_expre; 
 /* precedence */
 precedence left   ADD, MIN;
 precedence left   MUL, DIV;
 precedence right  POT; 
 
  /* CFG */
+expression ::= ID:id
+                {: RESULT = id;:}   
+                | literal_expre:le
+                {: RESULT = le;:}  
+                | arit_expre:ar
+                {: RESULT = ar;:}
+                | LPAR expression:e1 RPAR
+                {:RESULT=e1; :}
+ ;               
+ literal_expre ::= FLOATN:num
+                   {: RESULT = num;:} 
+                   |INTEGERN:num1
+                   {: RESULT = num1;:}
+                   |STRINGCONT:s
+                   {: RESULT= s;:} 
+                    
+ ;
 
-arit_expre ::= num_expre:e1 ADD num_expre:e2 
+ arit_expre ::= expression:e1 ADD expression:e2 
                {: System.out.println(e1+"+"+e2); :}  
-               | num_expre:e1 MIN num_expre:e2 
+               | expression:e1 MIN expression:e2 
                {: System.out.println(e1+"-"+e2); :}
-               | num_expre:e1 MUL num_expre:e2
+               | expression:e1 MUL expression:e2
                {: System.out.println(e1+"*"+e2); :} 
-               |num_expre:e1 DIV num_expre:e2
+               |expression:e1 DIV expression:e2
                {: System.out.println(e1+"/"+e2); :}  
-               | num_expre:e1 POT num_expre:e2
-               {: System.out.println(e1+"**"+e2); :} ;
-num_expre ::= ID | FLOATN | INTEGERN
-;
+               | expression:e1 POT expression:e2
+               {: System.out.println(e1+"**"+e2); :}
+
+ ;

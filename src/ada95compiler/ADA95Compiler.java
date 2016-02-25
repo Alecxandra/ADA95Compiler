@@ -29,8 +29,8 @@ public class ADA95Compiler {
             ParserAda parse= new ParserAda(lexer);
             parse.parse();
 
-        } catch (FileNotFoundException ex) {
-            
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
     }
