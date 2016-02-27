@@ -24,7 +24,7 @@ import java_cup.runtime.*;
   terminal        TRUE,FALSE;
 
  /* arithmetic operations*/
-  terminal        ADD,MIN,POT,MUL,DIV; 
+  terminal        ADD,MIN,POT,MUL,DIV,UMIN; 
   
  /* logical expressions */
   terminal        AND,OR,NOT;
@@ -78,7 +78,7 @@ precedence left   AND,OR;
 precedence left   LEQUAL,GEQUAL,GREATER,DISTINCT,LESS,EQUAL; 
 precedence left   ADD,MIN;
 precedence left   MUL,DIV;
-precedence right  POT,NOT; 
+precedence right  POT,NOT,UMIN; 
 
  /* CFG */
 expression ::= ID:id
@@ -114,6 +114,10 @@ expression ::= ID:id
                {: System.out.println(e1+"/"+e2); :}  
                | expression:e1 POT expression:e2
                {: System.out.println(e1+"**"+e2); :}
+               | MIN expression:e1
+               {: System.out.println("-"+e1);:}
+               %prec UMIN
+               
 
  ;
 
