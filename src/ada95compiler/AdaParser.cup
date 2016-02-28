@@ -72,6 +72,9 @@ import java_cup.runtime.*;
  non terminal         literal_expre;
  non terminal         boolean_expre;
  non terminal         logical_expre;
+ non terminal         declare_expre, variable_list;
+ non terminal         type;
+ non terminal         statement;
 
 /* precedence */
 precedence left   AND,OR;
@@ -81,6 +84,11 @@ precedence left   MUL,DIV;
 precedence right  POT,NOT,UMIN; 
 
  /* CFG */
+statement ::= declare_expre:e1 SEMICOLON
+              {: System.out.println(e1+";");:}
+              | expression:e1 SEMICOLON
+              
+; 
 expression ::= ID:id
                 {: RESULT = id;:}   
                 | literal_expre:le
@@ -146,3 +154,21 @@ expression ::= ID:id
                    |FALSE
                    {: System.out.println("false");:} 
  ;
+
+ type ::= INTEGER
+          {:System.out.println("integer");:} 
+          |BOOLEAN
+          {:System.out.println("boolean");:}
+          |FLOAT
+          {:System.out.println("float");:} 
+ ;
+
+ declare_expre ::= variable_list:e1 COLON type:e2
+                   {: RESULT=e1;System.out.println(e1+ ":"+e2);:}
+ ;
+ variable_list::= ID:e1
+                  {:RESULT=e1; System.out.println(e1);:} 
+                  |variable_list:e1 COMMA ID:e2
+                  {:System.out.println(e1+","+e2);:}
+
+ ;                
