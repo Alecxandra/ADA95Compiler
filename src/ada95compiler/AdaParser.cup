@@ -75,6 +75,8 @@ import java_cup.runtime.*;
  non terminal         declare_expre, variable_list;
  non terminal         type;
  non terminal         statement;
+ non terminal         assignment_expre;
+ non terminal         io_expre;
 
 /* precedence */
 precedence left   AND,OR;
@@ -87,6 +89,12 @@ precedence right  POT,NOT,UMIN;
 statement ::= declare_expre:e1 SEMICOLON
               {: System.out.println(e1+";");:}
               | expression:e1 SEMICOLON
+              {:RESULT=e1; System.out.println(e1+";");:}
+              | assignment_expre:e1 SEMICOLON
+              {: RESULT=e1; System.out.println(e1+";");:}
+              | io_expre:e1 SEMICOLON
+              {: RESULT=e1;System.out.println(e1+";");:}
+
               
 ; 
 expression ::= ID:id
@@ -166,9 +174,20 @@ expression ::= ID:id
  declare_expre ::= variable_list:e1 COLON type:e2
                    {: RESULT=e1;System.out.println(e1+ ":"+e2);:}
  ;
+
  variable_list::= ID:e1
                   {:RESULT=e1; System.out.println(e1);:} 
                   |variable_list:e1 COMMA ID:e2
                   {:System.out.println(e1+","+e2);:}
 
- ;                
+ ;
+
+ assignment_expre ::= ID:e1 ASSIGN:e2 expression:e3
+                      {:System.out.println(e1+":="+e3);:}
+ ;
+
+ io_expre ::= GET LPAR ID:e1 RPAR
+              {: System.out.println("get"+"("+e1+")"); :}
+              | PUT LPAR expression:e1 RPAR
+              {: System.out.println("put"+"("+e1+")"); :}
+ ;                             

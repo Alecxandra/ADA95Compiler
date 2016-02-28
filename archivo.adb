@@ -1,3 +1,2 @@
-
-x,y,z,m,f,k : float;
+put (x+3);
 
