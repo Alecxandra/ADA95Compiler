@@ -1,2 +1,2 @@
-put (x+3);
+hola_mundo(x,y,z);
 

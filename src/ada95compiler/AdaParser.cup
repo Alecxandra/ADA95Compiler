@@ -77,6 +77,8 @@ import java_cup.runtime.*;
  non terminal         statement;
  non terminal         assignment_expre;
  non terminal         io_expre;
+ non terminal         function_call;
+ non terminal         arguments_list;
 
 /* precedence */
 precedence left   AND,OR;
@@ -108,7 +110,9 @@ expression ::= ID:id
                 | boolean_expre:be
                 {: RESULT=be; :}
                 |logical_expre:le
-                {:RESULT=le; :}  
+                {:RESULT=le; :}
+                |function_call:e1
+                {:RESULT=e1; :}  
  ; 
 
  literal_expre ::= FLOATN:num
@@ -190,4 +194,16 @@ expression ::= ID:id
               {: System.out.println("get"+"("+e1+")"); :}
               | PUT LPAR expression:e1 RPAR
               {: System.out.println("put"+"("+e1+")"); :}
- ;                             
+ ;
+
+ function_call ::= ID:e1 LPAR arguments_list:e2 RPAR
+                   {: System.out.println(e1+"("+e2+")"); :}
+                   |ID:e1 LPAR RPAR 
+                   {: System.out.println(e1+"("+")"); :}
+ ;
+
+ arguments_list ::= expression:e1
+                    {: RESULT=e1; System.out.println(e1);:}
+                    |arguments_list:e1 COMMA expression:e2
+                    {: System.out.println(e1+","+e2);:} 
+ ;
