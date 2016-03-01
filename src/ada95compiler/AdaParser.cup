@@ -79,13 +79,16 @@ import java_cup.runtime.*;
  non terminal         io_expre;
  non terminal         function_call;
  non terminal         arguments_list;
+ non terminal         if_statement;
+ non terminal         elsif_statement;
 
 /* precedence */
-precedence left   AND,OR;
-precedence left   LEQUAL,GEQUAL,GREATER,DISTINCT,LESS,EQUAL; 
-precedence left   ADD,MIN;
-precedence left   MUL,DIV;
-precedence right  POT,NOT,UMIN; 
+precedence left     AND,OR;
+precedence left     LEQUAL,GEQUAL,GREATER,DISTINCT,LESS,EQUAL; 
+precedence left     ADD,MIN;
+precedence left     MUL,DIV;
+precedence right    POT,NOT,UMIN; 
+precedence nonassoc ELSE;
 
  /* CFG */
 statement ::= declare_expre:e1 SEMICOLON
@@ -96,6 +99,8 @@ statement ::= declare_expre:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
               | io_expre:e1 SEMICOLON
               {: RESULT=e1;System.out.println(e1+";");:}
+              |if_statement:e1 SEMICOLON
+              {:RESULT=e1;System.out.println(e1+";");:} 
 
               
 ; 
@@ -206,4 +211,22 @@ expression ::= ID:id
                     {: RESULT=e1; System.out.println(e1);:}
                     |arguments_list:e1 COMMA expression:e2
                     {: System.out.println(e1+","+e2);:} 
+ ;
+
+ if_statement ::= IF expression:e1 THEN statement:e2 END IF
+                  {: System.out.println("if "+e1+" then "+e2+" end if "); :} 
+                  | IF expression:e1 THEN statement:e2 elsif_statement:e3 END IF
+                  {: System.out.println("if "+e1+" then "+e2+" "+e3+" end if "); :}
+                  | IF expression:e1 THEN statement:e2 ELSE statement:e3 END IF
+                  {: System.out.println("if "+e1+" then "+e2+" else "+e3+" end if "); :}
+                  | IF expression:e1 THEN statement:e2 elsif_statement:e3  ELSE statement:e4 END IF
+                  {: System.out.println("if "+e1+" then "+e2+" "+e3+ " else "+e4+" end if "); :}  
+
+
+ ;
+
+ elsif_statement ::= ELSIF expression:e1 THEN statement:e2 elsif_statement:e3
+                     {: System.out.println("elsif "+e1+" then "+e2+ "  "+e3); :}
+                     | ELSIF expression:e1 THEN statement:e2
+                     {: System.out.println("elsif "+e1+" then "+e2+ "  ");:}
  ;
