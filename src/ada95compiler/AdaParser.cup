@@ -15,6 +15,7 @@ import java_cup.runtime.*;
   :}
 
 
+
  /* Terminals */
 
  /* Types*/
@@ -81,6 +82,8 @@ import java_cup.runtime.*;
  non terminal         arguments_list;
  non terminal         if_statement;
  non terminal         elsif_statement;
+ non terminal         while_statement;
+ non terminal         loop_statement, exit_statement;     
 
 /* precedence */
 precedence left     AND,OR;
@@ -99,11 +102,16 @@ statement ::= declare_expre:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
               | io_expre:e1 SEMICOLON
               {: RESULT=e1;System.out.println(e1+";");:}
-              |if_statement:e1 SEMICOLON
-              {:RESULT=e1;System.out.println(e1+";");:} 
+              | if_statement:e1 SEMICOLON
+              {:RESULT=e1;System.out.println(e1+";");:}
+              | while_statement:e1 SEMICOLON
+              {: RESULT =e1; System.out.println(e1+";");:}
+              | exit_statement: e1 SEMICOLON
+              {: RESULT=e1; System.out.println(e1+";");:}
+              | loop_statement:e1 SEMICOLON
+              {: RESULT=e1; System.out.println(e1+";");:}
+;
 
-              
-; 
 expression ::= ID:id
                 {: RESULT = id;:}   
                 | literal_expre:le
@@ -230,3 +238,15 @@ expression ::= ID:id
                      | ELSIF expression:e1 THEN statement:e2
                      {: System.out.println("elsif "+e1+" then "+e2+ "  ");:}
  ;
+
+ while_statement ::= WHILE expression:e1 LOOP statement:e2 END LOOP
+                     {: System.out.println("while  "+e1+" loop "+e2+ "  END LOOP"); :}
+ ;
+
+ exit_statement ::= EXIT WHEN expression:e1
+                    {: System.out.println("exit when "+e1); :}
+ ;
+
+ loop_statement ::= LOOP statement:e1 END LOOP
+                    {: System.out.println("loop  "+e1+ " end loop "); :}
+ ;                
