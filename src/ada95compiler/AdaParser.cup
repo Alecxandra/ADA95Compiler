@@ -75,6 +75,7 @@ import java_cup.runtime.*;
  non terminal         logical_expre;
  non terminal         declare_expre, variable_list;
  non terminal         type;
+ non terminal         variable; 
  non terminal         statement;
  non terminal         assignment_expre;
  non terminal         io_expre;
@@ -83,7 +84,8 @@ import java_cup.runtime.*;
  non terminal         if_statement;
  non terminal         elsif_statement;
  non terminal         while_statement;
- non terminal         loop_statement, exit_statement;     
+ non terminal         loop_statement, exit_statement;
+ non terminal         for_statement, for_id;      
 
 /* precedence */
 precedence left     AND,OR;
@@ -110,9 +112,11 @@ statement ::= declare_expre:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
               | loop_statement:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
+              | for_statement:e1 SEMICOLON
+              {: RESULT=e1; System.out.println(e1+";");:}
 ;
 
-expression ::= ID:id
+expression ::=  variable:id
                 {: RESULT = id;:}   
                 | literal_expre:le
                 {: RESULT = le;:}  
@@ -126,6 +130,10 @@ expression ::= ID:id
                 {:RESULT=le; :}
                 |function_call:e1
                 {:RESULT=e1; :}  
+ ; 
+
+ variable::= ID:id
+             {: RESULT= id;:}  
  ; 
 
  literal_expre ::= FLOATN:num
@@ -249,4 +257,9 @@ expression ::= ID:id
 
  loop_statement ::= LOOP statement:e1 END LOOP
                     {: System.out.println("loop  "+e1+ " end loop "); :}
- ;                
+ ;
+
+ for_statement ::= FOR variable:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statement:e4 END LOOP
+                   {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
+ ;             
+            
