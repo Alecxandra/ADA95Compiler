@@ -85,7 +85,8 @@ import java_cup.runtime.*;
  non terminal         elsif_statement;
  non terminal         while_statement;
  non terminal         loop_statement, exit_statement;
- non terminal         for_statement, for_id;      
+ non terminal         for_statement;
+ non terminal         statements;      
 
 /* precedence */
 precedence left     AND,OR;
@@ -96,6 +97,12 @@ precedence right    POT,NOT,UMIN;
 precedence nonassoc ELSE;
 
  /* CFG */
+
+statements ::= statement:e1 statements:e2    
+               | /* vacio */ 
+
+;
+
 statement ::= declare_expre:e1 SEMICOLON
               {: System.out.println(e1+";");:}
               | expression:e1 SEMICOLON
@@ -229,25 +236,25 @@ expression ::=  variable:id
                     {: System.out.println(e1+","+e2);:} 
  ;
 
- if_statement ::= IF expression:e1 THEN statement:e2 END IF
+ if_statement ::= IF expression:e1 THEN statements:e2 END IF
                   {: System.out.println("if "+e1+" then "+e2+" end if "); :} 
-                  | IF expression:e1 THEN statement:e2 elsif_statement:e3 END IF
+                  | IF expression:e1 THEN statements:e2 elsif_statement:e3 END IF
                   {: System.out.println("if "+e1+" then "+e2+" "+e3+" end if "); :}
-                  | IF expression:e1 THEN statement:e2 ELSE statement:e3 END IF
+                  | IF expression:e1 THEN statements:e2 ELSE statements:e3 END IF
                   {: System.out.println("if "+e1+" then "+e2+" else "+e3+" end if "); :}
-                  | IF expression:e1 THEN statement:e2 elsif_statement:e3  ELSE statement:e4 END IF
+                  | IF expression:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF
                   {: System.out.println("if "+e1+" then "+e2+" "+e3+ " else "+e4+" end if "); :}  
 
 
  ;
 
- elsif_statement ::= ELSIF expression:e1 THEN statement:e2 elsif_statement:e3
+ elsif_statement ::= ELSIF expression:e1 THEN statements:e2 elsif_statement:e3
                      {: System.out.println("elsif "+e1+" then "+e2+ "  "+e3); :}
-                     | ELSIF expression:e1 THEN statement:e2
+                     | ELSIF expression:e1 THEN statements:e2
                      {: System.out.println("elsif "+e1+" then "+e2+ "  ");:}
  ;
 
- while_statement ::= WHILE expression:e1 LOOP statement:e2 END LOOP
+ while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP
                      {: System.out.println("while  "+e1+" loop "+e2+ "  END LOOP"); :}
  ;
 
@@ -255,11 +262,11 @@ expression ::=  variable:id
                     {: System.out.println("exit when "+e1); :}
  ;
 
- loop_statement ::= LOOP statement:e1 END LOOP
+ loop_statement ::= LOOP statements:e1 END LOOP
                     {: System.out.println("loop  "+e1+ " end loop "); :}
  ;
 
- for_statement ::= FOR variable:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statement:e4 END LOOP
+ for_statement ::= FOR variable:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP
                    {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
  ;             
             
