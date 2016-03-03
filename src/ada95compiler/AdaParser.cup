@@ -36,7 +36,7 @@ import java_cup.runtime.*;
   terminal        IF,THEN,ELSIF,ELSE,FOR,LOOP,EXIT,WHEN,WHILE;
 
  /* other symbols */
-  terminal        COMMA,SEMICOLON,COLON,LPAR,RPAR;
+  terminal        COMMA,SEMICOLON,COLON,LPAR,RPAR,RANK;
 
  /* Blocks */
   terminal        PROCEDURE,IS,BEGIN,END,DECLARE;

@@ -61,6 +61,7 @@ StringCont = ([^\"\\;] | (\\n) | (\\t) | (\\\\) | (\\r) | (\\\") | (\\;))*
    "float"                     {return symbol(sym.FLOAT);}  	
    ","                         {return symbol(sym.COMMA);}
    ";"                         {return symbol(sym.SEMICOLON);}
+   ".."                        {return symbol(sym.RANK);}
    "if"                        {return symbol(sym.IF);}
    "then"                      {return symbol(sym.THEN);}
    "elsif"                     {return symbol(sym.ELSIF);}
