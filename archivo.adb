@@ -1,8 +1,10 @@
-for hola in 8..10 loop
-  for y in 1..45 loop
-   put("lalalala");
-    if(c>=12) then
-     put("hola salvaje");
-    end if;
-  end loop;
-end loop;
+procedure prueba(S3,S2: in out float) is
+   x,y,z : boolean;
+ begin
+   procedure Media(x,y: in float;med: out float) is 
+      dos: float; --variable local 
+  begin 
+      dos := 2.0; 
+      med := (x + y) / dos; 
+  end Media;
+end prueba;
