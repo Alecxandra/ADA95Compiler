@@ -221,8 +221,10 @@ expression ::=  variable:id
 
  ;
 
- assignment_expre ::= ID:e1 ASSIGN:e2 expression:e3
+ assignment_expre ::= ID:e1 ASSIGN expression:e3
                       {:System.out.println(e1+":="+e3);:}
+                      | declare_expre:e1 ASSIGN expression:e3
+                      {:System.out.println(e1+" := "+e3);:}
  ;
 
  io_expre ::= GET LPAR ID:e1 RPAR

@@ -1,28 +1,32 @@
---Ejemplo de subprogramas 
+procedure hola is
+  begin
+    put("hola mundo cruel");
+    --esto es un comentario
+    x: integer;
+    z,v,c : float;
+    
+    x:=0;
 
-procedure Ejemplo is --procedimiento principal Ejemplo 
-   
-  --función local EsPar 
-  function EsPar return boolean is 
-  begin 
-      return ((x / 2) = 0); 
-  end EsPar; 
-  --procedimiento local Media 
-  procedure Media(x,y: in float;med: out float) is 
-      dos: float; --variable local 
-  begin 
-      dos := 2.0; 
-      med := (x + y) / dos; 
-  end Media;
+    if x>=10 then
+        x := 0;
+        put("hola hola hola");
+     elsif x=23 then
+      x:= 5**2;
 
-  R1,R2,R3 : float; --variables locales de Ejemplo 
-  i : integer; 
-begin 
-    put("Entre un numero: "); 
-    get(i);
-         if EsPar(i) then put("es par"); else put("no es par"); end if; 
-    put("Entre una pareja de numeros separados por un espacio: "); 
-    get(R1); get(R2); 
-    Media(R1,R2,R3); 
-    Put(R3); 
-end Ejemplo; 
+     elsif z/= 5.6 then
+        get (z);
+     elsif z=23 then
+       put("hola salvaje"); 
+
+     else
+      
+     get(y);
+     y:= x- y;
+
+    end if;
+
+    while x<= 12.8 loop
+      put("hola amigos");
+    end loop;
+
+  end hola;
