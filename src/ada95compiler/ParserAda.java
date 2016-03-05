@@ -651,7 +651,7 @@ class CUP$ParserAda$actions {
             {
               Object RESULT =null;
 
-              CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("statements",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
+              CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("statements",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()),((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
 
