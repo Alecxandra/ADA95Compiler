@@ -11,7 +11,32 @@ import java_cup.runtime.*;
        lexer = lex;
       }
 
+      public void syntax_error(Symbol s) {
+          report_error("", s);
+      }
 
+      public void report_error(String message, Object info) {
+        StringBuffer m = new StringBuffer("Error ");
+        m.append(message);
+        java_cup.runtime.Symbol s = null;
+        if (info instanceof java_cup.runtime.Symbol) {
+            s = ((java_cup.runtime.Symbol) info);
+
+            if (s.left >= 0) {
+                m.append(" linea " + (s.left));
+
+                if (s.right >= 0) {
+                    m.append(", columna " + (s.right));
+                }
+            }
+
+            if (!s.value != null && !s.value.equals("")) {
+                m.append(". No se esperaba el símbolo: '" + s.value + "'");            
+           }
+        }
+        System.err.println(m);
+      }
+      
   :}
 
 
@@ -128,6 +153,8 @@ statement ::= declare_expre:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
               | return_statement:e1 SEMICOLON
               {: RESULT=e1; System.out.println(e1+";");:}
+              | error SEMICOLON
+              {:System.out.println("---------------------");System.out.println("ERROR");System.out.println("---------------------");:}
 ;
 
 expression ::=  variable:id

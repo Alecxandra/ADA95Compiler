@@ -10,6 +10,7 @@ import java_cup.runtime.*;
 %line
 %column
 %cup
+%ignorecase
 
 %{
   private Symbol symbol(int type) {
