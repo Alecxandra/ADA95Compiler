@@ -99,8 +99,7 @@ import java_cup.runtime.*;
  non terminal         boolean_expre;
  non terminal         logical_expre;
  non terminal         declare_expre, variable_list;
- non terminal         type;
- non terminal         variable; 
+ non terminal         type; 
  non terminal         statement;
  non terminal         assignment_expre;
  non terminal         io_expre;
@@ -125,17 +124,15 @@ precedence nonassoc ELSE;
 
  /* CFG */
 
-statements ::= statement:s1 
-               {: RESULT=s1;System.out.println(s1); :}
-               |statements:s1 statement:s2
-               {: System.out.println(s1 +" "+s2); :}  
+statements ::= statement:e1 statements
+               | /* vacio */
 ;
 
 statement ::= declare_expre:e1 
               {: System.out.println(e1+";");:}
               | expression:e1 SEMICOLON
               {:RESULT=e1; System.out.println(e1+";");:}
-              | assignment_expre:e1 SEMICOLON
+              | assignment_expre:e1 
               {: RESULT=e1; System.out.println(e1+";");:}
               | io_expre:e1 
               {: RESULT=e1;System.out.println(e1+";");:}
@@ -157,7 +154,7 @@ statement ::= declare_expre:e1
               {: RESULT=e1; System.out.println(e1+";");:}              
 ;
 
-expression ::=  variable:id
+expression ::=  ID:id
                 {: RESULT = id;:}   
                 | literal_expre:le
                 {: RESULT = le;:}  
@@ -173,9 +170,9 @@ expression ::=  variable:id
                 {:RESULT=e1; :}
  ; 
 
- variable::= ID:id
+ /*variable::= ID:id
              {: RESULT= id;:}  
- ; 
+ ; */
 
  literal_expre ::= FLOATN:num
                    {: RESULT = num;:} 
@@ -254,15 +251,19 @@ expression ::=  variable:id
 
  ;
 
- assignment_expre ::= ID:e1 ASSIGN expression:e3 
+ assignment_expre ::= ID:e1 ASSIGN expression:e3  SEMICOLON
                       {:System.out.println(e1+":="+e3);:}
-                      | declare_expre:e1 ASSIGN expression:e3 
+                      | declare_expre:e1 ASSIGN expression:e3 SEMICOLON 
                       {:System.out.println(e1+" := "+e3);:}
-                      |ID:e1 ASSIGN error
+                      |ID:e1 ASSIGN error SEMICOLON
                       {: System.err.println("ERROR:expresion no valida");:}
-                      |ID:e1 EQUAL error expression:e3
+                      |ID:e1 EQUAL error expression:e3 SEMICOLON
                       {: System.err.println("ERROR: no se esperaba < = >");:}
-;
+                      |ID:e1 ASSIGN expression:e3  error
+                      {: System.err.println("ERROR: se esperaba <;>");:}
+                      |declare_expre:e1 ASSIGN expression:e3 error
+                      {: System.err.println("ERROR: se esperaba <;>");:}
+ ;
 
  io_expre ::= GET LPAR ID:e1 RPAR SEMICOLON
               {: System.out.println("get"+"("+e1+")"); :}
@@ -283,9 +284,9 @@ expression ::=  variable:id
  ;
 
  function_call ::= ID:e1 LPAR arguments_list:e2 RPAR
-                   {: System.out.println(e1+"("+e2+")"); :}
+                   {: System.out.println("funcion"+e1+"("+e2+")"); :}
                    |ID:e1 LPAR RPAR 
-                   {: System.out.println(e1+"("+")"); :}
+                   {: System.out.println("funcion"+e1+"("+")"); :}
                    |ID:e1 LPAR arguments_list:e2 error
                    {: System.err.println("Falta parentesis");:} 
  ;
@@ -364,9 +365,9 @@ expression ::=  variable:id
                     {: System.err.println("ERROR: se esperaba <;> ");:}
  ;
 
- for_statement ::= FOR variable:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP SEMICOLON
+ for_statement ::= FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP SEMICOLON
                    {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
-                   |FOR variable:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP error
+                   |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP error
                    {: System.err.println("ERROR: se esperaba <;> ");:}
  ;
 

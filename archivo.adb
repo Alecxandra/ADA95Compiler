@@ -1,21 +1,30 @@
---
--- El primer programa tipico
---
+procedure hola is
+  begin
+    put("hola mundo cruel");
+    --esto es un comentario
+    x: integer;
+    z,v,c : float;
+    
+    x:= 0;
 
-procedure Hello is
-get(x);
-begin
- put("Hello WORLD!");
- x,y :integer;
- x := x+(10);
- x(x,y,z);
-  
- if x=10 then
-   x :=10;
-   
-   
-  put("hola salvaje"); 
- end if;
+    if x>=10 then
+        x := 0;
+        put("hola hola hola");
+     elsif x=23 then
+      x:= 5**2;
 
- exit when x /= 10;
-end Hello;
+     elsif z/= 5.6 then
+        get (z);
+
+     else
+      
+     get(y);
+     y:= y(z)+y(z,r)
+
+    end if;
+
+    while x<= 12.8 loop
+      put("hola amigos");
+    end loop;
+
+  end hola;
