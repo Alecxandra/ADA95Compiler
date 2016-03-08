@@ -15,7 +15,7 @@ begin
    
    
   put("hola salvaje"); 
- end if
+ end if;
 
  exit when x /= 10;
 end Hello;
