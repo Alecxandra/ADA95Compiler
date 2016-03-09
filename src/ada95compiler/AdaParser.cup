@@ -170,10 +170,6 @@ expression ::=  ID:id
                 {:RESULT=e1; :}
  ; 
 
- /*variable::= ID:id
-             {: RESULT= id;:}  
- ; */
-
  literal_expre ::= FLOATN:num
                    {: RESULT = num;:} 
                    |INTEGERN:num1
@@ -369,6 +365,8 @@ expression ::=  ID:id
                    {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
                    |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP error
                    {: System.err.println("ERROR: se esperaba <;> ");:}
+                   |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 error statements:e4 END LOOP SEMICOLON
+                   {: System.err.println("ERROR: for sin loop"); :}
  ;
 
  procedure_statement ::= PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
@@ -379,6 +377,16 @@ expression ::=  ID:id
                          {: System.err.println("ERROR: se esperaba <;> ");:}
                          | PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 END ID:e5 error
                          {: System.err.println("ERROR: se esperaba <;> ");:}
+                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR error statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: System.err.println("ERROR: procedure sin is ");:}
+                         |PROCEDURE ID:e1  error statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: System.err.println("ERROR: procedure sin is ");:}
+                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS statements:e3 BEGIN statements:e4 END error SEMICOLON
+                         {: System.err.println("ERROR: se esperaba un <identificador>"); :}
+                         |PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 END error SEMICOLON
+                         {:System.err.println("ERROR: se esperaba un <identificador>");:}
+                         |PROCEDURE ID:e1 LPAR error RPAR IS statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: System.err.println("ERROR: parametros de procedure no validos") ; :} 
  ;
 
  params_list ::=  variable_list:e1 COLON IN type:e2 
@@ -403,10 +411,22 @@ expression ::=  ID:id
                         {: System.err.println("ERROR: se esperaba <;> ");:}
                         |FUNCTION ID:e1 RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 error
                         {: System.err.println("ERROR: se esperaba <;> ");:}
+                        |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 error statements:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
+                        {: System.err.println("ERROR: function sin is") ;:}
+                        |FUNCTION ID:e1 RETURN type:e3 error statements:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
+                        {: System.err.println("ERROR: function sin is") ;:}
+                        |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS statements:e4 BEGIN statements:e5 END error SEMICOLON
+                        {: System.err.println("ERROR: se esperaba <identificador>") ; :}
+                        |FUNCTION ID:e1 RETURN type:e3 IS statements:e4 BEGIN statements:e5 END error SEMICOLON
+                        {: System.err.println("ERROR: se esperaba <identificador>") ; :}
+                        |FUNCTION ID:e1 LPAR error RPAR RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
+                        {: System.err.println("ERROR: parametros de function no validos") ; :} 
 ;
 
  return_statement ::= RETURN expression:e1 SEMICOLON
                       {: System.out.println("return "+e1);:}
                       |RETURN expression:e1 error
                       {: System.err.println("ERROR: se esperaba <;> ");:}
+                      |RETURN error SEMICOLON
+                      {: System.err.println("ERROR: expresion no valida"); :}
  ;
