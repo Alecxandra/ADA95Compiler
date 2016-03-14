@@ -47,6 +47,6 @@ public interface ParentTraverse {
     public void traverse(IOStatement x);
     public void traverse(Get x); 
     public void traverse(ReturnStatement x); 
-    
-    
+    public void traverse(IfStatement x); 
+    public void traverse(ElseIfStatement x); 
 }

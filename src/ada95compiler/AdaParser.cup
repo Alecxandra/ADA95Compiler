@@ -108,8 +108,8 @@ import AST_TREE.*;
  non terminal  IOStatement             io_expre;
  non terminal  FunctionCall            function_call;
  non terminal  ArgumentList            arguments_list;
- non terminal                          if_statement;
- non terminal                          elsif_statement;
+ non terminal  IfStatement             if_statement;
+ non terminal  ElseIfStatement         elsif_statement;
  non terminal                          while_statement;
  non terminal                          loop_statement;
  non terminal                          exit_statement;
@@ -295,25 +295,25 @@ expression ::=  ID:id
  ;
 
  if_statement ::= IF expression:e1 THEN statements:e2 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2); :} 
                   | IF error THEN statements:e2 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if"); :}
                   | IF expression:e1 error statements:e2 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then"); :}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" "+e3+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3);  :}
                   |IF error THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if");:}
                   |IF expression:e1 error statements:e2 elsif_statement:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then");:}
                   | IF expression:e1 THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" else "+e3+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3); :}
                   | IF error THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if"); :}
                   | IF expression:e1 error statements:e2 ELSE statements:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then"); :}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" "+e3+ " else "+e4+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3, e4); :}
                   | IF error THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if");:}
                   |IF expression:e1 error statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
