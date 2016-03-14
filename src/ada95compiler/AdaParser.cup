@@ -1,6 +1,7 @@
 package ada95compiler;
 
 import java_cup.runtime.*;
+import AST_TREE.*;
 
 /* Lexer*/
   parser code {:
@@ -94,25 +95,30 @@ import java_cup.runtime.*;
   terminal        MAIN;  
 
  /* Non terminals*/
- non terminal         arit_expre, expression; 
- non terminal         literal_expre;
- non terminal         boolean_expre;
- non terminal         logical_expre;
- non terminal         declare_expre, variable_list;
- non terminal         type; 
- non terminal         statement;
- non terminal         assignment_expre;
- non terminal         io_expre;
- non terminal         function_call;
- non terminal         arguments_list;
- non terminal         if_statement;
- non terminal         elsif_statement;
- non terminal         while_statement;
- non terminal         loop_statement, exit_statement;
- non terminal         for_statement;
- non terminal         statements;
- non terminal         procedure_statement, params_list;
- non terminal         function_statement, return_statement;      
+ non terminal  ArithmeticExpression    arit_expre;
+ non terminal  Expression              expression; 
+ non terminal  LiteralExpression       literal_expre;
+ non terminal  BooleanExpression       boolean_expre;
+ non terminal  LogicalExpression       logical_expre;
+ non terminal                          declare_expre;
+ non terminal                          variable_list;
+ non terminal  Type                    type; 
+ non terminal                          statement;
+ non terminal                          assignment_expre;
+ non terminal                          io_expre;
+ non terminal  FunctionCall            function_call;
+ non terminal  ArgumentList            arguments_list;
+ non terminal                          if_statement;
+ non terminal                          elsif_statement;
+ non terminal                          while_statement;
+ non terminal                          loop_statement;
+ non terminal                          exit_statement;
+ non terminal                          for_statement;
+ non terminal                          statements;
+ non terminal                          procedure_statement;
+ non terminal                          params_list;
+ non terminal                          function_statement;
+ non terminal                          return_statement;      
 
 /* precedence */
 precedence left     AND,OR;
@@ -155,7 +161,7 @@ statement ::= declare_expre:e1
 ;
 
 expression ::=  ID:id
-                {: RESULT = id;:}   
+                {: RESULT = new Identifier(id);:}   
                 | literal_expre:le
                 {: RESULT = le;:}  
                 | arit_expre:ar
@@ -171,63 +177,63 @@ expression ::=  ID:id
  ; 
 
  literal_expre ::= FLOATN:num
-                   {: RESULT = num;:} 
+                   {: RESULT = new FloatLiteral(num);:} 
                    |INTEGERN:num1
-                   {: RESULT = num1;:}
+                   {: RESULT = new IntegerLiteral(num1);:}
                    |STRINGCONT:s
-                   {: RESULT= s;:} 
+                   {: RESULT= new StringLiteral(s);:} 
                     
  ;
 
  arit_expre ::= expression:e1 ADD expression:e2 
-               {: System.out.println(e1+"+"+e2); :}  
+               {: RESULT= new Add(e1,e2); :}  
                | expression:e1 MIN expression:e2 
-               {: System.out.println(e1+"-"+e2); :}
+               {: RESULT= new Min(e1,e2); :}
                | expression:e1 MUL expression:e2
-               {: System.out.println(e1+"*"+e2); :} 
+               {: RESULT= new Mul(e1,e2); :} 
                |expression:e1 DIV expression:e2
-               {: System.out.println(e1+"/"+e2); :}  
+               {: RESULT= new Div(e1,e2); :}  
                | expression:e1 POT expression:e2
-               {: System.out.println(e1+"**"+e2); :}
+               {: RESULT= new Power(e1,e2); :}
                | MIN expression:e1
-               {: System.out.println("-"+e1);:}
+               {: RESULT= new Umin(e1);:}
                %prec UMIN
                
 
  ;
 
  boolean_expre ::= expression:e1 LEQUAL expression:e2
-                  {: System.out.println(e1+"<="+e2); :}
+                  {: RESULT= new LessEqual(e1,e2);:}
                   | expression:e1 GEQUAL expression:e2
-                  {: System.out.println(e1+">="+e2); :}  
+                  {: RESULT= new GreaterEqual(e1,e2); :}  
                   | expression:e1 DISTINCT expression:e2
-                  {: System.out.println(e1+"/="+e2); :}
+                  {: RESULT= new Distinct(e1,e2); :}
                   | expression:e1 GREATER expression:e2
-                  {: System.out.println(e1+">"+e2); :}
+                  {: RESULT= new Greater(e1,e2); :}
                   | expression:e1 LESS expression:e2
-                  {: System.out.println(e1+"<"+e2); :} 
+                  {: RESULT= new Less(e1,e2); :} 
                   | expression:e1 EQUAL expression:e2
-                  {: System.out.println(e1+"="+e2); :}
+                  {: RESULT= new Equal(e1,e2); :}
  ;
 
  logical_expre ::= expression:e1 AND expression:e2
-                   {: System.out.println(e1+"and"+e2); :} 
+                   {: RESULT= new And(e1,e2);:} 
                    | expression:e1 OR expression:e2
-                   {: System.out.println(e1+"or"+e2);:}
+                   {: RESULT= new Or(e1,e2);:}
                    | NOT expression:e1
-                   {: System.out.println("not"+e1);:}
+                   {: RESULT= new Not(e1);:}
                    |TRUE
-                   {: System.out.println("true");:}
+                   {: RESULT= new TrueType();:}
                    |FALSE
-                   {: System.out.println("false");:} 
+                   {: RESULT = new FalseType();:} 
  ;
 
  type ::= INTEGER
-          {:System.out.println("integer");:} 
+          {:RESULT = new IntegerType();:} 
           |BOOLEAN
-          {:System.out.println("boolean");:}
+          {:RESULT = new BooleanType();:}
           |FLOAT
-          {:System.out.println("float");:} 
+          {:RESULT = new FloatType();:} 
  ;
 
  declare_expre ::= variable_list:e1 COLON type:e2 SEMICOLON
@@ -275,17 +281,17 @@ expression ::=  ID:id
  ;
 
  function_call ::= ID:e1 LPAR arguments_list:e2 RPAR
-                   {: System.out.println("funcion"+e1+"("+e2+")"); :}
+                   {:RESULT = new FunctionCall(new Identifier(e1),e2);:}
                    |ID:e1 LPAR RPAR 
-                   {: System.out.println("funcion"+e1+"("+")"); :}
+                   {: RESULT = new FunctionCall(new Identifier(e1)); :}
                    |ID:e1 LPAR arguments_list:e2 error
                    {: System.err.println("Falta parentesis");:} 
  ;
 
  arguments_list ::= expression:e1
-                    {: RESULT=e1; System.out.println(e1);:}
+                    {: RESULT= new ArgumentList(); RESULT.addE(e1);:}
                     |arguments_list:e1 COMMA expression:e2
-                    {: System.out.println(e1+","+e2);:} 
+                    {: e1.addE(e2); RESULT= e1;:} 
  ;
 
  if_statement ::= IF expression:e1 THEN statements:e2 END IF SEMICOLON
