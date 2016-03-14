@@ -11,8 +11,16 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public abstract class Expression extends Statement{
+public class Get extends IOStatement{
+    public Identifier id;
+
+    public Get(Identifier id) {
+        this.id = id;
+    }
     
-    public abstract void accept(ParentTraverse pt);
+    @Override
+    public void accept(ParentTraverse pt) {
+        pt.traverse(this);
+    }
     
 }

@@ -11,8 +11,8 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public abstract class Expression extends Statement{
-    
-    public abstract void accept(ParentTraverse pt);
+public abstract class IOStatement extends Statement{
+   @Override
+   public abstract void accept(ParentTraverse pt); 
     
 }

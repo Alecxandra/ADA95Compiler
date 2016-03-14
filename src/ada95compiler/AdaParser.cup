@@ -100,12 +100,12 @@ import AST_TREE.*;
  non terminal  LiteralExpression       literal_expre;
  non terminal  BooleanExpression       boolean_expre;
  non terminal  LogicalExpression       logical_expre;
- non terminal                          declare_expre;
- non terminal                          variable_list;
+ non terminal  DeclareStatement        declare_expre;
+ non terminal  VariableList            variable_list;
  non terminal  Type                    type; 
  non terminal                          statement;
- non terminal                          assignment_expre;
- non terminal                          io_expre;
+ non terminal  AssignmentStatement     assignment_expre;
+ non terminal  IOStatement             io_expre;
  non terminal  FunctionCall            function_call;
  non terminal  ArgumentList            arguments_list;
  non terminal                          if_statement;
@@ -118,7 +118,7 @@ import AST_TREE.*;
  non terminal                          procedure_statement;
  non terminal                          params_list;
  non terminal                          function_statement;
- non terminal                          return_statement;      
+ non terminal  ReturnStatement         return_statement;      
 
 /* precedence */
 precedence left     AND,OR;
@@ -237,21 +237,21 @@ expression ::=  ID:id
  ;
 
  declare_expre ::= variable_list:e1 COLON type:e2 SEMICOLON
-                   {: RESULT=e1;System.out.println(e1+ ":"+e2);:}
+                   {: RESULT=new DeclareStatement(e1,e2);:}
                    |variable_list:e1 COLON type:e2 error
                    {: System.err.println("ERROR: se esperaba <;>"); :}
  ;
 
  variable_list::= ID:e1
-                  {:RESULT=e1; System.out.println(e1);:} 
+                  {: RESULT= new VariableList(); RESULT.addE(new Identifier(e1));:} 
                   |variable_list:e1 COMMA ID:e2
-                  {:System.out.println(e1+","+e2);:}
+                  {:e1.addE(new Identifier(e2)); RESULT=e1;:}
  ;
 
  assignment_expre ::= ID:e1 ASSIGN expression:e3  SEMICOLON
-                      {:System.out.println(e1+":="+e3);:}
+                      {:RESULT= new AssignmentStatement(new Identifier(e1),e3);:}
                       | declare_expre:e1 ASSIGN expression:e3 SEMICOLON 
-                      {:System.out.println(e1+" := "+e3);:}
+                      {:RESULT= new AssignmentStatement(e3,e1);:}
                       |ID:e1 ASSIGN error SEMICOLON
                       {: System.err.println("ERROR:expresion no valida");:}
                       |ID:e1 EQUAL error expression:e3 SEMICOLON
@@ -263,9 +263,9 @@ expression ::=  ID:id
  ;
 
  io_expre ::= GET LPAR ID:e1 RPAR SEMICOLON
-              {: System.out.println("get"+"("+e1+")"); :}
+              {: RESULT= new Get(new Identifier(e1));:}
               | PUT LPAR expression:e1 RPAR SEMICOLON
-              {: System.out.println("put"+"("+e1+")"); :}
+              {: RESULT= new Put(e1);:}
               | PUT LPAR expression:e1 error
               {: System.err.println("ERROR: falta parentesis"); :}
               |GET LPAR ID:e1 error
@@ -435,7 +435,7 @@ expression ::=  ID:id
 ;
 
  return_statement ::= RETURN expression:e1 SEMICOLON
-                      {: System.out.println("return "+e1);:}
+                      {: RESULT= new ReturnStatement(e1);:}
                       |RETURN expression:e1 error
                       {: System.err.println("ERROR: se esperaba <;> ");:}
                       |RETURN error SEMICOLON

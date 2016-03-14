@@ -41,6 +41,12 @@ public interface ParentTraverse {
     public void traverse(Or x);
     public void traverse(Not x);
     public void traverse(ArgumentList x);
+    public void traverse(VariableList x);
+    public void traverse(DeclareStatement x); 
+    public void traverse(AssignmentStatement x); 
+    public void traverse(IOStatement x);
+    public void traverse(Get x); 
+    public void traverse(ReturnStatement x); 
     
     
 }
