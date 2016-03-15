@@ -6,6 +6,14 @@ import AST_TREE.*;
 /* Lexer*/
   parser code {:
       AdaLexer lexer;
+      private Statements program;
+      
+      public void setProgram(Statements program){
+           this.program= program;
+      }
+      public Statements getProgram(){
+         return this.program;
+      }
 
       public ParserAda(AdaLexer lex){
        super(lex);
@@ -103,22 +111,23 @@ import AST_TREE.*;
  non terminal  DeclareStatement        declare_expre;
  non terminal  VariableList            variable_list;
  non terminal  Type                    type; 
- non terminal                          statement;
+ non terminal  Statement               statement;
  non terminal  AssignmentStatement     assignment_expre;
  non terminal  IOStatement             io_expre;
  non terminal  FunctionCall            function_call;
  non terminal  ArgumentList            arguments_list;
- non terminal                          if_statement;
- non terminal                          elsif_statement;
- non terminal                          while_statement;
- non terminal                          loop_statement;
- non terminal                          exit_statement;
- non terminal                          for_statement;
- non terminal                          statements;
- non terminal                          procedure_statement;
- non terminal                          params_list;
- non terminal                          function_statement;
- non terminal  ReturnStatement         return_statement;      
+ non terminal  IfStatement             if_statement;
+ non terminal  ElsifStatements         elsif_statement;
+ non terminal  WhileStatement          while_statement;
+ non terminal  LoopStatement           loop_statement;
+ non terminal  ExitStatement           exit_statement;
+ non terminal  ForStatement            for_statement;
+ non terminal  Statements              statements;
+ non terminal  ProcedureStatement      procedure_statement;
+ non terminal  ParamsList              params_list;
+ non terminal  FunctionStatement       function_statement;
+ non terminal  ReturnStatement         return_statement;
+ non terminal                          program;        
 
 /* precedence */
 precedence left     AND,OR;
@@ -130,8 +139,14 @@ precedence nonassoc ELSE;
 
  /* CFG */
 
-statements ::= statement:e1 statements
+program ::= statements:x
+            {: setProgram(x); :} 
+;
+
+statements ::= statement:e1 statements:x
+               {: x.addE(e1); RESULT=x;:}
                | /* vacio */
+               {: RESULT= new Statements();:}
 ;
 
 statement ::= declare_expre:e1 
@@ -295,25 +310,25 @@ expression ::=  ID:id
  ;
 
  if_statement ::= IF expression:e1 THEN statements:e2 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2); :} 
                   | IF error THEN statements:e2 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if"); :}
                   | IF expression:e1 error statements:e2 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then"); :}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" "+e3+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3);  :}
                   |IF error THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if");:}
                   |IF expression:e1 error statements:e2 elsif_statement:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then");:}
                   | IF expression:e1 THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" else "+e3+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3); :}
                   | IF error THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if"); :}
                   | IF expression:e1 error statements:e2 ELSE statements:e3 END IF SEMICOLON
                   {: System.err.println("ERROR: if sin then"); :}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
-                  {: System.out.println("if "+e1+" then "+e2+" "+e3+ " else "+e4+" end if "); :}
+                  {: RESULT =  new IfStatement(e1, e2, e3, e4); :}
                   | IF error THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
                   {: System.err.println("ERROR: expresion no valida en if");:}
                   |IF expression:e1 error statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
@@ -331,9 +346,9 @@ expression ::=  ID:id
 ;
 
  elsif_statement ::= ELSIF expression:e1 THEN statements:e2 elsif_statement:e3
-                     {: System.out.println("elsif "+e1+" then "+e2+ "  "+e3); :}
+                     {:e3.addE(new ElseIfStatement(e1,e2)); RESULT=e3; :}
                      | ELSIF expression:e1 THEN statements:e2
-                     {: System.out.println("elsif "+e1+" then "+e2+ "  ");:}
+                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatement(e1,e2)); :}
                      | ELSIF expression:e1 error statements:e2
                      {: System.err.println("ERROR: elsif sin then");:}
                      | ELSIF error THEN statements:e2
@@ -341,7 +356,7 @@ expression ::=  ID:id
  ;
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
-                     {: System.out.println("while  "+e1+" loop "+e2+ "  END LOOP"); :}
+                     {: RESULT =  new WhileStatement(e1, e2); :}
                      |WHILE error LOOP statements:e2 END LOOP SEMICOLON
                      {: System.err.println("ERROR: expresion no valida en while"); :}
                      |WHILE expression:e1 error statements:e2 END LOOP SEMICOLON
@@ -351,19 +366,19 @@ expression ::=  ID:id
  ;
 
  exit_statement ::= EXIT WHEN expression:e1 SEMICOLON
-                    {: System.out.println("exit when "+e1); :}
+                    {: RESULT =  new ExitStatement(e1); :}
                     |EXIT WHEN expression:e1 error
-                    {: System.err.println("ERROR: se esperaba <;> ");:}
+                    {: System.err.println("ERROR: se esperaba <;> "); :}
  ;
 
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
-                    {: System.out.println("loop  "+e1+ " end loop "); :}
+                    {: RESULT =  new LoopStatement(e1); :}
                     |LOOP statements:e1 END LOOP error
                     {: System.err.println("ERROR: se esperaba <;> ");:}
  ;
 
  for_statement ::= FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP SEMICOLON
-                   {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
+                   {: RESULT =  new ForStatement(new Identifier(e1), new IntegerLiteral(e2), new IntegerLiteral(e3), e4); :} 
                    |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP error
                    {: System.err.println("ERROR: se esperaba <;> ");:}
                    |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 error statements:e4 END LOOP SEMICOLON
@@ -371,9 +386,9 @@ expression ::=  ID:id
  ;
 
  procedure_statement ::= PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: System.out.println("procedure "+e1+ " ( "+e2+" ) is"+e3+"\n"+"begin\n"+e4+"\n end "+e5); :}
+                         {: RESULT = new ProcedureStatement(new Identifier(e1), e2,e3,e4,new Identifier(e5)); :}
                          | PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: System.out.println("procedure "+e1+" is "+e3+"\n"+"begin\n"+e4+"\n end "+e5); :}
+                         {: RESULT = new ProcedureStatement(new Identifier(e1),e3,e4,new Identifier(e5));:}
                          | PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS statements:e3 BEGIN statements:e4 END ID:e5 error
                          {: System.err.println("ERROR: se esperaba <;> ");:}
                          | PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 END ID:e5 error
@@ -392,28 +407,26 @@ expression ::=  ID:id
                          {: System.err.println("ERROR: begin sin end en procedure") ;:}
                          |PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 error ID:e5 SEMICOLON
                          {: System.err.println("ERROR: begin sin end en procedure") ; :}
-
-
  ;
 
  params_list ::=  variable_list:e1 COLON IN type:e2 
-                  {: System.out.println(e1+" : in "+e2+";"); :}
+                  {:RESULT= new ParamsList(); RESULT.addE(new In(e1,e2));:}
                   |variable_list:e1 COLON OUT type:e2 
-                  {: System.out.println(e1+" : out "+e2+";"); :}
+                  {: RESULT= new ParamsList(); RESULT.addE(new Out(e1,e2)); :}
                   |variable_list:e1 COLON INOUT type:e2 
-                  {: System.out.println(e1+" : in out "+e2+";"); :}
+                  {:RESULT= new ParamsList(); RESULT.addE(new InOut(e1,e2)); :}
                   |params_list:e3 SEMICOLON variable_list:e1 COLON IN type:e2 
-                  {: System.out.println(e3+" "+e1+" : in "+e2+";"); :}
+                  {: e3.addE(new In(e1,e2)); RESULT=e3; :}
                   |params_list:e3 SEMICOLON variable_list:e1 COLON OUT type:e2 
-                  {: System.out.println(e3+" "+e1+" : out "+e2+";"); :}
+                  {: e3.addE(new Out(e1,e2)); RESULT=e3; :}
                   |params_list:e3 SEMICOLON variable_list:e1 COLON INOUT type:e2 
-                  {: System.out.println(e3+" "+e1+" : in out "+e2+";"); :}   
+                  {: e3.addE(new InOut(e1,e2)); RESULT=e3; :}   
  ;
 
  function_statement ::= FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
-                        {:System.out.println("function " +e1+" ( "+e2+" ) return "+e3+"is\n"+e4+"\n begin\n"+e5+"\n end "+e6); :}
+                        {:RESULT= new FunctionStatement(new Identifier(e1),new Identifier(e6),e2,e4,e5,e3); :}
                         |FUNCTION ID:e1 RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
-                        {:System.out.println("function " +e1 +" return "+e3+"is\n"+e4+"\n begin\n"+e5+"\n end "+e6); :}
+                        {:RESULT= new FunctionStatement(new Identifier(e1),new Identifier(e6),e4,e5,e3); :}
                         |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 error
                         {: System.err.println("ERROR: se esperaba <;> ");:}
                         |FUNCTION ID:e1 RETURN type:e3 IS statements:e4 BEGIN statements:e5 END ID:e6 error

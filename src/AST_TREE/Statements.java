@@ -9,26 +9,25 @@ import java.util.ArrayList;
 
 /**
  *
- * @author alecx
+ * @author cbanegas
  */
-public class ArgumentList {
-    private ArrayList<Expression> list;
+public class Statements {
+   ArrayList<Statement> list;
 
-    public ArgumentList() {
-       this.list = new ArrayList();
-    }
-    
-    public void addE(Expression x){
+   public Statements() {
+      list = new ArrayList();
+   }
+   
+   public void addE(Statement x){
       list.add(x);
     }
     
-    public Expression elementAt(int i){
+   public Statement elementAt(int i){
       return list.get(i);
     
-    }
+   }
     
-    public int size(){
-        return list.size();
-    }
-    
+   public int size(){
+       return list.size();
+   }
 }

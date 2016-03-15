@@ -5,24 +5,27 @@
  */
 package AST_TREE;
 
+import TRAVERSE_TREE.ParentTraverse;
 import java.util.ArrayList;
 
 /**
  *
  * @author alecx
  */
-public class ArgumentList {
-    private ArrayList<Expression> list;
+public class ParamsList {
+    private ArrayList<ParamsModifier> list;
 
-    public ArgumentList() {
-       this.list = new ArrayList();
+    public ParamsList() {
+        list= new ArrayList();
     }
     
-    public void addE(Expression x){
+    
+    
+    public void addE(ParamsModifier x){
       list.add(x);
     }
     
-    public Expression elementAt(int i){
+    public ParamsModifier elementAt(int i){
       return list.get(i);
     
     }
@@ -30,5 +33,7 @@ public class ArgumentList {
     public int size(){
         return list.size();
     }
-    
+    public void accept(ParentTraverse pt) {
+       pt.traverse(this);
+    }
 }

@@ -5,6 +5,7 @@
  */
 package ada95compiler;
 
+import AST_TREE.Statements;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,7 +29,7 @@ public class ADA95Compiler {
             AdaLexer lexer = new AdaLexer(new InputStreamReader(new FileInputStream(file)));
             ParserAda parse= new ParserAda(lexer);
             parse.parse();
-
+            Statements programa= parse.getProgram();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

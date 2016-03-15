@@ -47,6 +47,18 @@ public interface ParentTraverse {
     public void traverse(IOStatement x);
     public void traverse(Get x); 
     public void traverse(ReturnStatement x); 
-    
-    
+    public void traverse(IfStatement x); 
+    public void traverse(ElseIfStatement x);
+    public void traverse(ElsifStatements x);
+    public void traverse(WhileStatement x); 
+    public void traverse(ExitStatement x);
+    public void traverse(LoopStatement x);
+    public void traverse(ForStatement x);
+    public void traverse(In x);
+    public void traverse(Out x);
+    public void traverse(InOut x);
+    public void traverse(ParamsModifier x);
+    public void traverse(ParamsList x);
+    public void traverse(ProcedureStatement x);
+    public void traverse(FunctionStatement x);
 }
