@@ -103,18 +103,18 @@ import AST_TREE.*;
  non terminal  DeclareStatement        declare_expre;
  non terminal  VariableList            variable_list;
  non terminal  Type                    type; 
- non terminal                          statement;
+ non terminal  Statement               statement;
  non terminal  AssignmentStatement     assignment_expre;
  non terminal  IOStatement             io_expre;
  non terminal  FunctionCall            function_call;
  non terminal  ArgumentList            arguments_list;
  non terminal  IfStatement             if_statement;
  non terminal  ElseIfStatement         elsif_statement;
- non terminal                          while_statement;
- non terminal                          loop_statement;
- non terminal                          exit_statement;
- non terminal                          for_statement;
- non terminal                          statements;
+ non terminal  WhileStatement          while_statement;
+ non terminal  LoopStatement           loop_statement;
+ non terminal  ExitStatement           exit_statement;
+ non terminal  ForStatement            for_statement;
+ non terminal  Statements              statements;
  non terminal                          procedure_statement;
  non terminal                          params_list;
  non terminal                          function_statement;
@@ -341,7 +341,7 @@ expression ::=  ID:id
  ;
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
-                     {: System.out.println("while  "+e1+" loop "+e2+ "  END LOOP"); :}
+                     {: RESULT =  new WhileStatement(e1, e2); :}
                      |WHILE error LOOP statements:e2 END LOOP SEMICOLON
                      {: System.err.println("ERROR: expresion no valida en while"); :}
                      |WHILE expression:e1 error statements:e2 END LOOP SEMICOLON
@@ -351,19 +351,19 @@ expression ::=  ID:id
  ;
 
  exit_statement ::= EXIT WHEN expression:e1 SEMICOLON
-                    {: System.out.println("exit when "+e1); :}
+                    {: RESULT =  new WhileStatement(e1); :}
                     |EXIT WHEN expression:e1 error
-                    {: System.err.println("ERROR: se esperaba <;> ");:}
+                    {: System.err.println("ERROR: se esperaba <;> "); :}
  ;
 
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
-                    {: System.out.println("loop  "+e1+ " end loop "); :}
+                    {: RESULT =  new LoopStatement(e1); :}
                     |LOOP statements:e1 END LOOP error
                     {: System.err.println("ERROR: se esperaba <;> ");:}
  ;
 
  for_statement ::= FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP SEMICOLON
-                   {: System.out.println("for "+e1+ " in " +e2+".."+e3+" loop ");System.out.println(e4+"\n"+"end loop");:} 
+                   {: RESULT =  new ForStatement(e1, e2, e3, e4) :} 
                    |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 LOOP statements:e4 END LOOP error
                    {: System.err.println("ERROR: se esperaba <;> ");:}
                    |FOR ID:e1 IN INTEGERN:e2 RANK INTEGERN:e3 error statements:e4 END LOOP SEMICOLON
@@ -392,8 +392,6 @@ expression ::=  ID:id
                          {: System.err.println("ERROR: begin sin end en procedure") ;:}
                          |PROCEDURE ID:e1  IS statements:e3 BEGIN statements:e4 error ID:e5 SEMICOLON
                          {: System.err.println("ERROR: begin sin end en procedure") ; :}
-
-
  ;
 
  params_list ::=  variable_list:e1 COLON IN type:e2 

@@ -49,4 +49,8 @@ public interface ParentTraverse {
     public void traverse(ReturnStatement x); 
     public void traverse(IfStatement x); 
     public void traverse(ElseIfStatement x); 
+    public void traverse(WhileStatement x); 
+    public void traverse(ExitStatement x);
+    public void traverse(LoopStatement x);
+    public void traverse(ForStatement x);
 }

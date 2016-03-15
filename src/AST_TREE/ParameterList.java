@@ -5,16 +5,17 @@
  */
 package AST_TREE;
 
+import TRAVERSE_TREE.ParentTraverse;
 import java.util.ArrayList;
 
 /**
  *
- * @author alecx
+ * @author cbanegas
  */
-public class ArgumentList {
+public class ParameterList extends Statement{
     private ArrayList<Expression> list;
 
-    public ArgumentList() {
+    public ParameterList() {
        this.list = new ArrayList();
     }
     
@@ -30,5 +31,9 @@ public class ArgumentList {
     public int size(){
         return list.size();
     }
-    
+
+    @Override
+    public void accept(ParentTraverse pt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
