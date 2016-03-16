@@ -6,7 +6,7 @@ procedure hola is
     z,v,c : float;
     
     x:=0;
-    function y (x : in integer) return integer is
+    function y (x, y : in integer; z, v: out float; w : in out integer) return integer is
      begin
 
      end y;
@@ -19,6 +19,7 @@ procedure hola is
     if x>=10 then
         x := 0;
         put("hola hola hola");
+        y(x, 25, j, 89.3);
      elsif x=23 then
       x:= 5**2;
 

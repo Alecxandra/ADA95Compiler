@@ -30,6 +30,7 @@ public class ADA95Compiler {
             ParserAda parse= new ParserAda(lexer);
             parse.parse();
             Statements programa= parse.getProgram();
+            System.out.println("Termine");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

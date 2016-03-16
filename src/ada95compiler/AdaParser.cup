@@ -150,7 +150,7 @@ statements ::= statement:e1 statements:x
 ;
 
 statement ::= declare_expre:e1 
-              {: System.out.println(e1+";");:}
+              {: RESULT = e1; System.out.println(e1+";");:}
               | expression:e1 SEMICOLON
               {:RESULT=e1; System.out.println(e1+";");:}
               | assignment_expre:e1 

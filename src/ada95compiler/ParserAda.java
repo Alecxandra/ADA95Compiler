@@ -1268,7 +1268,7 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		DeclareStatement e1 = (DeclareStatement)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 System.out.println(e1+";");
+		 RESULT = e1; System.out.println(e1+";");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("statement",8, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;

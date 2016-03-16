@@ -19,7 +19,7 @@ public class Statements {
    }
    
    public void addE(Statement x){
-      list.add(x);
+      list.add(0, x);
     }
     
    public Statement elementAt(int i){
