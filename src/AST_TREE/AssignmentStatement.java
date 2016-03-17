@@ -14,19 +14,12 @@ import TRAVERSE_TREE.ParentTraverse;
 public class AssignmentStatement extends Statement{
    public Identifier id;
    public Expression expre;
-   public DeclareStatement declaration;
 
     public AssignmentStatement(Identifier id, Expression expre) {
         this.id = id;
         this.expre = expre;
     }
-
-    public AssignmentStatement(Expression expre, DeclareStatement declaration) {
-        this.expre = expre;
-        this.declaration = declaration;
-    }
     
-
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);
