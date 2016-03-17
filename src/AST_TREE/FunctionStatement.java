@@ -11,15 +11,15 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class FunctionStatement extends Statement{
+public class FunctionStatement extends DeclarationStatement{
     public Identifier preid;
     public Identifier postid;
     public ParamsList params;
-    public Statements presta;
+    public Declarations presta;
     public Statements poststa;
     public Type       type;
 
-    public FunctionStatement(Identifier preid, Identifier postid, ParamsList params, Statements presta, Statements poststa, Type type) {
+    public FunctionStatement(Identifier preid, Identifier postid, ParamsList params, Declarations presta, Statements poststa, Type type) {
         this.preid = preid;
         this.postid = postid;
         this.params = params;
@@ -28,7 +28,7 @@ public class FunctionStatement extends Statement{
         this.type= type;
     }
 
-    public FunctionStatement(Identifier preid, Identifier postid, Statements presta, Statements poststa, Type type) {
+    public FunctionStatement(Identifier preid, Identifier postid, Declarations presta, Statements poststa, Type type) {
         this.preid = preid;
         this.postid = postid;
         this.presta = presta;

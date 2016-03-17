@@ -5,6 +5,7 @@
  */
 package ada95compiler;
 
+import AST_TREE.ProgramInit;
 import AST_TREE.Statements;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ public class ADA95Compiler {
             AdaLexer lexer = new AdaLexer(new InputStreamReader(new FileInputStream(file)));
             ParserAda parse= new ParserAda(lexer);
             parse.parse();
-            Statements programa= parse.getProgram();
+            ProgramInit programa= parse.getProgram();
             System.out.println("Termine");
         } catch (Exception ex) {
             ex.printStackTrace();

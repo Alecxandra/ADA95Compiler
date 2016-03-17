@@ -13,11 +13,11 @@ import TRAVERSE_TREE.ParentTraverse;
  */
 public class ForStatement extends Statement {
     public Identifier id;
-    public IntegerLiteral start;
-    public IntegerLiteral end;
+    public Expression start;
+    public Expression end;
     public Statements sta;
     
-    public ForStatement(Identifier id, IntegerLiteral int1, IntegerLiteral int2, Statements sta) {
+    public ForStatement(Identifier id, Expression int1, Expression int2, Statements sta) {
         this.id = id;
         this.start = int1;
         this.end = int2;

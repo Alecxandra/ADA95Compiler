@@ -11,7 +11,7 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class DeclareStatement extends Statement {
+public class DeclareStatement extends DeclarationStatement {
 
     public VariableList list;
     public Type type;

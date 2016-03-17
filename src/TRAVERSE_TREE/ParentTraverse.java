@@ -61,4 +61,7 @@ public interface ParentTraverse {
     public void traverse(ParamsList x);
     public void traverse(ProcedureStatement x);
     public void traverse(FunctionStatement x);
+    public void traverse(DeclarationStatement x);
+    public void traverse(Declarations x);
+    public void traverse(ProgramInit x);
 }

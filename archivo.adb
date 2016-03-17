@@ -1,40 +1,21 @@
-procedure hola is
-  begin
-    put("hola mundo cruel");
-    --esto es un comentario
-    x: integer;
-    z,v,c : float;
-    
-    x:=0;
-    function y (x, y : in integer; z, v: out float; w : in out integer) return integer is
-     begin
+procedure Ejemplo is 
+    x:integer;
 
-     end y;
-
-     procedure ex(x: in integer) is
+    function x (y,z,x: in float) return boolean is
+      z,x,y: float;
+     function hola(x: out float; tr: in out boolean) return float is
+        x:float;
       begin
-
-      end ex;
-
-    if x>=10 then
-        x := 0;
-        put("hola hola hola");
-        y(x, 25, j, 89.3);
-     elsif x=23 then
-      x:= 5**2;
-
-     elsif z/= 5.6 then
-        get (z);
-
-     else
-      
-     get(y);
-     y:= x- y;
-
-    end if;
-
-    while x<= 12.8 loop
-      put("hola amigos");
-    end loop;
-
-  end hola;
+       x:=34;
+     end hola; 
+     begin
+     end x;
+begin 
+    put("Entre un numero: "); 
+    Get(i); 
+         if EsPar(i) then put("es par"); else put("no es par"); end if; 
+    put("Entre una pareja de numeros separados por un espacio: "); 
+    Get(R1); Get(R2); 
+    Media(R1,R2,R3); 
+    Put(R3); 
+end Ejemplo; 

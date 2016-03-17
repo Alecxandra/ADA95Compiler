@@ -11,14 +11,14 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class ProcedureStatement extends Statement{
+public class ProcedureStatement extends DeclarationStatement{
     public Identifier preid;
     public Identifier postid;
     public ParamsList list;
-    public Statements presta;
+    public Declarations presta;
     public Statements poststa;
 
-    public ProcedureStatement(Identifier id, ParamsList list, Statements presta, Statements poststa,Identifier post) {
+    public ProcedureStatement(Identifier id, ParamsList list, Declarations presta, Statements poststa,Identifier post) {
         this.preid = id;
         this.list = list;
         this.presta = presta;
@@ -26,7 +26,7 @@ public class ProcedureStatement extends Statement{
         this.postid= post;
     }
 
-    public ProcedureStatement(Identifier id, Statements presta, Statements poststa,Identifier post) {
+    public ProcedureStatement(Identifier id, Declarations presta, Statements poststa,Identifier post) {
         this.preid = id;
         this.presta = presta;
         this.poststa = poststa;
