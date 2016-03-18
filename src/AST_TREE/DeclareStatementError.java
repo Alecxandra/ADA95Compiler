@@ -11,7 +11,7 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class DeclareStatementError extends DeclarationStatement {
+public class DeclareStatementError extends DeclareStatement {
 
     public int column;
     public int line;

@@ -11,14 +11,15 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class IdentifierError extends Expression{
-    public String id;
+public class IdentifierError extends Identifier{
+    public int column;
+    public int line;
+    public String message;
 
-    public IdentifierError(String id) {
-        this.id = id;
-    }
-     
-    public IdentifierError() {
+    public IdentifierError(int column, int line, String message) {
+        this.column = column;
+        this.line = line;
+        this.message = message;
     }
      
     @Override
