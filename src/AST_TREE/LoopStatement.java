@@ -17,6 +17,9 @@ public class LoopStatement extends Statement {
     public LoopStatement(Statements sta) {
         this.sta = sta;
     }
+    
+    public LoopStatement() {
+    }
 
     @Override
     public void accept(ParentTraverse pt) {

@@ -20,6 +20,9 @@ public class AssignmentStatement extends Statement{
         this.expre = expre;
     }
     
+    public AssignmentStatement() {
+    }
+    
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

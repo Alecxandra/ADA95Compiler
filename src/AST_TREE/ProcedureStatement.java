@@ -33,6 +33,9 @@ public class ProcedureStatement extends DeclarationStatement{
         this.postid= post;
     }
     
+    public ProcedureStatement() {
+    }
+    
     
     @Override
     public void accept(ParentTraverse pt) {

@@ -19,6 +19,9 @@ public class ReturnStatement extends Statement{
         this.expre = expre;
     }
     
+    public ReturnStatement() {
+    }
+    
     @Override
     public void accept(ParentTraverse pt) {
        pt.traverse(this);

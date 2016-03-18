@@ -21,7 +21,8 @@ public class DeclareStatement extends DeclarationStatement {
         this.type = type;
     }
     
-    
+    public DeclareStatement() {
+    }
     
     @Override
     public void accept(ParentTraverse pt) {

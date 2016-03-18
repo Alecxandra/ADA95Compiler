@@ -23,6 +23,9 @@ public class ForStatement extends Statement {
         this.end = int2;
         this.sta = sta;
     }
+    
+    public ForStatement() {
+    }
 
     @Override
     public void accept(ParentTraverse pt) {
