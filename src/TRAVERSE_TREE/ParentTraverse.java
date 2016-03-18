@@ -69,4 +69,12 @@ public interface ParentTraverse {
     public void traverse(LoopStatementError x);
     public void traverse(ForStatementError x);
     public void traverse(ProcedureStatementError x);
+    public void traverse(DeclareStatementError x);
+    public void traverse(AssignmentStatementError x);
+    public void traverse(FunctionCallError x);
+    public void traverse(IfStatementError x);
+    public void traverse(ElseIfStatementError x);
+    public void traverse(IdentifierError x);
+    public void traverse(FunctionStatementError x);
+    public void traverse(ReturnStatementError x);
 }
