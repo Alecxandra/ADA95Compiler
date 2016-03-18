@@ -2329,10 +2329,14 @@ class CUP$ParserAda$actions {
           case 92: // while_statement ::= WHILE error LOOP statements END LOOP SEMICOLON 
             {
               WhileStatement RESULT =null;
+		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: expresion no valida en while"); 
+		RESULT = new WhileStatementError(e1right,e1left,"ERROR: expresion no valida en while");
+                     System.err.println("ERROR: expresion no valida en while"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2344,10 +2348,14 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
 		Expression e1 = (Expression)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
+		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).left;
+		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).right;
+		Object e3 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).value;
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: while sin loop"); 
+		RESULT = new WhileStatementError(e3right,e3left,"ERROR: while sin loop"); 
+                     System.err.println("ERROR: while sin loop"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2362,7 +2370,11 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		  System.err.println("ERROR: se esperaba <;> ");
+		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e3 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT = new WhileStatementError(e3right,e3left,"ERROR: se esperaba <;> "); 
+                     System.err.println("ERROR: se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2386,7 +2398,11 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Expression e1 = (Expression)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: se esperaba <;> "); 
+		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT= new ExitStatementError(e2right,e2left,"ERROR: se esperaba <;> ");
+                    System.err.println("ERROR: se esperaba <;> "); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("exit_statement",17, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2410,7 +2426,11 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e1 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: se esperaba <;> ");
+		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT= new LoopStatementError(e2right,e2left,"ERROR: se esperaba <;> ");
+                     System.err.println("ERROR: se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("loop_statement",16, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2452,7 +2472,11 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: se esperaba <;> ");
+		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT= new ForStatementError(e5right,e5left,"ERROR: se esperaba <;> "); 
+                   System.err.println("ERROR: se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("for_statement",18, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2470,10 +2494,14 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
 		Expression e3 = (Expression)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
+		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).left;
+		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).right;
+		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)).value;
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: for sin loop"); 
+		 RESULT= new ForStatementError(e5right,e5left,"ERROR: for sin loop"); 
+                   System.err.println("ERROR: for sin loop"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("for_statement",18, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2542,7 +2570,11 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: se esperaba <;> ");
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: se esperaba <;> "); 
+                         System.err.println("ERROR: se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2563,7 +2595,11 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: se esperaba <;> ");
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
+		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: se esperaba <;> ");
+                         System.err.println("ERROR: se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2578,6 +2614,9 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).right;
 		ParamsList e2 = (ParamsList)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).value;
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).value;
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
 		Declarations e3 = (Declarations)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
@@ -2587,7 +2626,8 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: procedure sin is ");
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: procedure sin is "); 
+                         System.err.println("ERROR: procedure sin is ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2599,6 +2639,9 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)).right;
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)).value;
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)).value;
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
 		Declarations e3 = (Declarations)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
@@ -2608,7 +2651,8 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: procedure sin is ");
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: procedure sin is "); 
+                         System.err.println("ERROR: procedure sin is ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2629,7 +2673,11 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 System.err.println("ERROR: se esperaba un <identificador>"); 
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: se esperaba un <identificador>"); 
+                         System.err.println("ERROR: se esperaba un <identificador>"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2647,7 +2695,11 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		System.err.println("ERROR: se esperaba un <identificador>");
+		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
+		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
+		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
+		RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: se esperaba un <identificador>");
+                         System.err.println("ERROR: se esperaba un <identificador>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2659,6 +2711,9 @@ class CUP$ParserAda$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)).right;
 		String e1 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)).value;
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)).value;
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).right;
 		Declarations e3 = (Declarations)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-5)).value;
@@ -2668,7 +2723,8 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: parametros de procedure no validos") ; 
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: parametros de procedure no validos"); 
+                         System.err.println("ERROR: parametros de procedure no validos") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2689,10 +2745,14 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).value;
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: begin sin end en procedure") ;
+		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: begin sin end en procedure"); 
+                         System.err.println("ERROR: begin sin end en procedure") ;
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2710,10 +2770,14 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
+		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).left;
+		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).right;
+		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-2)).value;
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 System.err.println("ERROR: begin sin end en procedure") ; 
+		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: begin sin end en procedure"); 
+                         System.err.println("ERROR: begin sin end en procedure") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;

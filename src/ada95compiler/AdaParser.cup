@@ -391,40 +391,52 @@ expression ::=  ID:id
 
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
                     {: RESULT =  new LoopStatement(e1); :}
-                    |LOOP statements:e1 END LOOP error
-                    {: System.err.println("ERROR: se esperaba <;> ");:}
+                    |LOOP statements:e1 END LOOP error:e2
+                    {: RESULT= new LoopStatementError(e2right,e2left,"ERROR: se esperaba <;> ");
+                     System.err.println("ERROR: se esperaba <;> ");:}
  ;
 
  for_statement ::= FOR ID:e1 IN expression:e2 RANK expression:e3 LOOP statements:e4 END LOOP SEMICOLON
                    {: RESULT =  new ForStatement(new Identifier(e1), e2, e3, e4); :} 
-                   |FOR ID:e1 IN expression:e2 RANK expression:e3 LOOP statements:e4 END LOOP error
-                   {: System.err.println("ERROR: se esperaba <;> ");:}
-                   |FOR ID:e1 IN expression:e2 RANK expression:e3 error statements:e4 END LOOP SEMICOLON
-                   {: System.err.println("ERROR: for sin loop"); :}
+                   |FOR ID:e1 IN expression:e2 RANK expression:e3 LOOP statements:e4 END LOOP error:e5
+                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: se esperaba <;> "); 
+                   System.err.println("ERROR: se esperaba <;> ");:}
+                   |FOR ID:e1 IN expression:e2 RANK expression:e3 error:e5 statements:e4 END LOOP SEMICOLON
+                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: for sin loop"); 
+                   System.err.println("ERROR: for sin loop"); :}
  ;
 
  procedure_statement ::= PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
                          {: RESULT = new ProcedureStatement(new Identifier(e1), e2,e3,e4,new Identifier(e5)); :}
                          | PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
                          {:RESULT = new ProcedureStatement(new Identifier(e1),e3,e4,new Identifier(e5));:}
-                         | PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 error
-                         {: System.err.println("ERROR: se esperaba <;> ");:}
-                         | PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 error
-                         {: System.err.println("ERROR: se esperaba <;> ");:}
-                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR error declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: System.err.println("ERROR: procedure sin is ");:}
-                         |PROCEDURE ID:e1  error declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: System.err.println("ERROR: procedure sin is ");:}
-                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END error SEMICOLON
-                         {: System.err.println("ERROR: se esperaba un <identificador>"); :}
-                         |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END error SEMICOLON
-                         {:System.err.println("ERROR: se esperaba un <identificador>");:}
-                         |PROCEDURE ID:e1 LPAR error RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: System.err.println("ERROR: parametros de procedure no validos") ; :}
-                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 error ID:e5 SEMICOLON
-                         {: System.err.println("ERROR: begin sin end en procedure") ;:}
-                         |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 error ID:e5 SEMICOLON
-                         {: System.err.println("ERROR: begin sin end en procedure") ; :}
+                         | PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
+                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: se esperaba <;> "); 
+                         System.err.println("ERROR: se esperaba <;> ");:}
+                         | PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
+                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: se esperaba <;> ");
+                         System.err.println("ERROR: se esperaba <;> ");:}
+                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: procedure sin is "); 
+                         System.err.println("ERROR: procedure sin is ");:}
+                         |PROCEDURE ID:e1  error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: procedure sin is "); 
+                         System.err.println("ERROR: procedure sin is ");:}
+                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END error:e6 SEMICOLON
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: se esperaba un <identificador>"); 
+                         System.err.println("ERROR: se esperaba un <identificador>"); :}
+                         |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END error:e5 SEMICOLON
+                         {:RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: se esperaba un <identificador>");
+                         System.err.println("ERROR: se esperaba un <identificador>");:}
+                         |PROCEDURE ID:e1 LPAR error:e6 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: parametros de procedure no validos"); 
+                         System.err.println("ERROR: parametros de procedure no validos") ; :}
+                         |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
+                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: begin sin end en procedure"); 
+                         System.err.println("ERROR: begin sin end en procedure") ;:}
+                         |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
+                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: begin sin end en procedure"); 
+                         System.err.println("ERROR: begin sin end en procedure") ; :}
  ;
 
  params_list ::=  variable_list:e1 COLON IN type:e2 
