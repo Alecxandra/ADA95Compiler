@@ -67,4 +67,6 @@ public interface ParentTraverse {
     public void traverse(WhileStatementError x);
     public void traverse(ExitStatementError x);
     public void traverse(LoopStatementError x);
+    public void traverse(ForStatementError x);
+    public void traverse(ProcedureStatementError x);
 }
