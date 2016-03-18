@@ -384,8 +384,9 @@ expression ::=  ID:id
 
  exit_statement ::= EXIT WHEN expression:e1 SEMICOLON
                     {: RESULT =  new ExitStatement(e1); :}
-                    |EXIT WHEN expression:e1 error
-                    {: System.err.println("ERROR: se esperaba <;> "); :}
+                    |EXIT WHEN expression:e1 error:e2
+                    {: RESULT= new ExitStatementError(e2right,e2left,"ERROR: se esperaba <;> ");
+                    System.err.println("ERROR: se esperaba <;> "); :}
  ;
 
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
