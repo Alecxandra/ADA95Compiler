@@ -12,12 +12,14 @@ import TRAVERSE_TREE.ParentTraverse;
  * @author alecx
  */
 public class Identifier extends Expression{
-     public String id;
+    public String id;
 
     public Identifier(String id) {
         this.id = id;
     }
      
+    public Identifier() {
+    }
      
     @Override
     public void accept(ParentTraverse pt) {

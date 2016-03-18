@@ -9,25 +9,20 @@ import TRAVERSE_TREE.ParentTraverse;
 
 /**
  *
- * @author alecx
+ * @author cbanegas
  */
-public class FunctionCall extends Expression{
-    public Identifier id;
-    public ArgumentList args;
+public class IfStatementError extends IfStatement{
+    
+    public int column;
+    public int line;
+    public String message;
 
-    public FunctionCall(Identifier id, ArgumentList args) {
-        this.id = id;
-        this.args = args;
-    }
-
-    public FunctionCall(Identifier id) {
-        this.id = id;
+    public IfStatementError(int column, int line, String message) {
+        this.column = column;
+        this.line = line;
+        this.message = message;
     }
     
-    public FunctionCall() {
-    }
-    
-
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

@@ -11,22 +11,17 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class FunctionCall extends Expression{
-    public Identifier id;
-    public ArgumentList args;
-
-    public FunctionCall(Identifier id, ArgumentList args) {
-        this.id = id;
-        this.args = args;
-    }
-
-    public FunctionCall(Identifier id) {
-        this.id = id;
-    }
+public class FunctionCallError extends FunctionCall{
     
-    public FunctionCall() {
+    public int column;
+    public int line;
+    public String message;
+
+    public FunctionCallError(int column, int line, String message) {
+        this.column = column;
+        this.line = line;
+        this.message = message;
     }
-    
 
     @Override
     public void accept(ParentTraverse pt) {
