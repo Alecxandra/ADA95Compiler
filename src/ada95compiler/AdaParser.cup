@@ -296,17 +296,17 @@ expression ::=  ID:id
               | PUT LPAR expression:e1 RPAR SEMICOLON
               {: RESULT= new Put(e1);:}
               | PUT LPAR expression:e1 error:e2
-              {: RESULT= new PutError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
+              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
               |GET LPAR ID:e1 error:e2
-              {: RESULT= new GetError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
+              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
               |GET LPAR error:e1 RPAR
-              {: RESULT= new GetError(e1right,e1left,"ERROR: se esperaba <identificador>"); System.err.println("ERROR: se esperaba <identificador>");:}
+              {: RESULT= new IdentifierError(e1right,e1left,"ERROR: se esperaba <identificador>"); System.err.println("ERROR: se esperaba <identificador>");:}
               |PUT LPAR error:e1 RPAR
-              {: RESULT= new PutError(e1right,e1left,"ERROR: expresion no valida"); System.err.println("ERROR: expresion no valida"); :}
+              {: RESULT= new IdentifierError(e1right,e1left,"ERROR: expresion no valida"); System.err.println("ERROR: expresion no valida"); :}
               |GET LPAR ID:e1 RPAR error:e2
-              {: RESULT= new GetError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
+              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
               |PUT LPAR expression:e1 RPAR error:e2
-              {: RESULT= new PutError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
+              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
  ;
 
  function_call ::= ID:e1 LPAR arguments_list:e2 RPAR
@@ -362,9 +362,17 @@ expression ::=  ID:id
                      | ELSIF expression:e1 THEN statements:e2
                      {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatement(e1,e2)); :}
                      | ELSIF expression:e1 error:e3 statements:e2
-                     {: RESULT= new ElseIfStatementError(e3right,e3left,"ERROR: elsif sin then"); System.err.println("ERROR: elsif sin then");:}
+                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: elsif sin then"));  
+                     System.err.println("ERROR: elsif sin then");:}
                      | ELSIF error:e1 THEN statements:e2
-                     {: RESULT= new ElseIfStatementError(e1right,e1left,"ERROR: expresion no valida en if"); System.err.println("ERROR: expresion no valida en if"); :}
+                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: expresion no valida en if")); 
+                     System.err.println("ERROR: expresion no valida en if"); :}
+                     | ELSIF expression:e1 error:e3 statements:e2 elsif_statement:e4
+                     {:e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: elsif sin then"));
+                     System.err.println("ERROR: elsif sin then"); :}
+                     |ELSIF error:e1 THEN statements:e2 elsif_statement:e3
+                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: expresion no valida en if"));
+                      System.err.println("ERROR: expresion no valida en if"); :}
  ;
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
