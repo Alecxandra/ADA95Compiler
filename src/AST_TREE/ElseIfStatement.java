@@ -20,6 +20,9 @@ public class ElseIfStatement {
         this.expre = expre;
         this.statements = statements;
     }
+    
+    public ElseIfStatement() {
+    }
    
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

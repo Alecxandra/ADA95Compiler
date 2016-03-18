@@ -17,6 +17,9 @@ public class ExitStatement extends Statement {
     public ExitStatement(Expression expre) {
         this.expre = expre;
     }
+    
+    public ExitStatement() {
+    }
 
     @Override
     public void accept(ParentTraverse pt) {

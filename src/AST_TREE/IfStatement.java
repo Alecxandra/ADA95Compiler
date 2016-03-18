@@ -41,6 +41,9 @@ public class IfStatement extends Statement{
         this.sta2 = sta2;
     }
     
+    public IfStatement() {
+    }
+    
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

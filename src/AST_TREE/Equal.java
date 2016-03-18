@@ -21,8 +21,9 @@ public class Equal extends BooleanExpression{
         this.exp2 = exp2;
     }
     
-    
-
+    public Equal() {
+    }
+   
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

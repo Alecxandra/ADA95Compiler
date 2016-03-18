@@ -36,6 +36,8 @@ public class FunctionStatement extends DeclarationStatement{
         this.type= type;
     }
     
+    public FunctionStatement() {
+    }
     
     @Override
     public void accept(ParentTraverse pt) {
