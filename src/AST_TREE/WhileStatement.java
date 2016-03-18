@@ -15,6 +15,10 @@ public class WhileStatement extends Statement {
     public Expression expre;
     public Statements sta;
 
+    public WhileStatement() {
+    }
+    
+
     public WhileStatement(Expression expre, Statements sta) {
         this.expre = expre;
         this.sta = sta;

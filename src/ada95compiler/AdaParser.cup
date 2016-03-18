@@ -371,12 +371,15 @@ expression ::=  ID:id
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
                      {: RESULT =  new WhileStatement(e1, e2); :}
-                     |WHILE error LOOP statements:e2 END LOOP SEMICOLON
-                     {: System.err.println("ERROR: expresion no valida en while"); :}
-                     |WHILE expression:e1 error statements:e2 END LOOP SEMICOLON
-                     {: System.err.println("ERROR: while sin loop"); :}
-                     |WHILE expression:e1 LOOP statements:e2 END LOOP error
-                     {:  System.err.println("ERROR: se esperaba <;> ");:}
+                     |WHILE error:e1 LOOP statements:e2 END LOOP SEMICOLON
+                     {:RESULT = new WhileStatementError(e1right,e1left,"ERROR: expresion no valida en while");
+                     System.err.println("ERROR: expresion no valida en while"); :}
+                     |WHILE expression:e1 error:e3 statements:e2 END LOOP SEMICOLON
+                     {:RESULT = new WhileStatementError(e3right,e3left,"ERROR: while sin loop"); 
+                     System.err.println("ERROR: while sin loop"); :}
+                     |WHILE expression:e1 LOOP statements:e2 END LOOP error:e3
+                     {: RESULT = new WhileStatementError(e3right,e3left,"ERROR: se esperaba <;> "); 
+                     System.err.println("ERROR: se esperaba <;> ");:}
  ;
 
  exit_statement ::= EXIT WHEN expression:e1 SEMICOLON

@@ -64,4 +64,5 @@ public interface ParentTraverse {
     public void traverse(DeclarationStatement x);
     public void traverse(Declarations x);
     public void traverse(ProgramInit x);
+    public void traverse(WhileStatementError x);
 }
