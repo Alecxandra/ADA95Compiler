@@ -18,6 +18,9 @@ public class Get extends IOStatement{
         this.id = id;
     }
     
+    public Get() {
+    }
+    
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

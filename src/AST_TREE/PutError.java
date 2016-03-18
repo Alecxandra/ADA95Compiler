@@ -11,17 +11,18 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class IdentifierError extends Identifier{
+public class PutError extends Put{
+    
     public int column;
     public int line;
     public String message;
 
-    public IdentifierError(int column, int line, String message) {
+    public PutError(int column, int line, String message) {
         this.column = column;
         this.line = line;
         this.message = message;
     }
-     
+    
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

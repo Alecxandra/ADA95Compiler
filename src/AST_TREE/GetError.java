@@ -11,14 +11,16 @@ import TRAVERSE_TREE.ParentTraverse;
  *
  * @author alecx
  */
-public class Put extends IOStatement{
-    public Expression expre;
-
-    public Put(Expression expre) {
-        this.expre = expre;
-    }
+public class GetError extends Get{
     
-    public Put() {
+    public int column;
+    public int line;
+    public String message;
+
+    public GetError(int column, int line, String message) {
+        this.column = column;
+        this.line = line;
+        this.message = message;
     }
     
     @Override

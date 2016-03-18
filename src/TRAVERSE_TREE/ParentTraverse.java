@@ -74,7 +74,8 @@ public interface ParentTraverse {
     public void traverse(FunctionCallError x);
     public void traverse(IfStatementError x);
     public void traverse(ElseIfStatementError x);
-    public void traverse(IdentifierError x);
     public void traverse(FunctionStatementError x);
     public void traverse(ReturnStatementError x);
+    public void traverse(PutError x);
+    public void traverse(GetError x);
 }

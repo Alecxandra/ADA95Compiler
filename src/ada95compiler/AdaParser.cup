@@ -296,17 +296,17 @@ expression ::=  ID:id
               | PUT LPAR expression:e1 RPAR SEMICOLON
               {: RESULT= new Put(e1);:}
               | PUT LPAR expression:e1 error:e2
-              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
+              {: RESULT= new PutError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
               |GET LPAR ID:e1 error:e2
-              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
+              {: RESULT= new GetError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
               |GET LPAR error:e1 RPAR
-              {: RESULT= new IdentifierError(e1right,e1left,"ERROR: se esperaba <identificador>"); System.err.println("ERROR: se esperaba <identificador>");:}
+              {: RESULT= new GetError(e1right,e1left,"ERROR: se esperaba <identificador>"); System.err.println("ERROR: se esperaba <identificador>");:}
               |PUT LPAR error:e1 RPAR
-              {: RESULT= new IdentifierError(e1right,e1left,"ERROR: expresion no valida"); System.err.println("ERROR: expresion no valida"); :}
+              {: RESULT= new PutError(e1right,e1left,"ERROR: expresion no valida"); System.err.println("ERROR: expresion no valida"); :}
               |GET LPAR ID:e1 RPAR error:e2
-              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
+              {: RESULT= new GetError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
               |PUT LPAR expression:e1 RPAR error:e2
-              {: RESULT= new IdentifierError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
+              {: RESULT= new PutError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
  ;
 
  function_call ::= ID:e1 LPAR arguments_list:e2 RPAR
