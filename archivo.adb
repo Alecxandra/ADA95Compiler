@@ -1,66 +1,47 @@
-procedure IfDemo is
+-- ojasoda asjdas dapsod adk
 
-Index, Count : INTEGER;
+procedure LoopDemo is
+
+   Index, Count : INTEGER;
 
 begin
-   for Index in 1..7 loop  -- This contains two simple if statements
-      Put("Index is ");
+   Index = 1;
+   loop                            
+   -- This is the simplest loop
+      Put("Index =");
       Put(Index);
-      if Index < 4 then
-         Put(" so is less than 4");
-      end if;
-      if Index > 5 then
-         Put(" so is more than 5");
+      Index := Index + 1;
+      exit when Index = 5;
+   end loop;
+
+   Index = 1;
+   loop                           
+   -- Another simplest loop
+      Put("Index =");
+      Put(Index);
+      Index := Index + 1;
+      if Index = 5 then 
+         Index := 3; 
       end if;
    end loop;
 
-
-   for Index in 13..17 loop  -- This contains an else clause
-      Put("Index is");
-      Put(Index);
-      if Index < 15 then
-         Put_Line(" and is less than 15.");
-      else
-         Put_Line(" and is 15 or greater.");
-      end if;
+   Count := 1;
+   while Count 5            
+   -- This is the while loop
+      Put("Count =");
+      Put(Count);
+      Count := Count + 1;
    end loop;
 
-
-   for Index in 13..17 loop  -- This introduces the elsif statement
-      Put("Index is");
-      Put(Index);
-      if Index < 15 then
-         Put_Line(" and is less than 15.");
-      elsif Index = 15 then
-         Put_Line(" and is 15.");
-      elsif Index = 16 then
-         Put_Line(" and is 16.");
-      else
-         Put_Line(" and is greater than 16.");
-      end if;
+   for Index in 1..4 loop          
+   -- This is the for loop
+      Put("Doubled index =");
+      Put(2 * Index)
    end loop;
 
-
--- This final group of statements contains a loop with a nested if
---   statement, and a loop within the the else part of the nested
---   if statement.
-
-   for Index in 13..17 loop
-      Put("Index is");
-      Put(Index);
-      if Index < 16 then
-         if Index > 14 then
-            Put(" and is less than 16 and greater than 14.");
-         else
-            Put(" and is less than or equal to 14.");
-         end if;
-      else
-         Put(" and is 16 or greater.");
-         for New_Index in 222..224 loop
-           Put(" stutter");
-         end loop;
-      end if;
-   
+   for Index in 7..11 loop         
+   -- An empty loop
+      null;
    end loop;
 
-end IfDemo;
+end LoopDemo;
