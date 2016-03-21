@@ -23,6 +23,9 @@ public class ProgramInit {
         this.stas = stas;
         this.postid = postid;
     }
+
+    public ProgramInit() {
+    }
     
     public void accept(ParentTraverse pt) {
         pt.traverse(this);

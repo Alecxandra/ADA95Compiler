@@ -26,7 +26,7 @@ import AST_TREE.*;
       }
 
       public void unrecovered_syntax_error(Symbol s){
-         System.err.println("Oh! No, revisa la linea: " + (s.left + 1) + ", columna: " + (s.right + 1));
+         System.err.println("Oh! No, revisa antes de la linea: " + (s.left + 1) + ", columna: " + (s.right + 1));
       } 
 
       public void report_falta_error(String message, Object info){
@@ -155,6 +155,14 @@ program ::= program_init:x
 
 program_init ::= PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
                  {: RESULT= new ProgramInit(new Identifier(e1),e3,e4,new Identifier(e5));:}
+                 |PROCEDURE ID:e1  error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
+                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
+                 |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
+                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
+                 |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
+                 {:RESULT= new ProgramInitError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; :}
+                 |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END error:e5 SEMICOLON
+                 {:RESULT= new ProgramInitError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");:}
 ;
 
 statements ::= statement:e1 statements:x
@@ -371,14 +379,14 @@ expression ::=  ID:id
                      {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"));  
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then");:}
                      | ELSIF error:e1 THEN statements:e2
-                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if")); 
-                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); :}
+                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif")); 
+                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); :}
                      | ELSIF expression:e1 error:e3 statements:e2 elsif_statement:e4
                      {:e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then"));
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); :}
                      |ELSIF error:e1 THEN statements:e2 elsif_statement:e3
-                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"));
-                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); :}
+                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"));
+                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); :}
  ;
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
@@ -395,6 +403,8 @@ expression ::=  ID:id
                     {: RESULT =  new ExitStatement(e1); :}
                     |EXIT WHEN expression:e1 error:e2
                     {: RESULT= new ExitStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> "); :}
+                    |EXIT WHEN error:e2 SEMICOLON
+                    {: RESULT= new ExitStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"expresion no valida"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"expresion no valida");:}
  ;
 
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
