@@ -1,11 +1,49 @@
-procedure principal is
-  x: integer;
- begin
-  
-  x := (3+4)*5;
-  get(x);
-  put(x+(8));
-  if x/=true then
-    funcion(r);
-  end if  
-end principal;
+
+-- ojasoda asjdas dapsod adk
+
+procedure LoopDemo is
+
+   Index, Count : INTEGER;
+
+begin
+   Index = 1;
+   loop                            
+   -- This is the simplest loop
+      Put("Index =");
+      Put(Index);
+      Index := Index + 1;
+      exit when Index = 5;
+   end loop;
+
+   Index = 1;
+   loop                           
+   -- Another simplest loop
+      Put("Index =");
+      Put(Index);
+      Index := Index + 1;
+      if Index = 5 then 
+         Index := 3; 
+      end if;
+   end loop;
+
+   Count := 1;
+   while Count 5            
+   -- This is the while loop
+      Put("Count =");
+      Put(Count);
+      Count := Count + 1;
+   end loop;
+
+   for Index in 1..4 loop          
+   -- This is the for loop
+      Put("Doubled index =");
+      Put(2 * Index)
+   end loop;
+
+   for Index in 7..11 loop         
+   -- An empty loop
+      null;
+   end loop;
+
+end LoopDemo;
+
