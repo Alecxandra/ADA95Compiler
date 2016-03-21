@@ -287,21 +287,19 @@ expression ::=  ID:id
                       {: RESULT= new AssignmentStatementError(e2right,e2left,"ERROR: no se esperaba < = >"); System.err.println("ERROR: no se esperaba < = >"); :}
                       |ID:e1 ASSIGN expression:e3  error:e4
                       {: RESULT= new AssignmentStatementError(e4right,e4left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
-                      |declare_expre:e1 ASSIGN expression:e3 error:e4
-                      {: RESULT= new AssignmentStatementError(e4right,e4left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
  ;
 
  io_expre ::= GET LPAR ID:e1 RPAR SEMICOLON
               {: RESULT= new Get(new Identifier(e1));:}
               | PUT LPAR expression:e1 RPAR SEMICOLON
               {: RESULT= new Put(e1);:}
-              | PUT LPAR expression:e1 error:e2
+              | PUT LPAR expression:e1 error:e2 SEMICOLON
               {: RESULT= new PutError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
-              |GET LPAR ID:e1 error:e2
+              |GET LPAR ID:e1 error:e2 SEMICOLON
               {: RESULT= new GetError(e2right,e2left,"ERROR: falta parentesis"); System.err.println("ERROR: falta parentesis"); :}
-              |GET LPAR error:e1 RPAR
+              |GET LPAR error:e1 RPAR SEMICOLON
               {: RESULT= new GetError(e1right,e1left,"ERROR: se esperaba <identificador>"); System.err.println("ERROR: se esperaba <identificador>");:}
-              |PUT LPAR error:e1 RPAR
+              |PUT LPAR error:e1 RPAR SEMICOLON
               {: RESULT= new PutError(e1right,e1left,"ERROR: expresion no valida"); System.err.println("ERROR: expresion no valida"); :}
               |GET LPAR ID:e1 RPAR error:e2
               {: RESULT= new GetError(e2right,e2left,"ERROR: se esperaba <;>"); System.err.println("ERROR: se esperaba <;>");:}
