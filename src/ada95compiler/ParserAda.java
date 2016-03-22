@@ -1146,7 +1146,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
+		 RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("program_init",27, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -1170,7 +1170,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
+		 RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("program_init",27, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -1194,7 +1194,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		RESULT= new ProgramInitError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; 
+		RESULT= new ProgramInitError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("program_init",27, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -1215,7 +1215,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		RESULT= new ProgramInitError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");
+		RESULT= new ProgramInitError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>",e4,e3); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("program_init",27, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2148,7 +2148,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if");
+		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2166,7 +2166,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3left+" || "+"if sin then");
+		 RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"if sin then",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3left+" || "+"if sin then");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2202,7 +2202,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		ElsifStatements e3 = (ElsifStatements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");
+		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2223,7 +2223,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		ElsifStatements e3 = (ElsifStatements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then");
+		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2259,7 +2259,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e3 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if"); 
+		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2280,7 +2280,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e3 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); 
+		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2322,7 +2322,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");
+		 RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-9)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2346,7 +2346,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then");
+		 RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-9)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2364,7 +2364,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e3 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>");
+		 RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2385,7 +2385,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e4 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");
+		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-7)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2406,7 +2406,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e4 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");
+		 RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2430,7 +2430,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>");
+		 RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-9)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2481,7 +2481,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"));  
+		RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then",e2));  
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("elsif_statement",14, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
@@ -2497,7 +2497,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif")); 
+		 RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2)); 
                      System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("elsif_statement",14, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
@@ -2519,7 +2519,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		ElsifStatements e4 = (ElsifStatements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then"));
+		e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then",e2));
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("elsif_statement",14, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
@@ -2538,7 +2538,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		ElsifStatements e3 = (ElsifStatements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"));
+		 e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2));
                      System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("elsif_statement",14, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
@@ -2569,7 +2569,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); 
+		RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2587,7 +2587,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e2 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); 
+		RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2605,7 +2605,7 @@ class CUP$ParserAda$actions {
 		int e3left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e3right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e3 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ");
+		 RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("while_statement",15, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-6)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2671,7 +2671,7 @@ class CUP$ParserAda$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new LoopStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ");
+		 RESULT= new LoopStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ",e1); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("loop_statement",16, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-4)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2716,7 +2716,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ");
+		 RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ",e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("for_statement",18, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2740,7 +2740,7 @@ class CUP$ParserAda$actions {
 		int e4left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).left;
 		int e4right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).right;
 		Statements e4 = (Statements)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-3)).value;
-		 RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); 
+		 RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop",e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("for_statement",18, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2812,7 +2812,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
+		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2836,7 +2836,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
+		 RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2863,7 +2863,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2887,7 +2887,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2911,7 +2911,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); 
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2932,7 +2932,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Object e5 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");
+		RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>",e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2956,7 +2956,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos") ; 
+		 RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -2983,7 +2983,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ;
+		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ;
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-11)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3007,7 +3007,7 @@ class CUP$ParserAda$actions {
 		int e5left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e5right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e5 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; 
+		RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("procedure_statement",20, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-8)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3187,7 +3187,7 @@ class CUP$ParserAda$actions {
 		int e7left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e7right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e7 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ");
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-13)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3214,7 +3214,7 @@ class CUP$ParserAda$actions {
 		int e7left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).left;
 		int e7right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()).right;
 		Object e7 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.peek()).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>");
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3244,7 +3244,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e6 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is");
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is");
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-13)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3271,7 +3271,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e6 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is") ;
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is") ;
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3298,7 +3298,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); 
+		 RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>",e4,e5); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-13)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3322,7 +3322,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		Object e6 = (Object)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); 
+		 RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>",e4,e5); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3349,7 +3349,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e6 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos") ; 
+		 RESULT= new FunctionStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos",e4,e5); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos") ; 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-13)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3379,7 +3379,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e6 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); 
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-13)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;
@@ -3406,7 +3406,7 @@ class CUP$ParserAda$actions {
 		int e6left = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).left;
 		int e6right = ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).right;
 		String e6 = (String)((java_cup.runtime.Symbol) CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-1)).value;
-		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); 
+		 RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); 
               CUP$ParserAda$result = parser.getSymbolFactory().newSymbol("function_statement",22, ((java_cup.runtime.Symbol)CUP$ParserAda$stack.elementAt(CUP$ParserAda$top-10)), ((java_cup.runtime.Symbol)CUP$ParserAda$stack.peek()), RESULT);
             }
           return CUP$ParserAda$result;

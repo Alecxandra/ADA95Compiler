@@ -17,10 +17,13 @@ public class ProgramInitError extends ProgramInit{
     public int line;
     public String message;
 
-    public ProgramInitError(int column, int line, String message) {
+    
+    public ProgramInitError(int column, int line, String message,Statements sta, Declarations declare) {
         this.column = column;
         this.line = line;
         this.message = message;
+        this.stas=sta;
+        this.declarations=declare;
     }
 @Override
     public void accept(ParentTraverse pt) {

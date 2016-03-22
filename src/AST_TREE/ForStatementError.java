@@ -17,10 +17,11 @@ public class ForStatementError extends ForStatement{
     public int line;
     public String message;
 
-    public ForStatementError(int column, int line, String message) {
+    public ForStatementError(int column, int line, String message,Statements sta) {
         this.column = column;
         this.line = line;
         this.message = message;
+        this.sta= sta;
     }
     
      @Override

@@ -17,10 +17,11 @@ public class LoopStatementError extends LoopStatement{
     public int line;
     public String message;
 
-    public LoopStatementError(int column, int line, String message) {
+    public LoopStatementError(int column, int line, String message, Statements sta) {
         this.column = column;
         this.line = line;
         this.message = message;
+        this.sta=sta;
     }
       @Override
     public void accept(ParentTraverse pt) {

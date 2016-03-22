@@ -4,10 +4,10 @@ procedure principal is
  function x(e: in integer; z: out float) return integer is
   x: integer;
   begin
-   return 
+   return s;
   end x;
-
- procedure x is
+ 
+   procedure z is 
   t:integer;
   begin
   x:=(5+z);
@@ -26,8 +26,9 @@ procedure principal is
       else
       x:=67;
     end if;
- end x;
- 
+ end z;
+
+
  begin
     while x = (y+z) loop
       h(x,y,g,h);
@@ -40,10 +41,10 @@ procedure principal is
 
     for h in 10..20 loop
       put("d,f,g");
-    end loop;
+    end loop
 
 
 
   put("hola");
 
-end principal;
+end principal

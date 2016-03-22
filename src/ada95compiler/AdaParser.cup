@@ -156,13 +156,13 @@ program ::= program_init:x
 program_init ::= PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
                  {: RESULT= new ProgramInit(new Identifier(e1),e3,e4,new Identifier(e5));:}
                  |PROCEDURE ID:e1  error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
+                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
                  |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
-                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
+                 {: RESULT= new ProgramInitError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
                  |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
-                 {:RESULT= new ProgramInitError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; :}
+                 {:RESULT= new ProgramInitError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e4,e3); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; :}
                  |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END error:e5 SEMICOLON
-                 {:RESULT= new ProgramInitError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");:}
+                 {:RESULT= new ProgramInitError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>",e4,e3); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");:}
 ;
 
 statements ::= statement:e1 statements:x
@@ -340,35 +340,35 @@ expression ::=  ID:id
  if_statement ::= IF expression:e1 THEN statements:e2 END IF SEMICOLON
                   {: RESULT =  new IfStatement(e1, e2); :} 
                   | IF error:e1 THEN statements:e2 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if");:}
+                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if");:}
                   | IF expression:e1 error:e3 statements:e2 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3left+" || "+"if sin then");:}
+                  {: RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"if sin then",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3left+" || "+"if sin then");:}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
                   {: RESULT =  new IfStatement(e1, e2, e3);  :}
                   |IF error:e1 THEN statements:e2 elsif_statement:e3 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");:}
+                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");:}
                   |IF expression:e1 error:e4 statements:e2 elsif_statement:e3 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then");:}
+                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then");:}
                   | IF expression:e1 THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
                   {: RESULT =  new IfStatement(e1, e2, e3); :}
                   | IF error:e1 THEN statements:e2 ELSE statements:e3 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if"); :}
+                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if"); :}
                   | IF expression:e1 error:e4 statements:e2 ELSE statements:e3 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); :}
+                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"if sin then"); :}
                   | IF expression:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
                   {: RESULT =  new IfStatement(e1, e2, e3, e4); :}
                   | IF error:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if"); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");:}
+                  {: RESULT= new IfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en if",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e1right+" , columna: "+e1right+" || "+"expresion no valida en if");:}
                   |IF expression:e1 error:e5 statements:e2 elsif_statement:e3  ELSE statements:e4 END IF SEMICOLON
-                  {: RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then");:} 
+                  {: RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"if sin then");:} 
                   |IF expression:e1 THEN statements:e2 END IF error:e3
-                  {: RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>");:}
+                  {: RESULT= new IfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;>");:}
                   |IF expression:e1 THEN statements:e2 elsif_statement:e3 END IF error:e4
-                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");:}
+                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");:}
                   |IF expression:e1 THEN statements:e2 ELSE statements:e3 END IF error:e4
-                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");:}
+                  {: RESULT= new IfStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>",e2,e3); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");:}
                   |IF expression:e1 THEN statements:e2 elsif_statement:e3  ELSE statements:e4 END IF error:e5
-                  {: RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>");:}
+                  {: RESULT= new IfStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>",e2,e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;>");:}
 ;
 
  elsif_statement ::= ELSIF expression:e1 THEN statements:e2 elsif_statement:e3
@@ -376,27 +376,27 @@ expression ::=  ID:id
                      | ELSIF expression:e1 THEN statements:e2
                      {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatement(e1,e2)); :}
                      | ELSIF expression:e1 error:e3 statements:e2
-                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"));  
+                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then",e2));  
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then");:}
                      | ELSIF error:e1 THEN statements:e2
-                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif")); 
+                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2)); 
                      System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); :}
                      | ELSIF expression:e1 error:e3 statements:e2 elsif_statement:e4
-                     {:e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then"));
+                     {:e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then",e2));
                      System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); :}
                      |ELSIF error:e1 THEN statements:e2 elsif_statement:e3
-                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"));
+                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2));
                      System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); :}
  ;
 
  while_statement ::= WHILE expression:e1 LOOP statements:e2 END LOOP SEMICOLON
                      {: RESULT =  new WhileStatement(e1, e2); :}
                      |WHILE error:e1 LOOP statements:e2 END LOOP SEMICOLON
-                     {:RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); :}
+                     {:RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); :}
                      |WHILE expression:e1 error:e3 statements:e2 END LOOP SEMICOLON
-                     {:RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); :}
+                     {:RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); :}
                      |WHILE expression:e1 LOOP statements:e2 END LOOP error:e3
-                     {: RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ");:}
+                     {: RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ");:}
  ;
 
  exit_statement ::= EXIT WHEN expression:e1 SEMICOLON
@@ -410,15 +410,15 @@ expression ::=  ID:id
  loop_statement ::= LOOP statements:e1 END LOOP SEMICOLON
                     {: RESULT =  new LoopStatement(e1); :}
                     |LOOP statements:e1 END LOOP error:e2
-                    {: RESULT= new LoopStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ");:}
+                    {: RESULT= new LoopStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ",e1); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba <;> ");:}
  ;
 
  for_statement ::= FOR ID:e1 IN expression:e2 RANK expression:e3 LOOP statements:e4 END LOOP SEMICOLON
                    {: RESULT =  new ForStatement(new Identifier(e1), e2, e3, e4); :} 
                    |FOR ID:e1 IN expression:e2 RANK expression:e3 LOOP statements:e4 END LOOP error:e5
-                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ");:}
+                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ",e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba <;> ");:}
                    |FOR ID:e1 IN expression:e2 RANK expression:e3 error:e5 statements:e4 END LOOP SEMICOLON
-                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); :}
+                   {: RESULT= new ForStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop",e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"for sin loop"); :}
  ;
 
  procedure_statement ::= PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
@@ -426,23 +426,23 @@ expression ::=  ID:id
                          | PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
                          {:RESULT = new ProcedureStatement(new Identifier(e1),e3,e4,new Identifier(e5));:}
                          | PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
-                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
+                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
                          | PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END ID:e5 error:e6
-                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
+                         {: RESULT= new ProcedureStatementError(e6right, e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <;> ");:}
                          |PROCEDURE ID:e1 LPAR params_list:e2 RPAR error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
                          |PROCEDURE ID:e1  error:e6 declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is "); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"procedure sin is ");:}
                          |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 END error:e6 SEMICOLON
-                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); :}
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba un <identificador>"); :}
                          |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 END error:e5 SEMICOLON
-                         {:RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>"); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");:}
+                         {:RESULT= new ProcedureStatementError(e5right,e5left,"ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>",e3,e4); System.err.println("ERROR: "+"linea: "+e5left+" , columna: "+e5right+" || "+"se esperaba un <identificador>");:}
                          |PROCEDURE ID:e1 LPAR error:e6 RPAR IS declarations:e3 BEGIN statements:e4 END ID:e5 SEMICOLON
-                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos") ; :}
+                         {: RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"parametros de procedure no validos") ; :}
                          |PROCEDURE ID:e1 LPAR params_list:e2 RPAR IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
-                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ;:}
+                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ;:}
                          |PROCEDURE ID:e1  IS declarations:e3 BEGIN statements:e4 error:e6 ID:e5 SEMICOLON
-                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; :}
+                         {:RESULT= new ProcedureStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure",e3,e4); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"begin sin end en procedure") ; :}
  ;
 
  params_list ::=  variable_list:e1 COLON IN type:e2 
@@ -464,23 +464,23 @@ expression ::=  ID:id
                         |FUNCTION ID:e1 RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
                         {:RESULT= new FunctionStatement(new Identifier(e1),new Identifier(e6),e4,e5,e3);:}
                         |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END ID:e6 error:e7
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> "); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ");:}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;> ");:}
                         |FUNCTION ID:e1 RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END ID:e6 error:e7
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>");:}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"se esperaba <;>");:}
                         |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 error:e7 declarations:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is");:}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is");:}
                         |FUNCTION ID:e1 RETURN type:e3 error:e7 declarations:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is") ;:}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"function sin is") ;:}
                         |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END error:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); :}
+                        {: RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>",e4,e5); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); :}
                         |FUNCTION ID:e1 RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END error:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); :}
+                        {: RESULT= new FunctionStatementError(e6right,e6left,"ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>",e4,e5); System.err.println("ERROR: "+"linea: "+e6left+" , columna: "+e6right+" || "+"se esperaba <identificador>"); :}
                         |FUNCTION ID:e1 LPAR error:e2 RPAR RETURN type:e3 IS declarations:e4 BEGIN statements:e5 END ID:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos") ; :}
+                        {: RESULT= new FunctionStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos",e4,e5); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"parametros de function no validos") ; :}
                         |FUNCTION ID:e1 LPAR params_list:e2 RPAR RETURN type:e3 IS declarations:e4 BEGIN statements:e5 error:e7 ID:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); :}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); :}
                         |FUNCTION ID:e1 RETURN type:e3 IS declarations:e4 BEGIN statements:e5 error:e7 ID:e6 SEMICOLON
-                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); :}
+                        {: RESULT= new FunctionStatementError(e7right,e7left,"ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function",e4,e5); System.err.println("ERROR: "+"linea: "+e7left+" , columna: "+e7right+" || "+"begin sin end en function"); :}
 ;
 
  return_statement ::= RETURN expression:e1 SEMICOLON

@@ -16,10 +16,12 @@ public class ProcedureStatementError extends ProcedureStatement{
     public int line;
     public String message;
 
-    public ProcedureStatementError(int column, int line, String message) {
+    public ProcedureStatementError(int column, int line, String message, Declarations declare, Statements sta) {
         this.column = column;
         this.line = line;
         this.message = message;
+        this.presta=declare;
+        this.poststa=sta;
     }
     @Override
     public void accept(ParentTraverse pt) {

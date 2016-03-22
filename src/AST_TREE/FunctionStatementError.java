@@ -17,10 +17,12 @@ public class FunctionStatementError extends FunctionStatement{
     public int line;
     public String message;
 
-    public FunctionStatementError(int column, int line, String message) {
+    public FunctionStatementError(int column, int line, String message, Declarations declare, Statements sta) {
         this.column = column;
         this.line = line;
         this.message = message;
+        this.presta=declare;
+        this.poststa=sta;
     }
     
     @Override
