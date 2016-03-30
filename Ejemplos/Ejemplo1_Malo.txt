@@ -2,18 +2,18 @@
 -- Function using variable-sized array parameter.
 --
 procedure f2 is
-   function Max (Arr: in Integer) return Integer is
-      I: Integer;
+   function Max (Arr:  Integer) return Integer is
+      I : Integer;
    begin
       for djasd in 4..7 loop
          Put("Going through the first loop")
          Put(Index);
-      end loop;
+      end loop
       return TheMax;
    end Max;
 begin
    Put(S);
    Put(" ")
-   Put(a)
+   Put(a ;
    Put("ASD");
-end f2;
+end f2 

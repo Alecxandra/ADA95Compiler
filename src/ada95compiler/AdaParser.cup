@@ -300,7 +300,7 @@ expression ::=  ID:id
                       |ID:e1 ASSIGN error:e2 SEMICOLON
                       {: RESULT= new AssignmentStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"expresion no valida"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"expresion no valida"); :}
                       |ID:e1 EQUAL error:e2 expression:e3 SEMICOLON
-                      {: RESULT= new AssignmentStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"no se esperaba < = >"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"no se esperaba < = >"); :}
+                      {: RESULT= new AssignmentStatementError(e2right,e2left,"ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba < := >"); System.err.println("ERROR: "+"linea: "+e2left+" , columna: "+e2right+" || "+"se esperaba < := >"); :}
                       |ID:e1 ASSIGN expression:e3  error:e4
                       {: RESULT= new AssignmentStatementError(e4right,e4left,"ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>"); System.err.println("ERROR: "+"linea: "+e4left+" , columna: "+e4right+" || "+"se esperaba <;>");:}
  ;
