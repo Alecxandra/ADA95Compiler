@@ -12,24 +12,16 @@ import TRAVERSE_TREE.TypeTraverse;
  *
  * @author alecx
  */
-public class ProcedureStatementError extends ProcedureStatement{
-    public int column;
-    public int line;
-    public String message;
-
-    public ProcedureStatementError(int column, int line, String message, Declarations declare, Statements sta) {
-        this.column = column;
-        this.line = line;
-        this.message = message;
-        this.presta=declare;
-        this.poststa=sta;
-    }
+public class StringType extends Type{
     @Override
     public void accept(ParentTraverse pt) {
        pt.traverse(this);
     }
-    
      public void accept (TypeTraverse tt){
       tt.traverse(this);
+    }
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof StringType;
     }
 }

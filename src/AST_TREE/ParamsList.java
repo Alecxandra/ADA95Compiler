@@ -6,6 +6,7 @@
 package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
+import TRAVERSE_TREE.TypeTraverse;
 import java.util.ArrayList;
 
 /**
@@ -35,5 +36,8 @@ public class ParamsList {
     }
     public void accept(ParentTraverse pt) {
        pt.traverse(this);
+    }
+     public void accept (TypeTraverse tt){
+      tt.traverse(this);
     }
 }

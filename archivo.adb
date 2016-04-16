@@ -1,21 +1,22 @@
 procedure principal is
-    x,y,z   integer;
+    x,y,z  : integer;
+    --hola
     h :  boolean;
- function x(e: in integer z: out float) return integer is
+ function x(e: in integer; z: out float) return integer is
     x: integer;
    begin
    return s;
  end x;
  
- procedure z  
+ procedure z  is
     t:integer;
   begin
-    x =(5+z);
+    x :=(5%+z);
     z:= (5**10) +20;
-    funcion(h,x,t);
+    funcion(h,x,t)
     get(t);
 
-     if (x+20) <= 67 
+     if (x+20) <= 67 then
       put("hola mundo");
       
      elsif (x+5)= 20 then
@@ -37,12 +38,9 @@ procedure principal is
      put("x");
     end loop;
 
-    for h in 10..20 loop
-      put("d,f,g" ;
-    end loop
+    for i in 1..2+p(3,5) loop
+     put("hola");
+    end loop;  
+  put(x);
 
-
-
-  put("hola");
-
-end principal
+ end principal;

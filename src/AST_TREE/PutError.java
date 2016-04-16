@@ -6,6 +6,7 @@
 package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
+import TRAVERSE_TREE.TypeTraverse;
 
 /**
  *
@@ -27,5 +28,7 @@ public class PutError extends Put{
     public void accept(ParentTraverse pt) {
         pt.traverse(this);
     }
-    
+     public void accept (TypeTraverse tt){
+      tt.traverse(this);
+    }
 }

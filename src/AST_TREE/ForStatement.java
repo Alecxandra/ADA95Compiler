@@ -6,6 +6,7 @@
 package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
+import TRAVERSE_TREE.TypeTraverse;
 
 /**
  *
@@ -32,4 +33,7 @@ public class ForStatement extends Statement {
         pt.traverse(this);
     }
     
+     public void accept (TypeTraverse tt){
+      tt.traverse(this);
+    }
 }

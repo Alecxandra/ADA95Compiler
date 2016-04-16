@@ -6,6 +6,7 @@
 package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
+import TRAVERSE_TREE.TypeTraverse;
 
 /**
  *
@@ -14,5 +15,5 @@ import TRAVERSE_TREE.ParentTraverse;
 public abstract class IOStatement extends Statement{
    @Override
    public abstract void accept(ParentTraverse pt); 
-    
+   public abstract void accept(TypeTraverse tt); 
 }

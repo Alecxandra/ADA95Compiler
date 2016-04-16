@@ -6,6 +6,7 @@
 package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
+import TRAVERSE_TREE.TypeTraverse;
 
 /**
  *
@@ -17,7 +18,11 @@ public class FloatType  extends Type{
     public void accept(ParentTraverse pt) {
        pt.traverse(this);
     }
-
+    
+     public void accept (TypeTraverse tt){
+      tt.traverse(this);
+    }
+     
     @Override
     public boolean equals(Object o) {
         return o instanceof FloatType;
