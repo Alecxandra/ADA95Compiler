@@ -22,8 +22,8 @@ public class VTableNode extends SymbolTableNode{
     private int form;
     private int direction;
 
-    public VTableNode(Type type, boolean Param, int form, int direction, String Id) {
-        super(Id);
+    public VTableNode(Type type, boolean Param, int form, int direction, String Id, String Scope) {
+        super(Id, Scope);
         this.type = type;
         this.Param = Param;
         this.form = form;

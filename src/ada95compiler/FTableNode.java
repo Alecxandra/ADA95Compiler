@@ -16,8 +16,8 @@ public class FTableNode extends SymbolTableNode{
     private Type return_type;
     private ArrayList<ParamsTableNode> params;
 
-    public FTableNode(Type return_type, String Id) {
-        super(Id);
+    public FTableNode(Type return_type, String Id, String Scope) {
+        super(Id,Scope);
         this.return_type = return_type;
         this.params= new ArrayList();
     }

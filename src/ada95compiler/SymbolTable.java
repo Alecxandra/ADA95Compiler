@@ -45,9 +45,9 @@ public class SymbolTable {
       
     }
     
-    public SymbolTableNode findSymbol(String id){
+    public SymbolTableNode findSymbol(String id, String Scope){
         for (int i = 0; i < symbolList.size(); i++) {
-            if( symbolList.get(i).getId().equals(id)){
+            if( symbolList.get(i).getId().equals(id) && symbolList.get(i).getScope().equals(Scope)){
               return symbolList.get(i);
             }
         }
@@ -55,7 +55,7 @@ public class SymbolTable {
     }
     
     public boolean addSymbol(SymbolTableNode symbol){
-       if(findSymbol(symbol.getId()) != null){
+       if(findSymbol(symbol.getId(), symbol.getScope()) != null){
          return false;
        }
        symbolList.add(symbol);

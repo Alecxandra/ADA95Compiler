@@ -11,9 +11,11 @@ package ada95compiler;
  */
 public abstract class SymbolTableNode {
     protected String Id;
+    protected String Scope;
 
-    public SymbolTableNode(String Id) {
+    public SymbolTableNode(String Id, String Scope) {
         this.Id = Id;
+        this.Scope= Scope;
     }
 
     public String getId() {
@@ -22,6 +24,14 @@ public abstract class SymbolTableNode {
 
     public void setId(String Id) {
         this.Id = Id;
+    }
+
+    public String getScope() {
+        return Scope;
+    }
+
+    public void setScope(String Scope) {
+        this.Scope = Scope;
     }
     
     
