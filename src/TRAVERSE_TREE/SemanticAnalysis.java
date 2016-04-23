@@ -225,6 +225,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(WhileStatement x) {
+        Type type = x.expre.accept(this);
       if(!(x.expre instanceof BooleanExpression)){
          print_error("La condicion del while no es una expresion boleana",0,0);
       }

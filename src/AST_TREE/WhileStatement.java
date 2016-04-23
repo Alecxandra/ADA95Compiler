@@ -30,7 +30,8 @@ public class WhileStatement extends Statement {
         pt.traverse(this);
     }
    
-    @Override
+    
+    
      public Type accept (TypeTraverse tt){
       return tt.traverse(this);
     }
