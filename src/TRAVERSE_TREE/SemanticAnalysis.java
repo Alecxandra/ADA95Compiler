@@ -6,6 +6,8 @@
 package TRAVERSE_TREE;
 
 import AST_TREE.*;
+import ada95compiler.FTableNode;
+import ada95compiler.SymbolTable;
 
 
 /**
@@ -13,7 +15,23 @@ import AST_TREE.*;
  * @author alecx
  */
 public class SemanticAnalysis implements TypeTraverse{
+   private SymbolTable symboltable;
+   private boolean has_error;
 
+    public SemanticAnalysis(SymbolTable symboltable) {
+        this.symboltable = symboltable;
+        has_error=false;
+    }
+    
+    public void print_error(String message, int line, int column){
+        System.err.println("ERROR: "+message+"en la linea:"+ line+", columna: "+column);
+        has_error=true;
+    }
+    
+    public boolean haserror(){
+    return has_error;
+    }
+ 
     
     @Override
     public Type traverse(Type x) {
@@ -272,7 +290,24 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ProgramInit x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!x.preid.equals(x.postid)){
+            print_error("Los identificadores del procedimiento no coinciden",0,0);
+        }
+        
+        FTableNode node = new FTableNode(new NullType(),x.preid.id,""); 
+        symboltable.addSymbol(node);
+        
+        Declarations declarations = x.declarations;
+        for (int i = 0; i < declarations.size(); i++) {
+            declarations.elementAt(i).accept(this);
+        }
+        
+        Statements sta = x.stas;
+        
+        for (int i = 0; i < sta.size(); i++) {
+            sta.elementAt(i).accept(this);
+        }
+     return new NullType();   
     }
 
     @Override

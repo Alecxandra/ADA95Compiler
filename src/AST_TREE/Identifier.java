@@ -7,6 +7,7 @@ package AST_TREE;
 
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
+import java.util.Objects;
 
 /**
  *
@@ -29,4 +30,17 @@ public class Identifier extends Expression{
      public void accept (TypeTraverse tt){
       tt.traverse(this);
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+      if ( obj instanceof Identifier){
+        return this.id.equals(((Identifier)obj).id);
+      
+      }else{
+       return false;
+      }
+    }
+     
+     
 }
