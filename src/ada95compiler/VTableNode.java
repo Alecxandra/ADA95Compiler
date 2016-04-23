@@ -11,10 +11,10 @@ import AST_TREE.Type;
  *
  * @author alecx
  */
-
-// IN     - #1
-// OUT    - #2
-// INOUT  - #3
+//no param -#0
+// IN      - #1
+// OUT     - #2
+// INOUT   - #3
 
 public class VTableNode extends SymbolTableNode{
     private Type type; 
