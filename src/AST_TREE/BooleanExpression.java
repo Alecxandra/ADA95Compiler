@@ -15,5 +15,6 @@ import TRAVERSE_TREE.TypeTraverse;
 public abstract class BooleanExpression extends Expression{
 @Override
 public abstract void accept(ParentTraverse pt);
+@Override
 public abstract Type accept(TypeTraverse tt);    
 }

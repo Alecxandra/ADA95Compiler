@@ -12,22 +12,19 @@ import TRAVERSE_TREE.TypeTraverse;
  *
  * @author alecx
  */
-public class LessEqual extends BooleanExpression{
+public class ErrorType extends Type{
 
-    public Expression exp1;
-    public Expression exp2;
-
-    public LessEqual(Expression exp1, Expression exp2) {
-        this.exp1 = exp1;
-        this.exp2 = exp2;
-    }
-    
     @Override
     public void accept(ParentTraverse pt) {
         pt.traverse(this);
     }
-     public Type accept (TypeTraverse tt){
-      return tt.traverse(this);
+
+    @Override
+    public Type accept(TypeTraverse tt) {
+        return tt.traverse(this);
     }
-    
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ErrorType;
+    }
 }

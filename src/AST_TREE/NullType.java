@@ -23,7 +23,7 @@ public class NullType extends Type{
         return o instanceof NullType;
     }
     
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
 }

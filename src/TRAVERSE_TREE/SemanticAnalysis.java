@@ -95,82 +95,304 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Add x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1= x.exp1.accept(this);
+     Type type2= x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType){
+      print_error("no se permite sumar expresiones de tipo boolean",0,0);
+      return new ErrorType();
+     }
+     
+     if(type1 instanceof StringType){
+      print_error("no se permite sumar expresiones de string",0,0);
+      return new ErrorType();
+     }
+     
+     if(!(type1.equals(type2))){
+      print_error("no se permite sumar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      return new ErrorType();
+     }
+     return type1;
     }
 
     @Override
     public Type traverse(Min x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1= x.exp1.accept(this);
+     Type type2= x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType){
+       print_error("no se permite restar expresiones de tipo boolean",0,0);
+       return new ErrorType();
+     }
+     
+     if(type1 instanceof StringType){
+      print_error("no se permite restar expresiones de string",0,0);
+      return new ErrorType();
+     }
+     
+     if(!(type1.equals(type2))){
+      print_error("no se permite restar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      return new ErrorType();
+     }
+     return type1;
     }
+    
 
     @Override
     public Type traverse(Mul x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1= x.exp1.accept(this);
+     Type type2= x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType){
+      print_error("no se permite multiplicar expresiones de tipo boolean",0,0);
+      return new ErrorType();
+     }
+     
+     if(type1 instanceof StringType){
+      print_error("no se permite multiplicar expresiones de string",0,0);
+      return new ErrorType();
+     }
+     
+     if(!(type1.equals(type2))){
+      print_error("no se permite multiplicar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      return new ErrorType();
+     }
+     return type1;
     }
 
     @Override
     public Type traverse(Div x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Type type1= x.exp1.accept(this);
+       Type type2= x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType){
+      print_error("no se permite dividir expresiones de tipo boolean",0,0);
+      return new ErrorType();
+     }
+     
+     if(type1 instanceof StringType){
+      print_error("no se permite dividir expresiones de string",0,0);
+      return new ErrorType();
+     }
+     
+     if(!(type1.equals(type2))){
+      print_error("no se permite dividir expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      return new ErrorType();
+     }
+     return type1;
     }
 
     @Override
     public Type traverse(Power x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Type type1= x.exp1.accept(this);
+       Type type2= x.exp1.accept(this);
+       
+       if(type1 instanceof BooleanType || type2 instanceof BooleanType){
+        print_error("no se puede realizar la operacion potencia con expresiones booleanas",0,0);
+        return new ErrorType();
+       }
+       if(type1 instanceof StringType || type2 instanceof StringType){
+        print_error("no se puede realizar la operacion potencia con strings",0,0);
+        return new ErrorType();
+       }
+       
+       if(type1 instanceof FloatType || type2 instanceof FloatType){
+        return new FloatType();
+       }
+       return new IntegerType();
     }
 
     @Override
     public Type traverse(Umin x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type= x.exp.accept(this);
+     
+      if(type instanceof StringType){
+       print_error("operando no puede ser String",0,0);
+       return new ErrorType();
+      }
+      
+      if(type instanceof BooleanType){
+       print_error("operando no puede ser boolean",0,0);
+       return new ErrorType();
+      }
+      return type;
     }
 
     @Override
     public Type traverse(BooleanExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof LessEqual){
+          return ((LessEqual)x).accept(this);
+        }else if(x instanceof GreaterEqual){
+          return ((GreaterEqual)x).accept(this);
+        }else if(x instanceof Distinct){
+          return ((Distinct)x).accept(this);
+        }else if(x instanceof Greater){
+          return ((Greater)x).accept(this);
+        }else if(x instanceof Less){
+         return ((Less)x).accept(this);
+        }else if(x instanceof Equal){
+         return ((Equal)x).accept(this);
+        }else{
+          return new ErrorType();  
+        }
+       
     }
 
     @Override
     public Type traverse(LessEqual x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+        
+        if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+        if(type1 instanceof BooleanType || type2 instanceof BooleanType){
+          print_error("no se pueden comparar booleans",0,0);
+          return new ErrorType();
+        }
+        if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" <= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType(); 
     }
 
     @Override
     public Type traverse(GreaterEqual x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+        
+        if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+        if(type1 instanceof BooleanType || type2 instanceof BooleanType){
+          print_error("no se pueden comparar booleans",0,0);
+          return new ErrorType();
+        }
+        if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" >= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType(); 
     }
 
     @Override
     public Type traverse(Distinct x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+      if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+      
+     if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" /= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType();   
     }
 
     @Override
     public Type traverse(Greater x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+        
+        if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+        if(type1 instanceof BooleanType || type2 instanceof BooleanType){
+          print_error("no se pueden comparar booleans",0,0);
+          return new ErrorType();
+        }
+        if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" > "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType();
     }
 
     @Override
     public Type traverse(Less x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+        
+        if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+        if(type1 instanceof BooleanType || type2 instanceof BooleanType){
+          print_error("no se pueden comparar booleans",0,0);
+          return new ErrorType();
+        }
+        if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" < "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType();
     }
 
     @Override
     public Type traverse(Equal x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         Type type1 = x.exp1.accept(this);
+        Type type2= x.exp2.accept(this);
+        
+        if(type1 instanceof StringType || type2 instanceof StringType){
+          print_error("no se pueden comparar strings",0,0);
+          return new ErrorType();
+        }
+        if(!type1.equals(type2)){
+          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" = "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",0,0);
+          return new ErrorType();
+        }
+        
+        return new BooleanType();
     }
 
     @Override
     public Type traverse(And x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1 = x.exp1.accept(this);
+     Type type2 = x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType && type2 instanceof BooleanType){
+      return new BooleanType();
+     }else{
+      print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" and "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",0,0);
+      return new ErrorType();
+     }
     }
 
     @Override
     public Type traverse(Or x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1 = x.exp1.accept(this);
+     Type type2 = x.exp2.accept(this);
+     
+     if(type1 instanceof BooleanType && type2 instanceof BooleanType){
+      return new BooleanType();
+     }else{
+      print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" or "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",0,0);
+      return new ErrorType();
+     }
+     
     }
 
     @Override
     public Type traverse(Not x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     Type type1 = x.exp.accept(this);
+     
+     if(type1 instanceof BooleanType){
+      return new BooleanType();
+     }else{
+      print_error("no se puede negar el tipo "+type1.getClass().getSimpleName().replaceAll("Type", ""),0,0);
+      return new ErrorType();
+     }
     }
 
     @Override
@@ -226,7 +448,7 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(WhileStatement x) {
         Type type = x.expre.accept(this);
-      if(!(x.expre instanceof BooleanExpression)){
+      if(!(type instanceof BooleanType)){
          print_error("La condicion del while no es una expresion boleana",0,0);
       }
         for (int i = 0; i < x.sta.size(); i++) {

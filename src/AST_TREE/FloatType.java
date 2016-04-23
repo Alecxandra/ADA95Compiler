@@ -19,8 +19,8 @@ public class FloatType  extends Type{
        pt.traverse(this);
     }
     
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
      
     @Override
