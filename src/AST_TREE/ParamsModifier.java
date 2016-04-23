@@ -14,5 +14,5 @@ import TRAVERSE_TREE.TypeTraverse;
  */
 public abstract class ParamsModifier {
     public abstract void accept(ParentTraverse pt);
-    public abstract void accept(TypeTraverse tt);
+    public abstract Type accept(TypeTraverse tt);
 }

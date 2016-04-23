@@ -15,5 +15,5 @@ import TRAVERSE_TREE.TypeTraverse;
 public abstract class Expression extends Statement{
     
     public abstract void accept(ParentTraverse pt);
-    public abstract void accept(TypeTraverse tt);
+    public abstract Type accept(TypeTraverse tt);
 }

@@ -15,5 +15,6 @@ import TRAVERSE_TREE.TypeTraverse;
 public abstract class LogicalExpression extends Expression{
     @Override
     public abstract void accept(ParentTraverse pt);
-    public abstract void accept(TypeTraverse tt);
+    @Override
+    public abstract Type accept(TypeTraverse tt);
 }

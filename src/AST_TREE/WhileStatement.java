@@ -29,7 +29,9 @@ public class WhileStatement extends Statement {
     public void accept(ParentTraverse pt) {
         pt.traverse(this);
     }
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+   
+    @Override
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
 }

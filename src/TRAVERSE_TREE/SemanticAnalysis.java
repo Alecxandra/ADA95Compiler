@@ -225,7 +225,13 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(WhileStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      if(!(x.expre instanceof BooleanExpression)){
+         print_error("La condicion del while no es una expresion boleana",0,0);
+      }
+        for (int i = 0; i < x.sta.size(); i++) {
+            x.sta.elementAt(i).accept(this);
+        }
+      return new NullType(); 
     }
 
     @Override
