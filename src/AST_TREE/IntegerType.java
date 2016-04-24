@@ -24,8 +24,8 @@ public class IntegerType extends Type {
         return o instanceof IntegerType;
     }
     
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
     
     

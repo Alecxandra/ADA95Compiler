@@ -55,27 +55,47 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(TrueType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new BooleanType();
     }
 
     @Override
     public Type traverse(FalseType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      return new BooleanType();  
     }
 
     @Override
     public Type traverse(FloatLiteral x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new FloatType();
     }
 
     @Override
     public Type traverse(LogicalExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof And){
+         return ((And)x).accept(this);
+        }else if(x instanceof Or){
+         return ((Or)x).accept(this);
+        }else if(x instanceof Not){
+         return ((Not)x).accept(this);
+        }else if(x instanceof TrueType){
+         return ((TrueType)x).accept(this);
+        }else if(x instanceof FalseType){
+        return ((FalseType)x).accept(this);
+        }else{
+        return new ErrorType();
+        }
     }
 
     @Override
     public Type traverse(LiteralExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof FloatLiteral){
+          return ((FloatLiteral)x).accept(this);
+        }else if(x instanceof IntegerLiteral){
+         return ((IntegerLiteral)x).accept(this);
+        }else if(x instanceof StringLiteral){ 
+          return ((IntegerLiteral)x).accept(this);
+        }else{
+         return new ErrorType();
+        }
     }
 
     @Override
@@ -85,12 +105,42 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Expression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      if(x instanceof Identifier){
+        return ((Identifier)x).accept(this);  
+      }else if(x instanceof LiteralExpression){
+       return ((LiteralExpression)x).accept(this);
+      }else if(x instanceof ArithmeticExpression){
+       return ((ArithmeticExpression)x).accept(this);
+      }else if(x instanceof Expression){
+       return ((Expression)x).accept(this);
+      }else if(x instanceof BooleanExpression){
+       return ((BooleanExpression)x).accept(this);
+      }else if(x instanceof LogicalExpression){
+       return ((LogicalExpression)x).accept(this);
+      }else if(x instanceof FunctionCall){
+       return ((FunctionCall)x).accept(this);   
+      }else{
+       return new ErrorType();
+      }  
     }
 
     @Override
     public Type traverse(ArithmeticExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof Add){
+        return ((Add)x).accept(this);  
+      }else if(x instanceof Min){
+       return ((Min)x).accept(this);
+      }else if(x instanceof Mul){
+       return ((Mul)x).accept(this);
+      }else if(x instanceof Div){
+       return ((Div)x).accept(this);
+      }else if(x instanceof Power){
+       return ((Power)x).accept(this);
+      }else if(x instanceof Umin){
+       return ((Umin)x).accept(this);   
+      }else{
+       return new ErrorType();
+      }
     }
 
     @Override
@@ -384,7 +434,7 @@ public class SemanticAnalysis implements TypeTraverse{
     }
 
     @Override
-    public Type traverse(Not x) {
+    public Type traverse(Not x)  {
      Type type1 = x.exp.accept(this);
      
      if(type1 instanceof BooleanType){
@@ -622,6 +672,31 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(NullType x) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Type traverse(Statement x) {
+      if(x instanceof Expression){
+        return ((Expression)x).accept(this);  
+      }else if(x instanceof AssignmentStatement){
+       return ((AssignmentStatement)x).accept(this);
+      }else if(x instanceof IOStatement){
+       return ((IOStatement)x).accept(this);
+      }else if(x instanceof IfStatement){
+       return ((IfStatement)x).accept(this);
+      }else if(x instanceof WhileStatement){
+       return ((WhileStatement)x).accept(this);
+      }else if(x instanceof ExitStatement){
+       return ((ExitStatement)x).accept(this);
+      }else if(x instanceof LoopStatement){
+       return ((LoopStatement)x).accept(this);
+      }else if(x instanceof ForStatement){
+       return ((ForStatement)x).accept(this);
+      }else if(x instanceof ReturnStatement){
+       return ((ReturnStatement)x).accept(this);   
+      }else{
+       return new ErrorType();
+      }
     }
     
 }

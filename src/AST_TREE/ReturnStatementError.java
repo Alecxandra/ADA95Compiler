@@ -28,7 +28,7 @@ public class ReturnStatementError extends ReturnStatement{
     public void accept(ParentTraverse pt) {
        pt.traverse(this);
     }
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
 }

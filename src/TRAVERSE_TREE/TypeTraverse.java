@@ -82,4 +82,5 @@ public interface TypeTraverse {
     public Type traverse(ProgramInitError x);
     public Type traverse(StringType x);
     public Type traverse(NullType x);
+    public Type traverse(Statement x);
 }

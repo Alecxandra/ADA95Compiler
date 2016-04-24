@@ -81,4 +81,5 @@ public interface ParentTraverse {
     public void traverse(ProgramInitError x);
     public void traverse(StringType x);
     public void traverse(NullType x);
+    public void traverse(Statement x);
 }

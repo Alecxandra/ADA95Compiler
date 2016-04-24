@@ -26,7 +26,7 @@ public class Out extends ParamsModifier{
        pt.traverse(this);
     }
     
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
 }
