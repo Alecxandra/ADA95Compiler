@@ -15,32 +15,10 @@ import AST_TREE.Type;
 // IN     - #1
 // OUT    - #2
 // INOUT  - #3
-public class ParamsTableNode extends SymbolTableNode{
-    private Type type;
-    private int form;
+public class ParamsTableNode extends VTableNode{
 
-   
-    public ParamsTableNode(Type type, int form, String id, String Scope) {
-        super(id,Scope);
-        this.type = type;
-        this.form = form;
+    public ParamsTableNode(Type type, int form, int direction, String Id, String Scope) {
+        super(type, form, direction, Id, Scope);
     }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public int getForm() {
-        return form;
-    }
-
-    public void setForm(int form) {
-        this.form = form;
-    }
-    
     
 }

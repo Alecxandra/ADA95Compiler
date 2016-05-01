@@ -17,15 +17,13 @@ import AST_TREE.Type;
 // INOUT   - #3
 
 public class VTableNode extends SymbolTableNode{
-    private Type type; 
-    private boolean Param;
+    private Type type;
     private int form;
     private int direction;
 
-    public VTableNode(Type type, boolean Param, int form, int direction, String Id, String Scope) {
+    public VTableNode(Type type, int form, int direction, String Id, String Scope) {
         super(Id, Scope);
         this.type = type;
-        this.Param = Param;
         this.form = form;
         this.direction = direction;
     }
@@ -46,13 +44,7 @@ public class VTableNode extends SymbolTableNode{
         this.type = type;
     }
 
-    public boolean isParam() {
-        return Param;
-    }
-
-    public void setParam(boolean Param) {
-        this.Param = Param;
-    }
+    
 
     public int getForm() {
         return form;

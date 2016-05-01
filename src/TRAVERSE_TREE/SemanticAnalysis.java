@@ -463,7 +463,7 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(DeclareStatement x) {
         for (int i = 0; i < x.list.size(); i++) {
-            VTableNode node = new VTableNode(x.type,false,0,0,x.list.elementAt(i).id,new String(this.scope));
+            VTableNode node = new VTableNode(x.type,0,0,x.list.elementAt(i).id,new String(this.scope));
             if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.list.elementAt(i).id+"ya esta declarado en este ámbito",0,0);          
             }     
@@ -628,34 +628,39 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                 In param= (In)x.params.elementAt(i);
                   for (int j = 0; j < param.list.size(); j++) {
-                      ParamsTableNode paramnode = new ParamsTableNode(param.type,1,param.list.elementAt(i).id,current_scope);
-                      node.Add(paramnode);
-                       
+                      ParamsTableNode paramnode = new ParamsTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
+                      
                       if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
-                       }  
+                       }else{
+                       node.Add(paramnode);
+                      }  
                   }
                   
             }else if(x.params.elementAt(i) instanceof Out){
                 
                  Out param= (Out)x.params.elementAt(i);
                  for (int j = 0; j < param.list.size(); j++) {
-                     ParamsTableNode paramnode= new ParamsTableNode(param.type,2,param.list.elementAt(i).id,current_scope);
-                     node.Add(paramnode);
+                     ParamsTableNode paramnode= new ParamsTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
+                     
                      
                      if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
-                       } 
+                      }else{
+                       node.Add(paramnode);   
+                     } 
                   }
             }else if(x.params.elementAt(i) instanceof InOut){
                
                 InOut param= (InOut)x.params.elementAt(i);
                 for (int j = 0; j < param.list.size(); j++) {
-                      ParamsTableNode paramnode=new ParamsTableNode(param.type,3,param.list.elementAt(i).id,current_scope); 
-                      node.Add(paramnode);
+                      ParamsTableNode paramnode=new ParamsTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
+                     
                      if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
-                       } 
+                     }else{
+                       node.Add(paramnode);
+                     } 
                   }
             }
         }
