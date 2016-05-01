@@ -47,7 +47,7 @@ public class SymbolTable {
     
     public SymbolTableNode findSymbol(String id, String Scope){
         for (int i = 0; i < symbolList.size(); i++) {
-            if( symbolList.get(i).getId().equals(id) && symbolList.get(i).getScope().equals(Scope)){
+            if( symbolList.get(i).getId().equals(id) && Scope.startsWith(symbolList.get(i).getScope())){
               return symbolList.get(i);
             }
         }

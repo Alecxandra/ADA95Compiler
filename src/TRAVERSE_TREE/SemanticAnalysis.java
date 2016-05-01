@@ -7,7 +7,10 @@ package TRAVERSE_TREE;
 
 import AST_TREE.*;
 import ada95compiler.FTableNode;
+import ada95compiler.ParamsTableNode;
+import ada95compiler.Scope;
 import ada95compiler.SymbolTable;
+import ada95compiler.VTableNode;
 
 
 /**
@@ -17,10 +20,12 @@ import ada95compiler.SymbolTable;
 public class SemanticAnalysis implements TypeTraverse{
    private SymbolTable symboltable;
    private boolean has_error;
+   private String scope;
 
     public SemanticAnalysis(SymbolTable symboltable) {
         this.symboltable = symboltable;
         has_error=false;
+        scope="";
     }
     
     public void print_error(String message, int line, int column){
@@ -457,7 +462,13 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(DeclareStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < x.list.size(); i++) {
+            VTableNode node = new VTableNode(x.type,false,0,0,x.list.elementAt(i).id,new String(this.scope));
+            if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.list.elementAt(i).id+"ya esta declarado en este ámbito",0,0);          
+            }     
+        }
+       return new NullType();
     }
 
     @Override
@@ -554,12 +565,66 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(FunctionStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (x.preid.id.equals(x.postid.id)) {
+            print_error("Los identificadores de la función no coinciden",0,0);
+        }
+        String current_scope= new String(this.scope+Scope.getNewScope());
+        this.scope= new String(current_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id,current_scope);
+        for (int i = 0; i < x.params.size(); i++) {
+            if (x.params.elementAt(i) instanceof In) {
+                
+                In param= (In)x.params.elementAt(i);
+                  for (int j = 0; j < param.list.size(); j++) {
+                      ParamsTableNode paramnode = new ParamsTableNode(param.type,1,param.list.elementAt(i).id,current_scope);
+                      node.Add(paramnode);
+                       
+                      if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                       }  
+                  }
+                  
+            }else if(x.params.elementAt(i) instanceof Out){
+                
+                 Out param= (Out)x.params.elementAt(i);
+                 for (int j = 0; j < param.list.size(); j++) {
+                     ParamsTableNode paramnode= new ParamsTableNode(param.type,2,param.list.elementAt(i).id,current_scope);
+                     node.Add(paramnode);
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                       } 
+                  }
+            }else if(x.params.elementAt(i) instanceof InOut){
+               
+                InOut param= (InOut)x.params.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                      ParamsTableNode paramnode=new ParamsTableNode(param.type,3,param.list.elementAt(i).id,current_scope); 
+                      node.Add(paramnode);
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                       } 
+                  }
+            }
+        }
+        
+        if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
+            } 
+        return new NullType();
     }
 
     @Override
     public Type traverse(DeclarationStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (x instanceof DeclareStatement) {
+            return ((DeclareStatement)x).accept(this);
+        }else if(x instanceof ProcedureStatement){
+            return ((ProcedureStatement)x).accept(this);
+        }else if(x instanceof FunctionStatement){
+            return ((FunctionStatement)x).accept(this);
+        }else{
+        return new ErrorType();
+        }
     }
 
     @Override
@@ -572,8 +637,9 @@ public class SemanticAnalysis implements TypeTraverse{
         if(!x.preid.equals(x.postid)){
             print_error("Los identificadores del procedimiento no coinciden",0,0);
         }
-        
-        FTableNode node = new FTableNode(new NullType(),x.preid.id,""); 
+        String current_scope= Scope.getNewScope();
+        this.scope = new String(current_scope);
+        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope); 
         symboltable.addSymbol(node);
         
         Declarations declarations = x.declarations;

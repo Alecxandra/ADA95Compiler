@@ -41,7 +41,6 @@ public class ADA95Compiler {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        
     }
     
 }
