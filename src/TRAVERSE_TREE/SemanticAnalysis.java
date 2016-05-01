@@ -611,7 +611,59 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ProcedureStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if (x.preid.id.equals(x.postid.id)) {
+            print_error("Los identificadores del procedimiento no coinciden",0,0);
+        }
+        String temp_scope=new String(this.scope);
+        String current_scope= new String(this.scope+Scope.getNewScope());
+        this.scope= new String(current_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id,current_scope);
+        for (int i = 0; i <x.list.size(); i++) {
+            if (x.list.elementAt(i) instanceof In) {
+                
+                In param= (In)x.list.elementAt(i);
+                  for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
+                      
+                      if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                       }else{
+                       node.Add(paramnode);
+                      }  
+                  }
+                  
+            }else if(x.list.elementAt(i) instanceof Out){
+                
+                 Out param= (Out)x.list.elementAt(i);
+                 for (int j = 0; j < param.list.size(); j++) {
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
+                     
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                      }else{
+                       node.Add(paramnode);   
+                     } 
+                  }
+            }else if(x.list.elementAt(i) instanceof InOut){
+               
+                InOut param= (InOut)x.list.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                     }else{
+                       node.Add(paramnode);
+                     } 
+                  }
+            }
+        }
+        this.scope= new String(temp_scope);
+        if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
+            } 
+        return new NullType();
     }
 
     @Override
@@ -619,6 +671,7 @@ public class SemanticAnalysis implements TypeTraverse{
         if (x.preid.id.equals(x.postid.id)) {
             print_error("Los identificadores de la función no coinciden",0,0);
         }
+        String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
         FTableNode node = new FTableNode(x.type, x.preid.id,current_scope);
@@ -663,7 +716,7 @@ public class SemanticAnalysis implements TypeTraverse{
                   }
             }
         }
-        
+        this.scope= new String(temp_scope);
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             } 
