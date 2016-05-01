@@ -35,6 +35,7 @@ public class FunctionStatement extends DeclarationStatement{
         this.presta = presta;
         this.poststa = poststa;
         this.type= type;
+        this.params = new ParamsList();
     }
     
     public FunctionStatement() {

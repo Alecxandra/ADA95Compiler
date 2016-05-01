@@ -163,7 +163,7 @@ public class SemanticAnalysis implements TypeTraverse{
      }
      
      if(!(type1.equals(type2))){
-      print_error("no se permite sumar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      print_error("no se permite sumar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
       return new ErrorType();
      }
      return type1;
@@ -185,7 +185,7 @@ public class SemanticAnalysis implements TypeTraverse{
      }
      
      if(!(type1.equals(type2))){
-      print_error("no se permite restar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      print_error("no se permite restar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
       return new ErrorType();
      }
      return type1;
@@ -208,7 +208,7 @@ public class SemanticAnalysis implements TypeTraverse{
      }
      
      if(!(type1.equals(type2))){
-      print_error("no se permite multiplicar expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      print_error("no se permite multiplicar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
       return new ErrorType();
      }
      return type1;
@@ -230,7 +230,7 @@ public class SemanticAnalysis implements TypeTraverse{
      }
      
      if(!(type1.equals(type2))){
-      print_error("no se permite dividir expresiones de tipo"+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
+      print_error("no se permite dividir expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),0,0);
       return new ErrorType();
      }
      return type1;
@@ -464,7 +464,7 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < x.list.size(); i++) {
             VTableNode node = new VTableNode(x.type,0,0,x.list.elementAt(i).id,new String(this.scope));
             if(!this.symboltable.addSymbol(node)){
-               print_error("El identificador "+x.list.elementAt(i).id+"ya esta declarado en este ámbito",0,0);          
+               print_error("El identificador "+x.list.elementAt(i).id+" ya esta declarado en este ámbito",0,0);          
             }     
         }
        return new NullType();
@@ -611,7 +611,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ProcedureStatement x) {
-       if (x.preid.id.equals(x.postid.id)) {
+       if (!x.preid.id.equals(x.postid.id)) {
             print_error("Los identificadores del procedimiento no coinciden",0,0);
         }
         String temp_scope=new String(this.scope);
@@ -626,7 +626,7 @@ public class SemanticAnalysis implements TypeTraverse{
                       VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
                       
                       if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                        }else{
                        node.Add(paramnode);
                       }  
@@ -640,7 +640,7 @@ public class SemanticAnalysis implements TypeTraverse{
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                       }else{
                        node.Add(paramnode);   
                      } 
@@ -652,7 +652,7 @@ public class SemanticAnalysis implements TypeTraverse{
                       VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
                      
                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                      }else{
                        node.Add(paramnode);
                      } 
@@ -668,7 +668,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(FunctionStatement x) {
-        if (x.preid.id.equals(x.postid.id)) {
+        if (!x.preid.id.equals(x.postid.id)) {
             print_error("Los identificadores de la función no coinciden",0,0);
         }
         String temp_scope=new String(this.scope);
@@ -683,7 +683,7 @@ public class SemanticAnalysis implements TypeTraverse{
                       VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
                       
                       if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                        }else{
                        node.Add(paramnode);
                       }  
@@ -697,7 +697,7 @@ public class SemanticAnalysis implements TypeTraverse{
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                       }else{
                        node.Add(paramnode);   
                      } 
@@ -709,7 +709,7 @@ public class SemanticAnalysis implements TypeTraverse{
                       VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
                      
                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                      }else{
                        node.Add(paramnode);
                      } 

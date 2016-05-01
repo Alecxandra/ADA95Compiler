@@ -32,6 +32,7 @@ public class ProcedureStatement extends DeclarationStatement{
         this.presta = presta;
         this.poststa = poststa;
         this.postid= post;
+        this.list = new ParamsList();
     }
     
     public ProcedureStatement() {
