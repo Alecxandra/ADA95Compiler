@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class FTableNode extends SymbolTableNode{
     private Type return_type;
-    private ArrayList<ParamsTableNode> params;
+    private ArrayList<VTableNode> params;
 
     public FTableNode(Type return_type, String Id, String Scope) {
         super(Id,Scope);
@@ -22,7 +22,7 @@ public class FTableNode extends SymbolTableNode{
         this.params= new ArrayList();
     }
     
-    public void Add(ParamsTableNode x){
+    public void Add(VTableNode x){
         this.params.add(x);
     }
     

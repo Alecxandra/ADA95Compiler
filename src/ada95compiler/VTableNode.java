@@ -54,4 +54,12 @@ public class VTableNode extends SymbolTableNode{
         this.form = form;
     }
     
+    public boolean isParam(){
+      if(form==0){
+       return false;
+      }else{
+      return true;
+      }
+    }
+    
 }

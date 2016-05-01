@@ -7,7 +7,6 @@ package TRAVERSE_TREE;
 
 import AST_TREE.*;
 import ada95compiler.FTableNode;
-import ada95compiler.ParamsTableNode;
 import ada95compiler.Scope;
 import ada95compiler.SymbolTable;
 import ada95compiler.VTableNode;
@@ -628,7 +627,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                 In param= (In)x.params.elementAt(i);
                   for (int j = 0; j < param.list.size(); j++) {
-                      ParamsTableNode paramnode = new ParamsTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
                       
                       if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
@@ -641,7 +640,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                  Out param= (Out)x.params.elementAt(i);
                  for (int j = 0; j < param.list.size(); j++) {
-                     ParamsTableNode paramnode= new ParamsTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
@@ -654,7 +653,7 @@ public class SemanticAnalysis implements TypeTraverse{
                
                 InOut param= (InOut)x.params.elementAt(i);
                 for (int j = 0; j < param.list.size(); j++) {
-                      ParamsTableNode paramnode=new ParamsTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
                      
                      if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
