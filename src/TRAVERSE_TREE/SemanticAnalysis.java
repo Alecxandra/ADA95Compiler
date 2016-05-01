@@ -493,12 +493,50 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(IfStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type expre = (x.expre).accept(this);
+        if(!(expre instanceof BooleanType)){
+            print_error("La expresión de la declaración IF no es correcta.",0,0);
+        }
+        
+        Statements sta1 = x.sta1;
+        Statements sta2 = x.sta2;
+        ElsifStatements esta = x.esta;
+          
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        if(esta != null){
+            for (int i = 0; i < esta.size(); i++) {
+                esta.elementAt(i).accept(this);
+            }
+        }
+        if(sta2 != null){
+            for (int i = 0; i < sta2.size(); i++) {
+                sta2.elementAt(i).accept(this);
+            }
+        }
+
+        return new NullType();  
     }
 
     @Override
     public Type traverse(ElseIfStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type expre = (x.expre).accept(this);
+        if(!(expre instanceof BooleanType)){
+            print_error("La expresión de la declaración ELSE-IF no es correcta.",0,0);
+        }
+        
+        Statements sta1 = x.statements;
+        
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        
+        return new NullType();
     }
 
     @Override
@@ -530,7 +568,21 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ForStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.end.accept(this);
+        Type type2 = x.start.accept(this);
+        if(!(type1 instanceof IntegerType && type2 instanceof IntegerType)){
+            print_error("El ",0,0);
+        } 
+        
+        Statements sta1 = x.sta;
+        
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        
+        return new NullType();
     }
 
     @Override
