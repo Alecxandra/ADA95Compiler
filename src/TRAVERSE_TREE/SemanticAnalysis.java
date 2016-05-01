@@ -623,7 +623,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                 In param= (In)x.list.elementAt(i);
                   for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
                       
                       if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
@@ -636,7 +636,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                  Out param= (Out)x.list.elementAt(i);
                  for (int j = 0; j < param.list.size(); j++) {
-                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
@@ -649,7 +649,7 @@ public class SemanticAnalysis implements TypeTraverse{
                
                 InOut param= (InOut)x.list.elementAt(i);
                 for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
                      
                      if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
@@ -680,7 +680,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                 In param= (In)x.params.elementAt(i);
                   for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(i).id,current_scope);
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
                       
                       if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
@@ -693,7 +693,7 @@ public class SemanticAnalysis implements TypeTraverse{
                 
                  Out param= (Out)x.params.elementAt(i);
                  for (int j = 0; j < param.list.size(); j++) {
-                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(i).id,current_scope);
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
@@ -706,7 +706,7 @@ public class SemanticAnalysis implements TypeTraverse{
                
                 InOut param= (InOut)x.params.elementAt(i);
                 for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(i).id,current_scope); 
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
                      
                      if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+"ya esta declarado en este ámbito",0,0);          
