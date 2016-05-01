@@ -11,9 +11,9 @@ procedure principal is
  procedure z  is
     t:integer;
   begin
-    x :=(5%+z);
-    z:= (5**10) +20;
-    funcion(h,x,t)
+    x :=(5+z);
+    z:= (5*10) +20;
+    funcion(h,x,t);
     get(t);
 
      if (x+20) <= 67 then

@@ -31,7 +31,7 @@ public class FunctionStatementError extends FunctionStatement{
         pt.traverse(this);
     }
     
-     public void accept (TypeTraverse tt){
-      tt.traverse(this);
+     public Type accept (TypeTraverse tt){
+      return tt.traverse(this);
     }
 }
