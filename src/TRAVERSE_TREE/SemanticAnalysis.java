@@ -11,6 +11,7 @@ import ada95compiler.Scope;
 import ada95compiler.SymbolTable;
 import ada95compiler.SymbolTableNode;
 import ada95compiler.VTableNode;
+import java.util.ArrayList;
 
 
 /**
@@ -904,7 +905,29 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(FunctionCall x) {
-        
+        FTableNode node = (FTableNode)this.symboltable.findSymbol(x.id.id,this.scope);
+        if(node == null){
+          print_error("la funcion "+x.id.id+" no se ha declarado",0,0);
+          return new ErrorType();
+        }else{
+           ArrayList<Type> arguments = new ArrayList(); 
+            for (int i = 0; i < x.args.size(); i++) {
+               Type arg=x.args.elementAt(i).accept(this);
+               arguments.add(arg);
+            }
+            if(node.getParams().size() != arguments.size()){
+             print_error("nunero erroneo de argumentos se esperaba "+ node.getParams().toString(),0,0);
+             return node.getReturn_type();
+            }
+            
+            for (int i = 0; i < node.getParams().size(); i++) {
+                if(!node.getParams().get(i).equals(i)){
+                  print_error("Tipos de argumentos invalidos se esperaba: "+node.getParams().toString(),0,0);
+                  return node.getReturn_type();
+                }
+            }
+        }
+        return node.getReturn_type();
     }
     
 }

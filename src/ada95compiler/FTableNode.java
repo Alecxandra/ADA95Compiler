@@ -25,5 +25,23 @@ public class FTableNode extends SymbolTableNode{
     public void Add(VTableNode x){
         this.params.add(x);
     }
+
+    public Type getReturn_type() {
+        return return_type;
+    }
+
+    public void setReturn_type(Type return_type) {
+        this.return_type = return_type;
+    }
+
+    public ArrayList<VTableNode> getParams() {
+        return params;
+    }
+
+    public void setParams(ArrayList<VTableNode> params) {
+        this.params = params;
+    }
+    
+    
     
 }
