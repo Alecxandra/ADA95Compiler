@@ -9,6 +9,7 @@ import AST_TREE.*;
 import ada95compiler.FTableNode;
 import ada95compiler.Scope;
 import ada95compiler.SymbolTable;
+import ada95compiler.SymbolTableNode;
 import ada95compiler.VTableNode;
 
 
@@ -96,7 +97,7 @@ public class SemanticAnalysis implements TypeTraverse{
         }else if(x instanceof IntegerLiteral){
          return ((IntegerLiteral)x).accept(this);
         }else if(x instanceof StringLiteral){ 
-          return ((IntegerLiteral)x).accept(this);
+          return ((StringLiteral)x).accept(this);
         }else{
          return new ErrorType();
         }
@@ -104,7 +105,18 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Identifier x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SymbolTableNode node = this.symboltable.findSymbol(x.id,this.scope);
+        if(node == null){
+           print_error("El identificador "+x.id+" no ha sido declarado",0,0);
+           return new ErrorType();
+        }else{
+         if(node instanceof VTableNode){
+           return ((VTableNode)node).getType();
+         }else{
+          print_error("El identificador "+x.id+" no es una variable ",0,0);
+          return new ErrorType();
+         }
+        }
     }
 
     @Override
@@ -450,12 +462,12 @@ public class SemanticAnalysis implements TypeTraverse{
     }
 
     @Override
-    public Type traverse(ArgumentList x) {
+    public Type traverse(ArgumentList x) {/* listo */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(VariableList x) {
+    public Type traverse(VariableList x) {/* listo */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -539,7 +551,7 @@ public class SemanticAnalysis implements TypeTraverse{
     }
 
     @Override
-    public Type traverse(ElsifStatements x) {
+    public Type traverse(ElsifStatements x) {/* listo */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -585,27 +597,27 @@ public class SemanticAnalysis implements TypeTraverse{
     }
 
     @Override
-    public Type traverse(In x) {
+    public Type traverse(In x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(Out x) {
+    public Type traverse(Out x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(InOut x) {
+    public Type traverse(InOut x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(ParamsModifier x) {
+    public Type traverse(ParamsModifier x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(ParamsList x) {
+    public Type traverse(ParamsList x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -663,6 +675,9 @@ public class SemanticAnalysis implements TypeTraverse{
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             } 
+        for (int i = 0; i < x.poststa.size(); i++) {
+            x.poststa.elementAt(i).accept(this);
+        }
         return new NullType();
     }
 
@@ -720,6 +735,9 @@ public class SemanticAnalysis implements TypeTraverse{
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             } 
+        for (int i = 0; i < x.poststa.size(); i++) {
+            x.poststa.elementAt(i).accept(this);
+        }
         return new NullType();
     }
 
@@ -737,7 +755,7 @@ public class SemanticAnalysis implements TypeTraverse{
     }
 
     @Override
-    public Type traverse(Declarations x) {
+    public Type traverse(Declarations x) {/*listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -872,6 +890,21 @@ public class SemanticAnalysis implements TypeTraverse{
       }else{
        return new ErrorType();
       }
+    }
+
+    @Override
+    public Type traverse(IntegerLiteral x) {
+        return new IntegerType();
+    }
+
+    @Override
+    public Type traverse(StringLiteral x) {
+        return new StringType();
+    }
+
+    @Override
+    public Type traverse(FunctionCall x) {
+        
     }
     
 }

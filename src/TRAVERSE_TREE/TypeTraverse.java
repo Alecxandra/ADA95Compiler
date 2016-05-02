@@ -73,6 +73,7 @@ public interface TypeTraverse {
     public Type traverse(DeclareStatementError x);
     public Type traverse(AssignmentStatementError x);
     public Type traverse(FunctionCallError x);
+    public Type traverse(FunctionCall x);
     public Type traverse(IfStatementError x);
     public Type traverse(ElseIfStatementError x);
     public Type traverse(FunctionStatementError x);
@@ -83,4 +84,6 @@ public interface TypeTraverse {
     public Type traverse(StringType x);
     public Type traverse(NullType x);
     public Type traverse(Statement x);
+    public Type traverse(IntegerLiteral x);
+    public Type traverse(StringLiteral x);
 }
