@@ -40,22 +40,22 @@ public class SemanticAnalysis implements TypeTraverse{
  
     
     @Override
-    public Type traverse(Type x) {
+    public Type traverse(Type x) { /* Listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(IntegerType x) {
+    public Type traverse(IntegerType x) { /* Listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(BooleanType x) {
+    public Type traverse(BooleanType x) { /* Listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(FloatType x) {
+    public Type traverse(FloatType x) { /* Listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -485,17 +485,41 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(AssignmentStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        if (node == null) {
+          print_error("la variable "+x.id.id+" no ha sido declarada",0,0);
+          return new ErrorType();
+        }
+        
+        if(!(node instanceof VTableNode)){
+            print_error("El identificador "+x.id.id+" no es una variable",0,0);
+        }    
+       Type type = x.expre.accept(this);
+        if (!(((VTableNode)node).equals(type))) {
+            print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),0,0);
+            return new ErrorType();
+        }
+        
+        return ((VTableNode)node).getType();
     }
 
     @Override
     public Type traverse(IOStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (x instanceof Get) {
+            return ((Get)x).accept(this);
+        }else {
+            return ((Put)x).accept(this);
+        }
     }
 
     @Override
     public Type traverse(Get x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.accept(this);
+        if (type instanceof ErrorType) {
+            print_error(" en evaluacion de la expresion de get",0,0);
+            return new ErrorType(); 
+        }
+       return new NullType(); 
     }
 
     @Override
@@ -532,7 +556,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
         return new NullType();  
     }
-
+                
     @Override
     public Type traverse(ElseIfStatement x) {
         Type expre = (x.expre).accept(this);
@@ -570,22 +594,33 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ExitStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.accept(this);
+        if(!(type instanceof BooleanType)){
+         print_error("La condicion del Exit when no es una expresion booleana",0,0);
+        }
+        return new NullType();
     }
 
     @Override
     public Type traverse(LoopStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < x.sta.size(); i++) {
+            x.sta.elementAt(i).accept(this);
+        }
+        return new NullType();
     }
 
     @Override
     public Type traverse(ForStatement x) {
         Type type1 = x.end.accept(this);
         Type type2 = x.start.accept(this);
+        SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        if(node == null ){
+          print_error("La variable "+ node.getId()+" en el for, no ha sido declarada",0,0);
+        }
         if(!(type1 instanceof IntegerType && type2 instanceof IntegerType)){
-            print_error("El ",0,0);
+            print_error("las expresiones del rango del for deben ser Integer",0,0);
         } 
-        
+       
         Statements sta1 = x.sta;
         
         if(sta1 != null){
@@ -675,7 +710,16 @@ public class SemanticAnalysis implements TypeTraverse{
         this.scope= new String(temp_scope);
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
-            } 
+            }
+        
+        for (int i = 0; i < x.poststa.size(); i++) {
+            if (x.poststa.elementAt(i) instanceof ReturnStatement) {
+                print_error("Retorno encontrado en procedure",0,0);
+            }else if(x.poststa.elementAt(i) instanceof ExitStatement){
+              print_error("No puede existir un Exit when fuera de un loop",0,0);
+            }
+        }
+        
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
         }
@@ -735,7 +779,18 @@ public class SemanticAnalysis implements TypeTraverse{
         this.scope= new String(temp_scope);
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
-            } 
+            }
+        boolean return_present=false;
+        for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ReturnStatement ){
+                return_present=true;
+                break;
+            
+            }
+        }
+        if(return_present == false){
+         print_error("No hay return en esta funcion",0,0);
+        }
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
         }
@@ -785,57 +840,301 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(WhileStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.expre.accept(this);
+        if (!(type instanceof BooleanType)) {
+          print_error("la expresion del while no es booleana",0,0);  
+        }
+        for (int i = 0; i < x.sta.size(); i++) {
+            x.sta.elementAt(i).accept(this);
+        }
+        return new NullType();
     }
 
     @Override
     public Type traverse(ExitStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.expre.accept(this);
+        if (!(type instanceof BooleanType)) {
+            print_error("La expresion del Exit When no es booleana",0,0);
+        }
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(LoopStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < x.sta.size(); i++) {
+          x.sta.elementAt(i).accept(this);
+        }
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(ForStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type1 = x.end.accept(this);
+        Type type2 = x.start.accept(this);
+        SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        if(node == null ){
+          print_error("La variable "+ node.getId()+" en el for, no ha sido declarada",0,0);
+        }
+        if(!(type1 instanceof IntegerType && type2 instanceof IntegerType)){
+            print_error("las expresiones del rango del for deben ser Integer",0,0);
+        } 
+       
+        Statements sta1 = x.sta;
+        
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(ProcedureStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (!x.preid.id.equals(x.postid.id)) {
+            print_error("Los identificadores del procedimiento no coinciden",0,0);
+        }
+        String temp_scope=new String(this.scope);
+        String current_scope= new String(this.scope+Scope.getNewScope());
+        this.scope= new String(current_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id,current_scope);
+        for (int i = 0; i <x.list.size(); i++) {
+            if (x.list.elementAt(i) instanceof In) {
+                
+                In param= (In)x.list.elementAt(i);
+                  for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
+                      
+                      if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                       }else{
+                       node.Add(paramnode);
+                      }  
+                  }
+                  
+            }else if(x.list.elementAt(i) instanceof Out){
+                
+                 Out param= (Out)x.list.elementAt(i);
+                 for (int j = 0; j < param.list.size(); j++) {
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
+                     
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                      }else{
+                       node.Add(paramnode);   
+                     } 
+                  }
+            }else if(x.list.elementAt(i) instanceof InOut){
+               
+                InOut param= (InOut)x.list.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                     }else{
+                       node.Add(paramnode);
+                     } 
+                  }
+            }
+        }
+        this.scope= new String(temp_scope);
+        if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
+            }
+        
+        for (int i = 0; i < x.poststa.size(); i++) {
+            if (x.poststa.elementAt(i) instanceof ReturnStatement) {
+                print_error("Retorno encontrado en procedure",0,0);
+            }else if(x.poststa.elementAt(i) instanceof ExitStatement){
+              print_error("No puede existir un Exit when fuera de un loop",0,0);
+            }
+        }
+        
+        for (int i = 0; i < x.poststa.size(); i++) {
+            x.poststa.elementAt(i).accept(this);
+        }
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(DeclareStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < x.list.size(); i++) {
+            VTableNode node = new VTableNode(x.type,0,0,x.list.elementAt(i).id,new String(this.scope));
+            if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.list.elementAt(i).id+" ya esta declarado en este ámbito",0,0);          
+            }     
+        }
+       return new ErrorType();
     }
 
     @Override
     public Type traverse(AssignmentStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        if (node == null) {
+          print_error("la variable "+x.id.id+" no ha sido declarada",0,0);
+          return new ErrorType();
+        }
+        
+        if(!(node instanceof VTableNode)){
+            print_error("El identificador "+x.id.id+" no es una variable",0,0);
+        }    
+       Type type = x.expre.accept(this);
+        if (!(((VTableNode)node).equals(type))) {
+            print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),0,0);
+            return new ErrorType();
+        }
+        
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(FunctionCallError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        FTableNode node = (FTableNode)this.symboltable.findSymbol(x.id.id,this.scope);
+        if(node == null){
+          print_error("la funcion "+x.id.id+" no se ha declarado",0,0);
+          return new ErrorType();
+        }else{
+           ArrayList<Type> arguments = new ArrayList(); 
+            for (int i = 0; i < x.args.size(); i++) {
+               Type arg=x.args.elementAt(i).accept(this);
+               arguments.add(arg);
+            }
+            if(node.getParams().size() != arguments.size()){
+             print_error("nunero erroneo de argumentos se esperaba "+ node.getParams().toString(),0,0);
+             return new ErrorType();
+            }
+            
+            for (int i = 0; i < node.getParams().size(); i++) {
+                if(!node.getParams().get(i).equals(i)){
+                  print_error("Tipos de argumentos invalidos se esperaba: "+node.getParams().toString(),0,0);
+                  return new ErrorType();
+                }
+            }
+        }
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(IfStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type expre = (x.expre).accept(this);
+        if(!(expre instanceof BooleanType)){
+            print_error("La expresión de la declaración IF no es correcta.",0,0);
+        }
+        
+        Statements sta1 = x.sta1;
+        Statements sta2 = x.sta2;
+        ElsifStatements esta = x.esta;
+          
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        if(esta != null){
+            for (int i = 0; i < esta.size(); i++) {
+                esta.elementAt(i).accept(this);
+            }
+        }
+        if(sta2 != null){
+            for (int i = 0; i < sta2.size(); i++) {
+                sta2.elementAt(i).accept(this);
+            }
+        }
+
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(ElseIfStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type expre = (x.expre).accept(this);
+        if(!(expre instanceof BooleanType)){
+            print_error("La expresión de la declaración ELSE-IF no es correcta.",0,0);
+        }
+        
+        Statements sta1 = x.statements;
+        
+        if(sta1 != null){
+            for (int i = 0; i < sta1.size(); i++) {
+                sta1.elementAt(i).accept(this);
+            }
+        }
+        
+        return new ErrorType();
     }
 
     @Override
     public Type traverse(FunctionStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!x.preid.id.equals(x.postid.id)) {
+            print_error("Los identificadores de la función no coinciden",0,0);
+        }
+        String temp_scope=new String(this.scope);
+        String current_scope= new String(this.scope+Scope.getNewScope());
+        this.scope= new String(current_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id,current_scope);
+        for (int i = 0; i < x.params.size(); i++) {
+            if (x.params.elementAt(i) instanceof In) {
+                
+                In param= (In)x.params.elementAt(i);
+                  for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
+                      
+                      if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                       }else{
+                       node.Add(paramnode);
+                      }  
+                  }
+                  
+            }else if(x.params.elementAt(i) instanceof Out){
+                
+                 Out param= (Out)x.params.elementAt(i);
+                 for (int j = 0; j < param.list.size(); j++) {
+                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
+                     
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                      }else{
+                       node.Add(paramnode);   
+                     } 
+                  }
+            }else if(x.params.elementAt(i) instanceof InOut){
+               
+                InOut param= (InOut)x.params.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
+                     
+                     if(!this.symboltable.addSymbol(paramnode)){
+                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
+                     }else{
+                       node.Add(paramnode);
+                     } 
+                  }
+            }
+        }
+        this.scope= new String(temp_scope);
+        if(!this.symboltable.addSymbol(node)){
+               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
+            }
+        boolean return_present=false;
+        for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ReturnStatement ){
+                return_present=true;
+                break;
+            
+            }
+        }
+        if(return_present == false){
+         print_error("No hay return en esta funcion",0,0);
+        }
+        for (int i = 0; i < x.poststa.size(); i++) {
+            x.poststa.elementAt(i).accept(this);
+        }
+        return new ErrorType();
     }
 
     @Override
@@ -845,26 +1144,54 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(PutError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.accept(this);
+        if (type instanceof ErrorType) {
+            print_error(" en evaluacion de la expresion de put",0,0);
+            return new ErrorType(); 
+        }
+       return new ErrorType();
     }
 
     @Override
     public Type traverse(GetError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type = x.accept(this);
+        if (type instanceof ErrorType) {
+            print_error(" en evaluacion de la expresion de get",0,0);
+            return new ErrorType(); 
+        }
+       return new ErrorType();
     }
 
     @Override
     public Type traverse(ProgramInitError x) {
+        if(!x.preid.equals(x.postid)){
+            print_error("Los identificadores del procedimiento no coinciden",0,0);
+        }
+        String current_scope= Scope.getNewScope();
+        this.scope = new String(current_scope);
+        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope); 
+        symboltable.addSymbol(node);
+        
+        Declarations declarations = x.declarations;
+        for (int i = 0; i < declarations.size(); i++) {
+            declarations.elementAt(i).accept(this);
+        }
+        
+        Statements sta = x.stas;
+        
+        for (int i = 0; i < sta.size(); i++) {
+            sta.elementAt(i).accept(this);
+        }
+     return new ErrorType();
+    }
+
+    @Override
+    public Type traverse(StringType x) { /* Listo */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Type traverse(StringType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Type traverse(NullType x) {
+    public Type traverse(NullType x) {/* Listo*/
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -928,6 +1255,16 @@ public class SemanticAnalysis implements TypeTraverse{
             }
         }
         return node.getReturn_type();
+    }
+
+    @Override
+    public Type traverse(Put x) {
+      Type type = x.accept(this);
+        if (type instanceof ErrorType) {
+            print_error(" en evaluacion de la expresion de put",0,0);
+            return new ErrorType(); 
+        }
+       return new NullType();
     }
     
 }

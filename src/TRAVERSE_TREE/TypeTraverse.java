@@ -47,6 +47,7 @@ public interface TypeTraverse {
     public Type traverse(AssignmentStatement x); 
     public Type traverse(IOStatement x);
     public Type traverse(Get x); 
+    public Type traverse(Put x); 
     public Type traverse(ReturnStatement x); 
     public Type traverse(IfStatement x); 
     public Type traverse(ElseIfStatement x);
