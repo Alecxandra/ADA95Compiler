@@ -27,4 +27,9 @@ public class ErrorType extends Type{
     public boolean equals(Object o) {
         return o instanceof ErrorType;
     }
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replaceAll("Type", "");
+    }
 }

@@ -16,7 +16,7 @@ procedure principal is
 
 	end una_prueba;
 
-	function algo (dinero,dinero : in integer; algo1: in out float ) return float is
+	function algo (dinero : in integer; algo1: in out float ) return float is
       total : float;
      begin
       while total >= 0 loop
@@ -31,7 +31,7 @@ procedure principal is
 
 	begin 
 	x := 10;
-	y := una_prueba(x,10,z);
-	h := algo(12,34,y);
+	una_prueba(x,10,z);
+	h := algo(12,34.0);
 	put(h);
 end principal;

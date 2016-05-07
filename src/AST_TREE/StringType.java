@@ -24,4 +24,9 @@ public class StringType extends Type{
     public boolean equals(Object o) {
         return o instanceof StringType;
     }
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replaceAll("Type", "");
+    }
 }

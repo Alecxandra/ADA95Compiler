@@ -28,6 +28,9 @@ public class IntegerType extends Type {
       return tt.traverse(this);
     }
     
-    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replaceAll("Type", "");
+    }
     
 }

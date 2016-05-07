@@ -67,4 +67,9 @@ public class VTableNode extends SymbolTableNode{
       }
     }
     
+    @Override
+    public String toString() {
+        return this.type.toString();
+    }
+    
 }

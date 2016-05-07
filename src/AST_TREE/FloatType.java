@@ -27,4 +27,9 @@ public class FloatType  extends Type{
     public boolean equals(Object o) {
         return o instanceof FloatType;
     }
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replaceAll("Type", "");
+    }
 }

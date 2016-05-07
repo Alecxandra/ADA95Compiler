@@ -26,4 +26,9 @@ public class BooleanType extends Type {
     public boolean equals(Object o) {
         return o instanceof BooleanType;
     }
+    
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().replaceAll("Type", "");
+    }
 }

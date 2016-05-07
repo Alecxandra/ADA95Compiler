@@ -528,7 +528,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Get x) {
-        Type type = x.accept(this);
+        Type type = x.id.accept(this);
         if (type instanceof ErrorType) {
             print_error(" en evaluacion de la expresion de get",0,0);
             return new ErrorType(); 
@@ -538,7 +538,8 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ReturnStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new NullType();
     }
 
     @Override
@@ -689,7 +690,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(), x.preid.id,current_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope);
         for (int i = 0; i <x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
                 
@@ -731,7 +732,7 @@ public class SemanticAnalysis implements TypeTraverse{
                   }
             }
         }
-        this.scope= new String(temp_scope);
+        
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
@@ -747,6 +748,8 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
         }
+        
+        this.scope= new String(temp_scope);
         return new NullType();
     }
 
@@ -758,7 +761,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(x.type, x.preid.id,current_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
         for (int i = 0; i < x.params.size(); i++) {
             if (x.params.elementAt(i) instanceof In) {
                 
@@ -770,7 +773,6 @@ public class SemanticAnalysis implements TypeTraverse{
                         print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                        }else{
                         node.Add(paramnode);
-                        this.symboltable.addSymbol(paramnode);
                       }  
                   }
                   
@@ -801,10 +803,15 @@ public class SemanticAnalysis implements TypeTraverse{
                   }
             }
         }
-        this.scope= new String(temp_scope);
+        
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
+        
+        for (int i = 0; i < x.presta.size(); i++) {
+            x.presta.elementAt(i).accept(this);
+        }
+        
         boolean return_present=false;
         for (int i = 0; i < x.poststa.size(); i++) {
             if(x.poststa.elementAt(i) instanceof ReturnStatement ){
@@ -819,6 +826,7 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
         }
+        this.scope= new String(temp_scope);
         return new NullType();
     }
 
@@ -934,7 +942,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(), x.preid.id,current_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope);
         for (int i = 0; i <x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
                 
@@ -1118,7 +1126,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(x.type, x.preid.id,current_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
         for (int i = 0; i < x.params.size(); i++) {
             if (x.params.elementAt(i) instanceof In) {
                 
@@ -1292,7 +1300,7 @@ public class SemanticAnalysis implements TypeTraverse{
             }
             
             for (int i = 0; i < node.getParams().size(); i++) {
-                if(!node.getParams().get(i).equals(i)){
+                if(!node.getParams().get(i).getType().equals(arguments.get(i))) {
                   print_error("Tipos de argumentos invalidos se esperaba: "+node.getParams().toString(),0,0);
                   return node.getReturn_type();
                 }
