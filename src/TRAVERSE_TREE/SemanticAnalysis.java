@@ -112,6 +112,11 @@ public class SemanticAnalysis implements TypeTraverse{
            return new ErrorType();
         }else{
          if(node instanceof VTableNode){
+             VTableNode param = (VTableNode)node;
+             if (param.getForm() == VTableNode.OUT) {
+                 print_error("La variable "+param.getId()+" es de tipo OUT y no puede usarse como R-Value",0,0);
+                 return new ErrorType();
+             }
            return ((VTableNode)node).getType();
          }else{
           print_error("El identificador "+x.id+" no es una variable ",0,0);
@@ -486,6 +491,7 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(AssignmentStatement x) {
         SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        Type type = x.expre.accept(this);
         if (node == null) {
           print_error("la variable "+x.id.id+" no ha sido declarada",0,0);
           return new ErrorType();
@@ -493,12 +499,20 @@ public class SemanticAnalysis implements TypeTraverse{
         
         if(!(node instanceof VTableNode)){
             print_error("El identificador "+x.id.id+" no es una variable",0,0);
-        }    
-       Type type = x.expre.accept(this);
-        if (!(((VTableNode)node).equals(type))) {
+            return new ErrorType();
+        }else{
+            VTableNode param =(VTableNode)node; 
+            if (param.getForm() == VTableNode.IN) {
+                print_error("La variable "+param.getId()+" es de tipo IN, su valor no puede ser modificado ",0,0);
+                return new ErrorType();
+            }
+            
+         if (!(((VTableNode)node).getType().equals(type))) {
             print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),0,0);
             return new ErrorType();
         }
+        }
+        
         
         return ((VTableNode)node).getType();
     }
@@ -617,6 +631,16 @@ public class SemanticAnalysis implements TypeTraverse{
         if(node == null ){
           print_error("La variable "+ node.getId()+" en el for, no ha sido declarada",0,0);
         }
+        VTableNode param = (VTableNode)node;
+        if (param.getForm()== VTableNode.IN) {
+            print_error("el contador "+ param.getId()+" es de tipo IN, su valor no puede ser modificado",0,0);
+        }
+        
+        if(!(param.getType().equals(new IntegerType()))){
+          print_error("la variable "+param.getId()+" debe ser de tipo Integer",0,0);
+          return new ErrorType();
+        }
+        
         if(!(type1 instanceof IntegerType && type2 instanceof IntegerType)){
             print_error("las expresiones del rango del for deben ser Integer",0,0);
         } 
@@ -875,6 +899,16 @@ public class SemanticAnalysis implements TypeTraverse{
         if(node == null ){
           print_error("La variable "+ node.getId()+" en el for, no ha sido declarada",0,0);
         }
+        VTableNode param = (VTableNode)node;
+        if (param.getForm()== VTableNode.IN) {
+            print_error("el contador "+ param.getId()+" es de tipo IN, su valor no puede ser modificado",0,0);
+        }
+        
+        if(!(param.getType().equals(new IntegerType()))){
+          print_error("la variable "+param.getId()+" debe ser de tipo Integer",0,0);
+          return new ErrorType();
+        }
+        
         if(!(type1 instanceof IntegerType && type2 instanceof IntegerType)){
             print_error("las expresiones del rango del for deben ser Integer",0,0);
         } 
@@ -974,6 +1008,7 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(AssignmentStatementError x) {
         SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
+        Type type = x.expre.accept(this);
         if (node == null) {
           print_error("la variable "+x.id.id+" no ha sido declarada",0,0);
           return new ErrorType();
@@ -981,12 +1016,20 @@ public class SemanticAnalysis implements TypeTraverse{
         
         if(!(node instanceof VTableNode)){
             print_error("El identificador "+x.id.id+" no es una variable",0,0);
-        }    
-       Type type = x.expre.accept(this);
-        if (!(((VTableNode)node).equals(type))) {
+            return new ErrorType();
+        }else{
+            VTableNode param =(VTableNode)node; 
+            if (param.getForm() == VTableNode.IN) {
+                print_error("La variable "+param.getId()+" es de tipo IN, su valor no puede ser modificado ",0,0);
+                return new ErrorType();
+            }
+            
+         if (!(((VTableNode)node).getType().equals(type))) {
             print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),0,0);
             return new ErrorType();
         }
+        }
+        
         
         return new ErrorType();
     }
