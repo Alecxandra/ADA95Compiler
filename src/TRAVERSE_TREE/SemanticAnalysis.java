@@ -769,7 +769,8 @@ public class SemanticAnalysis implements TypeTraverse{
                       if(!this.symboltable.addSymbol(paramnode)){
                         print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",0,0);          
                        }else{
-                       node.Add(paramnode);
+                        node.Add(paramnode);
+                        this.symboltable.addSymbol(paramnode);
                       }  
                   }
                   
@@ -1302,7 +1303,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Put x) {
-      Type type = x.accept(this);
+      Type type = x.expre.accept(this);
         if (type instanceof ErrorType) {
             print_error(" en evaluacion de la expresion de put",0,0);
             return new ErrorType(); 

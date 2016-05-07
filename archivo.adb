@@ -1,46 +1,37 @@
 procedure principal is
-    x,y,z  : integer;
-    --hola
-    h :  boolean;
- function x(e: in integer; z: out float) return integer is
-    x: integer;
-   begin
-   return s;
- end x;
- 
- procedure z  is
-    t:integer;
-  begin
-    x :=(5+z);
-    z:= (5*10) +20;
-    funcion(h,x,t);
-    get(t);
+	x,y,z : integer;
+	h:float;
 
-     if (x+20) <= 67 then
-      put("hola mundo");
-      
-     elsif (x+5)= 20 then
-       get(x);
+	procedure una_prueba(a,b: in integer; c: out integer) is
+		algo1 : integer;
+		
+		begin
+		c := a + b;
+		
+		if c = 10 then
+		  put(x);
+		else
+         c := 20;
+		end if;
 
-     else
-      x:=67;
-    end if;
- end z;
+	end una_prueba;
 
+	function algo (dinero,dinero : in integer; algo1: in out float ) return float is
+      total : float;
+     begin
+      while total >= 0 loop
+        get(total);
 
- begin
-    while x = (y+z) loop
-      h(x,y,g,h);
-      exit when t = 67 ;
-    end loop;
+      end loop;
 
-    loop
-     put("x");
-    end loop;
+     return hola;
+    end algo;
+    
+    
 
-    for i in 1..2+p(3,5) loop
-     put("hola");
-    end loop;  
-  put(x);
-
- end principal;
+	begin 
+	x := 10;
+	y := una_prueba(x,10,z);
+	h := algo(12,34,y);
+	put(h);
+end principal;
