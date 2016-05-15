@@ -30,7 +30,7 @@ public class SemanticAnalysis implements TypeTraverse{
     }
     
     public void print_error(String message, int line, int column){
-        System.err.println("ERROR: "+message+"en la linea:"+ line+", columna: "+column);
+        System.err.println("ERROR: "+message+" en la linea:"+ line+", columna: "+column);
         has_error=true;
     }
     
@@ -106,6 +106,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(Identifier x) {
+        
         SymbolTableNode node = this.symboltable.findSymbol(x.id,this.scope);
         if(node == null){
            print_error("El identificador "+x.id+" no ha sido declarado",0,0);
@@ -538,13 +539,13 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ReturnStatement x) {
-        System.out.println(" scope actual "+this.scope);
+        Type type =x.expre.accept(this);
+        
         String new_scope="";
         for (int i = this.scope.length()-1; i >=0 ; i--) {
-             System.out.println("i: "+i+" letra "+ this.scope.charAt(i));
+             
             if(this.scope.charAt(i)== 's'){
               new_scope= this.scope.substring(0,i);
-                System.out.println(" nuevo scope "+new_scope);
               break;
             }
         }
@@ -553,7 +554,7 @@ public class SemanticAnalysis implements TypeTraverse{
             System.out.println("error en el nodo de FTableNode");   
         }else if(node.getReturn_type().equals(new NullType())){
          print_error("Expresion ilegal, se encontro un return en un procedimiento",0,0);
-        }else if(!(node.getReturn_type().equals(x.expre))){
+        }else if(!(node.getReturn_type().equals(type))){
          print_error("La expresion del return no es del mismo tipo que la funcion, se esperaba un "+node.getReturn_type(),0,0);
         }
         return new NullType();
@@ -1190,7 +1191,25 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ReturnStatementError x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type =x.expre.accept(this);
+        
+        String new_scope="";
+        for (int i = this.scope.length()-1; i >=0 ; i--) {
+             
+            if(this.scope.charAt(i)== 's'){
+              new_scope= this.scope.substring(0,i);
+              break;
+            }
+        }
+        FTableNode node = this.symboltable.getFunction(new_scope,this.current_id);
+        if (node == null) {
+            System.out.println("error en el nodo de FTableNode");   
+        }else if(node.getReturn_type().equals(new NullType())){
+         print_error("Expresion ilegal, se encontro un return en un procedimiento",0,0);
+        }else if(!(node.getReturn_type().equals(type))){
+         print_error("La expresion del return no es del mismo tipo que la funcion, se esperaba un "+node.getReturn_type(),0,0);
+        }
+        return new ErrorType();
     }
 
     @Override

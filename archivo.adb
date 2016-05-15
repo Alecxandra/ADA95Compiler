@@ -21,10 +21,8 @@ procedure principal is
      begin
       while total >= 0 loop
         get(total);
-
       end loop;
 
-     return hola;
     end algo;
     
     
