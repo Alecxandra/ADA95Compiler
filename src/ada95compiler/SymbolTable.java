@@ -62,6 +62,15 @@ public class SymbolTable {
        return true;
     }
     
+    public FTableNode getFunction(String scope){
+        for (int i = 0; i < this.symbolList.size(); i++) {
+            if (this.symbolList.get(i) instanceof FTableNode && this.symbolList.get(i).Scope.equals(scope)) {
+                return (FTableNode)this.symbolList.get(i); 
+            }
+        }
+        return null;
+    }
+    
     
     
 }

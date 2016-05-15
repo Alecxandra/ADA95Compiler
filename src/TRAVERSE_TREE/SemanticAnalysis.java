@@ -22,7 +22,7 @@ public class SemanticAnalysis implements TypeTraverse{
    private SymbolTable symboltable;
    private boolean has_error;
    private String scope;
-
+   private String current_id;
     public SemanticAnalysis(SymbolTable symboltable) {
         this.symboltable = symboltable;
         has_error=false;
@@ -538,7 +538,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ReturnStatement x) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
         return new NullType();
     }
 
@@ -736,13 +736,12 @@ public class SemanticAnalysis implements TypeTraverse{
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
+       
+        this.current_id= x.preid.id;
         
-        for (int i = 0; i < x.poststa.size(); i++) {
-            if (x.poststa.elementAt(i) instanceof ReturnStatement) {
-                print_error("Retorno encontrado en procedure",0,0);
-            }else if(x.poststa.elementAt(i) instanceof ExitStatement){
-              print_error("No puede existir un Exit when fuera de un loop",0,0);
-            }
+        
+        for (int i = 0; i < x.presta.size(); i++) {
+            x.presta.elementAt(i).accept(this);
         }
         
         for (int i = 0; i < x.poststa.size(); i++) {
@@ -808,21 +807,12 @@ public class SemanticAnalysis implements TypeTraverse{
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
         
+        this.current_id= x.preid.id;
+        
         for (int i = 0; i < x.presta.size(); i++) {
             x.presta.elementAt(i).accept(this);
         }
         
-        boolean return_present=false;
-        for (int i = 0; i < x.poststa.size(); i++) {
-            if(x.poststa.elementAt(i) instanceof ReturnStatement ){
-                return_present=true;
-                break;
-            
-            }
-        }
-        if(return_present == false){
-         print_error("No hay return en esta funcion",0,0);
-        }
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
         }
@@ -862,7 +852,7 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < declarations.size(); i++) {
             declarations.elementAt(i).accept(this);
         }
-        
+        this.current_id= x.preid.id;
         Statements sta = x.stas;
         
         for (int i = 0; i < sta.size(); i++) {
@@ -989,12 +979,10 @@ public class SemanticAnalysis implements TypeTraverse{
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
         
-        for (int i = 0; i < x.poststa.size(); i++) {
-            if (x.poststa.elementAt(i) instanceof ReturnStatement) {
-                print_error("Retorno encontrado en procedure",0,0);
-            }else if(x.poststa.elementAt(i) instanceof ExitStatement){
-              print_error("No puede existir un Exit when fuera de un loop",0,0);
-            }
+        this.current_id= x.preid.id;
+        
+        for (int i = 0; i < x.presta.size(); i++) {
+            x.presta.elementAt(i).accept(this);
         }
         
         for (int i = 0; i < x.poststa.size(); i++) {
@@ -1172,16 +1160,10 @@ public class SemanticAnalysis implements TypeTraverse{
         if(!this.symboltable.addSymbol(node)){
                print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",0,0);          
             }
-        boolean return_present=false;
-        for (int i = 0; i < x.poststa.size(); i++) {
-            if(x.poststa.elementAt(i) instanceof ReturnStatement ){
-                return_present=true;
-                break;
-            
-            }
-        }
-        if(return_present == false){
-         print_error("No hay return en esta funcion",0,0);
+        this.current_id= x.preid.id;
+        
+        for (int i = 0; i < x.presta.size(); i++) {
+            x.presta.elementAt(i).accept(this);
         }
         for (int i = 0; i < x.poststa.size(); i++) {
             x.poststa.elementAt(i).accept(this);
@@ -1228,7 +1210,7 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < declarations.size(); i++) {
             declarations.elementAt(i).accept(this);
         }
-        
+        this.current_id= x.preid.id;
         Statements sta = x.stas;
         
         for (int i = 0; i < sta.size(); i++) {
