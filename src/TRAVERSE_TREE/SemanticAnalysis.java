@@ -551,12 +551,15 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         FTableNode node = this.symboltable.getFunction(new_scope,this.current_id);
         if (node == null) {
-            System.out.println("error en el nodo de FTableNode");   
+         System.out.println("error en el nodo de FTableNode");   
         }else if(node.getReturn_type().equals(new NullType())){
+         node.setHasReturn(true);
          print_error("Expresion ilegal, se encontro un return en un procedimiento",0,0);
         }else if(!(node.getReturn_type().equals(type))){
+         node.setHasReturn(true);
          print_error("La expresion del return no es del mismo tipo que la funcion, se esperaba un "+node.getReturn_type(),0,0);
         }
+        node.setHasReturn(true);
         return new NullType();
     }
 
@@ -876,6 +879,14 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < sta.size(); i++) {
             sta.elementAt(i).accept(this);
         }
+        
+        ArrayList<FTableNode> functions = symboltable.getAllFunctions();
+        for(int i=0; i<functions.size(); i++ ){
+            if(!(functions.get(i)).getHasReturn() && !functions.get(i).getReturn_type().equals(new NullType()) ){
+                print_error("La función "+ functions.get(i).getId() + " no tiene retorno",0,0);
+            }
+        }
+        
      return new NullType();   
     }
 
