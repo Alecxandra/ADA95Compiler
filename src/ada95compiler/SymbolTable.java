@@ -71,6 +71,15 @@ public class SymbolTable {
         return null;
     }
     
-    
+    public ArrayList<FTableNode> getAllFunctions (){
+        ArrayList<FTableNode> functions = new ArrayList();
+        for(int i=0; i<this.symbolList.size(); i++){
+            if(this.symbolList.get(i) instanceof FTableNode){
+                functions.add((FTableNode) this.symbolList.get(i));
+            }
+        }
+        return functions;
+    }
+     
     
 }

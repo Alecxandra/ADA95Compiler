@@ -17,12 +17,12 @@ procedure principal is
 	end una_prueba;
 
 	function algo (dinero : in integer; algo1: in out float ) return float is
-      total : float;
+      total : integer;
      begin
+     
       while total >= 0 loop
         get(total);
       end loop;
-
     end algo;
     
     

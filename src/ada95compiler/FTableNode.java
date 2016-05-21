@@ -15,11 +15,13 @@ import java.util.ArrayList;
 public class FTableNode extends SymbolTableNode{
     private Type return_type;
     private ArrayList<VTableNode> params;
-
+    private boolean hasReturn;
+    
     public FTableNode(Type return_type, String Id, String Scope) {
         super(Id,Scope);
         this.return_type = return_type;
         this.params= new ArrayList();
+        this.hasReturn = false;
     }
     
     public void Add(VTableNode x){
@@ -41,7 +43,13 @@ public class FTableNode extends SymbolTableNode{
     public void setParams(ArrayList<VTableNode> params) {
         this.params = params;
     }
-    
-    
+
+    public boolean getHasReturn() {
+        return hasReturn;
+    }
+
+    public void setHasReturn(boolean hasReturn) {
+        this.hasReturn = hasReturn;
+    }
     
 }
