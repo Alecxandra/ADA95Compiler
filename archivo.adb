@@ -29,7 +29,8 @@ procedure principal is
 
 	begin 
 	x := 10;
-	una_prueba(x,10,z);
+	total := 1.0;
+	una_prueba(x,10);
 	h := algo(12,34.0);
 	put(h);
 end principal;
