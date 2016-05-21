@@ -630,7 +630,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ExitStatement x) {
-        Type type = x.accept(this);
+        Type type = x.expre.accept(this);
         if(!(type instanceof BooleanType)){
          print_error("La condicion del Exit when no es una expresion booleana",0,0);
         }
@@ -766,6 +766,9 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         
         for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             x.poststa.elementAt(i).accept(this);
         }
         
@@ -835,6 +838,9 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         
         for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             x.poststa.elementAt(i).accept(this);
         }
         this.scope= new String(temp_scope);
@@ -877,6 +883,9 @@ public class SemanticAnalysis implements TypeTraverse{
         Statements sta = x.stas;
         
         for (int i = 0; i < sta.size(); i++) {
+            if(sta.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             sta.elementAt(i).accept(this);
         }
         
@@ -1015,6 +1024,9 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         
         for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             x.poststa.elementAt(i).accept(this);
         }
         return new ErrorType();
@@ -1195,6 +1207,9 @@ public class SemanticAnalysis implements TypeTraverse{
             x.presta.elementAt(i).accept(this);
         }
         for (int i = 0; i < x.poststa.size(); i++) {
+            if(x.poststa.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             x.poststa.elementAt(i).accept(this);
         }
         return new ErrorType();
@@ -1245,7 +1260,7 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ProgramInitError x) {
-        if(!x.preid.equals(x.postid)){
+    if(!x.preid.equals(x.postid)){
             print_error("Los identificadores del procedimiento no coinciden",0,0);
         }
         String current_scope= Scope.getNewScope();
@@ -1261,9 +1276,20 @@ public class SemanticAnalysis implements TypeTraverse{
         Statements sta = x.stas;
         
         for (int i = 0; i < sta.size(); i++) {
+            if(sta.elementAt(i) instanceof ExitStatement){
+                print_error("Expresión ilegeal, Exit When fuera de un loop",0,0);
+            }
             sta.elementAt(i).accept(this);
         }
-     return new ErrorType();
+        
+        ArrayList<FTableNode> functions = symboltable.getAllFunctions();
+        for(int i=0; i<functions.size(); i++ ){
+            if(!(functions.get(i)).getHasReturn() && !functions.get(i).getReturn_type().equals(new NullType()) ){
+                print_error("La función "+ functions.get(i).getId() + " no tiene retorno",0,0);
+            }
+        }
+        
+     return new ErrorType(); 
     }
 
     @Override

@@ -28,6 +28,7 @@ procedure principal is
     
 
 	begin 
+        exit when 10>3;
 	x := 10;
 	una_prueba(x,10,z);
 	h := algo(12,34.0);
