@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class ElseIfStatement {
    public Expression expre;
    public Statements statements;
+   private int line;
+   private int column;
 
     public ElseIfStatement(Expression expre, Statements statements) {
         this.expre = expre;
@@ -31,4 +33,21 @@ public class ElseIfStatement {
     public void accept (TypeTraverse tt){
       tt.traverse(this);
     }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+    
 }

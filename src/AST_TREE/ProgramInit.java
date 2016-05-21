@@ -17,6 +17,8 @@ public class ProgramInit {
     public Declarations declarations;
     public Statements stas;
     public Identifier postid;
+    private int line;
+    private int column;
 
     public ProgramInit(Identifier preid, Declarations declarations, Statements stas, Identifier postid) {
         this.preid = preid;
@@ -33,6 +35,22 @@ public class ProgramInit {
     }
      public void accept (TypeTraverse tt){
       tt.traverse(this);
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
     
 }
