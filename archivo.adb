@@ -1,19 +1,19 @@
 procedure principal is
-	x,y,z : integer;
-	h:float;
+    x,y,z : integer;
+    h:float;
 
-	procedure una_prueba(a,b: in integer; c: out integer) is
-		algo1 : integer;
-		begin
+    procedure una_prueba(a,b: in integer; c: out integer) is
+        algo1 : integer;
+        begin
                     c := a + b;
                     if c = 10 then
                         put(x);
                     else
                         c := 20;
                     end if;
-	end una_prueba;
+    end una_prueba;
 
-	function algo (dinero : in integer; algo1: in out float ) return float is
+    function algo (dinero : in integer; algo1: in out float ) return float is
             total : integer;
             begin
      
@@ -22,12 +22,10 @@ procedure principal is
             end loop;
         end algo;
     
-	begin 
-
+    begin 
             exit when 10>3;
             x := 10;
             una_prueba(x,10,z);
             h := algo(12,34.0);
             put(h);
-
 end principal;

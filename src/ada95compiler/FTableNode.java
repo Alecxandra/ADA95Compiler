@@ -16,6 +16,8 @@ public class FTableNode extends SymbolTableNode{
     private Type return_type;
     private ArrayList<VTableNode> params;
     private boolean hasReturn;
+    private int column;
+    private int line;
     
     public FTableNode(Type return_type, String Id, String Scope) {
         super(Id,Scope);
@@ -50,6 +52,22 @@ public class FTableNode extends SymbolTableNode{
 
     public void setHasReturn(boolean hasReturn) {
         this.hasReturn = hasReturn;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
     }
     
 }

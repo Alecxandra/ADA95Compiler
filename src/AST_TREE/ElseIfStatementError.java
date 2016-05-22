@@ -32,5 +32,19 @@ public class ElseIfStatementError extends ElseIfStatement{
      public void accept (TypeTraverse tt){
       tt.traverse(this);
     }
-   
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
 }

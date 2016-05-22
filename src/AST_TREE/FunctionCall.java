@@ -14,7 +14,7 @@ import TRAVERSE_TREE.TypeTraverse;
  */
 public class FunctionCall extends Expression{
     public Identifier id;
-    public ArgumentList args;
+    public ArgumentList args = new ArgumentList();
 
     public FunctionCall(Identifier id, ArgumentList args) {
         this.id = id;

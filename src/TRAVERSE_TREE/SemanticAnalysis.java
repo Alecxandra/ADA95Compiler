@@ -23,6 +23,8 @@ public class SemanticAnalysis implements TypeTraverse{
    private boolean has_error;
    private String scope;
    private String current_id;
+   
+   
     public SemanticAnalysis(SymbolTable symboltable) {
         this.symboltable = symboltable;
         has_error=false;
@@ -35,7 +37,7 @@ public class SemanticAnalysis implements TypeTraverse{
     }
     
     public boolean haserror(){
-    return has_error;
+        return has_error;
     }
  
     
@@ -181,10 +183,15 @@ public class SemanticAnalysis implements TypeTraverse{
       return new ErrorType();
      }
      
-     if(!(type1.equals(type2))){
-      print_error("no se permite sumar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
+     
+    if(!(type1.equals(type2))){
+        if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){    
+            print_error("no se permite sumar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
+        }
       return new ErrorType();
-     }
+    
+    }
+     
      return type1;
     }
 
@@ -203,10 +210,14 @@ public class SemanticAnalysis implements TypeTraverse{
       return new ErrorType();
      }
      
-     if(!(type1.equals(type2))){
-      print_error("no se permite restar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
-      return new ErrorType();
-     }
+     
+         if(!(type1.equals(type2))){
+           if (!(type1 instanceof ErrorType || type2 instanceof ErrorType)){  
+             print_error("no se permite restar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
+           }  
+            return new ErrorType();
+         }
+     
      return type1;
     }
     
@@ -226,10 +237,13 @@ public class SemanticAnalysis implements TypeTraverse{
       return new ErrorType();
      }
      
-     if(!(type1.equals(type2))){
-      print_error("no se permite multiplicar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
-      return new ErrorType();
-     }
+        if(!(type1.equals(type2))){
+           if( !(type1 instanceof ErrorType || type2 instanceof ErrorType)){ 
+               print_error("no se permite multiplicar expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
+           }
+           return new ErrorType();
+       }
+     
      return type1;
     }
 
@@ -248,10 +262,13 @@ public class SemanticAnalysis implements TypeTraverse{
       return new ErrorType();
      }
      
-     if(!(type1.equals(type2))){
-      print_error("no se permite dividir expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
-      return new ErrorType();
-     }
+         if(!(type1.equals(type2))){
+           if (!(type1 instanceof ErrorType || type2 instanceof ErrorType)){     
+            print_error("no se permite dividir expresiones de tipo "+type1.getClass().getSimpleName().replaceAll("Type","")+" y "+type2.getClass().getSimpleName().replaceAll("Type",""),x.getLine(),x.getColumn());
+           } 
+            return new ErrorType();
+         }
+     
      return type1;
     }
 
@@ -324,11 +341,15 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar booleans",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-        if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" <= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
-        }
         
+        
+            if(!type1.equals(type2)){
+               if( !(type1 instanceof ErrorType || type2 instanceof ErrorType)){ 
+                print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" <= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+               } 
+                return new ErrorType();
+            
+        }
         return new BooleanType(); 
     }
 
@@ -345,10 +366,15 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar booleans",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-        if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" >= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
-        }
+        
+        
+            if(!type1.equals(type2)){
+              if( !(type1 instanceof ErrorType || type2 instanceof ErrorType)){  
+                print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" >= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+              }  
+                return new ErrorType();
+            
+            }
         
         return new BooleanType(); 
     }
@@ -361,13 +387,15 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar strings",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-      
-     if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" /= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
-        }
-        
-        return new BooleanType();   
+     
+     
+         if(!type1.equals(type2)){
+           if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){  
+            print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" /= "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+          }
+            return new ErrorType();
+         }  
+      return new BooleanType();   
     }
 
     @Override
@@ -383,10 +411,16 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar booleans",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-        if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" > "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
+        
+        
+            if(!type1.equals(type2)){
+              if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){  
+                print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" > "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+              } 
+              return new ErrorType();
+            
         }
+        
         
         return new BooleanType();
     }
@@ -404,11 +438,16 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar booleans",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-        if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" < "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
-        }
         
+        
+            if(!type1.equals(type2)){
+              if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){  
+                print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" < "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+              }  
+              return new ErrorType();
+            
+        
+        }
         return new BooleanType();
     }
 
@@ -421,10 +460,17 @@ public class SemanticAnalysis implements TypeTraverse{
           print_error("no se pueden comparar strings",x.getLine(),x.getColumn());
           return new ErrorType();
         }
-        if(!type1.equals(type2)){
-          print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" = "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
-          return new ErrorType();
+        
+        
+            if(!type1.equals(type2)){
+               if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){ 
+                print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type","")+" = "+type2.getClass().getSimpleName().replaceAll("Type","")+", tipos incompatibles",x.getLine(),x.getColumn());
+               }            
+ 
+                return new ErrorType();
+            
         }
+        
         
         return new BooleanType();
     }
@@ -437,7 +483,10 @@ public class SemanticAnalysis implements TypeTraverse{
      if(type1 instanceof BooleanType && type2 instanceof BooleanType){
       return new BooleanType();
      }else{
-      print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" and "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",x.getLine(),x.getColumn());
+         if(!(type1 instanceof ErrorType || type2 instanceof ErrorType)){
+             print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" and "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",x.getLine(),x.getColumn());
+         }
+      
       return new ErrorType();
      }
     }
@@ -450,8 +499,10 @@ public class SemanticAnalysis implements TypeTraverse{
      if(type1 instanceof BooleanType && type2 instanceof BooleanType){
       return new BooleanType();
      }else{
-      print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" or "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",x.getLine(),x.getColumn());
-      return new ErrorType();
+        if(!( type1 instanceof ErrorType || type2 instanceof ErrorType)){ 
+         print_error("no se puede comparar "+type1.getClass().getSimpleName().replaceAll("Type", "")+" or "+type2.getClass().getSimpleName().replaceAll("Type", "")+", tipos incompatibles",x.getLine(),x.getColumn());
+        } 
+        return new ErrorType();
      }
      
     }
@@ -463,7 +514,9 @@ public class SemanticAnalysis implements TypeTraverse{
      if(type1 instanceof BooleanType){
       return new BooleanType();
      }else{
-      print_error("no se puede negar el tipo "+type1.getClass().getSimpleName().replaceAll("Type", ""),x.getLine(),x.getColumn());
+      if(!(type1 instanceof ErrorType) ){   
+        print_error("no se puede negar el tipo "+type1.getClass().getSimpleName().replaceAll("Type", ""),x.getLine(),x.getColumn());
+      }
       return new ErrorType();
      }
     }
@@ -509,7 +562,9 @@ public class SemanticAnalysis implements TypeTraverse{
             }
             
          if (!(((VTableNode)node).getType().equals(type))) {
-            print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),x.getLine(),x.getColumn());
+            if(!(((VTableNode)node).getType() instanceof ErrorType || type instanceof ErrorType)){ 
+                print_error("no se puede asignar una expresion de tipo " + type.toString() +" a una variable de tipo "+((VTableNode)node).getType().toString(),x.getLine(),x.getColumn());
+            }
             return new ErrorType();
         }
         }
@@ -556,8 +611,10 @@ public class SemanticAnalysis implements TypeTraverse{
          node.setHasReturn(true);
          print_error("Expresion ilegal, se encontro un return en un procedimiento",x.getLine(),x.getColumn());
         }else if(!(node.getReturn_type().equals(type))){
-         node.setHasReturn(true);
-         print_error("La expresion del return no es del mismo tipo que la funcion, se esperaba un "+node.getReturn_type(),x.getLine(),x.getColumn());
+            node.setHasReturn(true);
+            if(!(node.getReturn_type() instanceof ErrorType || type instanceof ErrorType)){
+                print_error("La expresion del return no es del mismo tipo que la funcion, se esperaba un "+node.getReturn_type(),x.getLine(),x.getColumn());
+            }        
         }
         node.setHasReturn(true);
         return new NullType();
@@ -785,6 +842,8 @@ public class SemanticAnalysis implements TypeTraverse{
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
         FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
+        node.setLine(x.getLine());
+        node.setColumn(x.getColumn());
         for (int i = 0; i < x.params.size(); i++) {
             if (x.params.elementAt(i) instanceof In) {
                 
@@ -884,7 +943,7 @@ public class SemanticAnalysis implements TypeTraverse{
         
         for (int i = 0; i < sta.size(); i++) {
             if(sta.elementAt(i) instanceof ExitStatement){
-                print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());
+                print_error("Expresión ilegeal, Exit When fuera de un loop",sta.elementAt(i).getLine(),sta.elementAt(i).getColumn());
             }
             sta.elementAt(i).accept(this);
         }
@@ -892,7 +951,7 @@ public class SemanticAnalysis implements TypeTraverse{
         ArrayList<FTableNode> functions = symboltable.getAllFunctions();
         for(int i=0; i<functions.size(); i++ ){
             if(!(functions.get(i)).getHasReturn() && !functions.get(i).getReturn_type().equals(new NullType()) ){
-                print_error("La función "+ functions.get(i).getId() + " no tiene retorno",x.getLine(),x.getColumn());
+                print_error("La función "+ functions.get(i).getId() + " no tiene retorno",functions.get(i).getLine(),functions.get(i).getColumn());
             }
         }
         
@@ -913,10 +972,13 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ExitStatementError x) {
-        Type type = x.expre.accept(this);
-        if (!(type instanceof BooleanType)) {
-            print_error("La expresion del Exit When no es booleana",x.getLine(),x.getColumn());
+        if(x.expre != null){
+            Type type = x.expre.accept(this);
+           if (!(type instanceof BooleanType)) {
+               print_error("La expresion del Exit When no es booleana",x.getLine(),x.getColumn());
+           }
         }
+        
         return new ErrorType();
     }
 
@@ -1063,7 +1125,9 @@ public class SemanticAnalysis implements TypeTraverse{
             }
             
          if (!(((VTableNode)node).getType().equals(type))) {
-            print_error("no se puede asignar una expresion de tipo " + type.toString() +"a una variable de tipo "+((VTableNode)node).getType().toString(),x.getLine(),x.getColumn());
+            if(!(((VTableNode)node).getType() instanceof ErrorType || type instanceof ErrorType)){ 
+                print_error("no se puede asignar una expresion de tipo " + type.toString() +" a una variable de tipo "+((VTableNode)node).getType().toString(),x.getLine(),x.getColumn());
+            }
             return new ErrorType();
         }
         }
@@ -1156,6 +1220,8 @@ public class SemanticAnalysis implements TypeTraverse{
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
         FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
+        node.setColumn(x.getColumn());
+        node.setLine(x.getLine());
         for (int i = 0; i < x.params.size(); i++) {
             if (x.params.elementAt(i) instanceof In) {
                 

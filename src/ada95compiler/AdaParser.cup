@@ -226,7 +226,7 @@ expression ::=  ID:id
                    |INTEGERN:num1
                    {: RESULT = new IntegerLiteral(num1); RESULT.setLine(num1left); RESULT.setColumn(num1right); :}
                    |STRINGCONT:ws
-                   {: RESULT= new StringLiteral(s); RESULT.setLine(wsleft); RESULT.setColumn(wsright); :} 
+                   {: RESULT= new StringLiteral(ws); RESULT.setLine(wsleft); RESULT.setColumn(wsright); :} 
                     
  ;
 
@@ -370,31 +370,32 @@ expression ::=  ID:id
 ;
 
  elsif_statement ::= ELSIF:weif expression:e1 THEN statements:e2 elsif_statement:e3
-                     {:e3.addE(new ElseIfStatement(e1,e2)); RESULT=e3; RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {: ElseIfStatement var = new ElseIfStatement(e1,e2);var.setLine(weifleft); var.setColumn(weifright); e3.addE(var); RESULT=e3;  :}
                      | ELSIF:weif expression:e1 THEN statements:e2
-                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatement(e1,e2)); RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {:RESULT= new ElsifStatements();ElseIfStatement var=new ElseIfStatement(e1,e2) ; var.setLine(weifleft); var.setColumn(weifright); RESULT.addE(var); :}
                      | ELSIF:weif expression:e1 error:e3 statements:e2
-                     {:RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then",e2));  
-                     System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {:RESULT= new ElsifStatements(); ElseIfStatementError var =new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then",e2); 
+                     var.setLine(weifleft); var.setColumn(weifright);RESULT.addE(var);  
+                     System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); :}
                      | ELSIF:weif error:e1 THEN statements:e2
-                     {: RESULT= new ElsifStatements(); RESULT.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2)); 
-                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {: RESULT= new ElsifStatements(); ElseIfStatementError var = new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2); var.setLine(weifleft); var.setColumn(weifright); RESULT.addE(var); 
+                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); :}
                      | ELSIF:weif expression:e1 error:e3 statements:e2 elsif_statement:e4
-                     {:e4.addE(new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then",e2));
-                     System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then"); RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {: ElseIfStatementError var= new ElseIfStatementError(e3right,e3left,"ERROR: "+"linea: "+e3right+" , columna: "+e3right+" || "+"elsif sin then",e2);var.setLine(weifleft); var.setColumn(weifright);e4.addE(var);
+                     System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"elsif sin then");  :}
                      | ELSIF:weif error:e1 THEN statements:e2 elsif_statement:e3
-                     {: e3.addE(new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2));
-                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif"); RESULT.setLine(weifleft); RESULT.setColumn(weifright); :}
+                     {: ElseIfStatementError var =new ElseIfStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif",e2); var.setLine(weifleft); var.setColumn(weifright);e3.addE(var);
+                     System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en elsif");  :}
  ;
 
  while_statement ::= WHILE:ww expression:e1 LOOP statements:e2 END LOOP SEMICOLON
-                     {: RESULT =  new WhileStatement(e1, e2); RESULT.setLine(wwleft); RESULT.setColumn(wwfright); :}
-                     |WHILE:ww error:e1 LOOP: statements:e2 END LOOP SEMICOLON
-                     {:RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); RESULT.setLine(wwleft); RESULT.setColumn(wwfright); :}
+                     {: RESULT =  new WhileStatement(e1, e2); RESULT.setLine(wwleft); RESULT.setColumn(wwright); :}
+                     |WHILE:ww error:e1 LOOP statements:e2 END LOOP SEMICOLON
+                     {:RESULT = new WhileStatementError(e1right,e1left,"ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while",e2); System.err.println("ERROR: "+"linea: "+e1left+" , columna: "+e1right+" || "+"expresion no valida en while"); RESULT.setLine(wwleft); RESULT.setColumn(wwright); :}
                      |WHILE:ww expression:e1 error:e3 statements:e2 END LOOP SEMICOLON
-                     {:RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); RESULT.setLine(wwleft); RESULT.setColumn(wwfright); :}
+                     {:RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"while sin loop"); RESULT.setLine(wwleft); RESULT.setColumn(wwright); :}
                      |WHILE:ww expression:e1 LOOP statements:e2 END LOOP error:e3
-                     {: RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> "); RESULT.setLine(wwleft); RESULT.setColumn(wwfright); :}
+                     {: RESULT = new WhileStatementError(e3right,e3left,"ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> ",e2); System.err.println("ERROR: "+"linea: "+e3left+" , columna: "+e3right+" || "+"se esperaba <;> "); RESULT.setLine(wwleft); RESULT.setColumn(wwright); :}
  ;
 
  exit_statement ::= EXIT:we WHEN expression:e1 SEMICOLON
