@@ -1,12 +1,12 @@
 procedure principal is
     x,y,z : integer;
-    h:float;
+    h : float;
 
     procedure una_prueba(a,b: in integer; c: out integer) is
         algo1 : integer;
         begin
                     c := a + b;
-                    if c = 10 then
+                    if a >= 10 then
                         put(x);
                     else
                         c := 20;
@@ -17,9 +17,10 @@ procedure principal is
             total : integer;
             begin
      
-            while total >= 0 loop
+            while total = 0 loop
                 get(total);
             end loop;
+            return algo1;
         end algo;
     
     begin 
