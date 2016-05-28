@@ -11,7 +11,7 @@ import java.util.Vector;
  *
  * @author cbanegas
  */
-public class IntermediateExpression {
+public class IntermediateExpression extends IntermediateStatement {
     private Temporal place;
     private Vector<Label> t;
     private Vector<Label> f;
