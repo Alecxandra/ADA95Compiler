@@ -16,6 +16,44 @@ public class Quadruple {
     private String op2;
     private Operations type;
     private Label l;
+
+    public Quadruple(String store, String op1, String op2, Operations type) {
+        this.store = store;
+        this.op1 = op1;
+        this.op2 = op2;
+        this.type = type;
+    }
+
+    public Quadruple(String store, String op1, String op2, Operations type, Label l) {
+        this.store = store;
+        this.op1 = op1;
+        this.op2 = op2;
+        this.type = type;
+        this.l = l;
+    }
     
+    public Quadruple(Label l) {
+        this.l = l;
+        this.type = Operations.LABEL;
+    }
     
+    public String getStore() {
+        return store;
+    }
+
+    public String getOp1() {
+        return op1;
+    }
+
+    public String getOp2() {
+        return op2;
+    }
+
+    public Operations getType() {
+        return type;
+    }
+    
+    public Label getLabel() {
+        return l;
+    }
 }
