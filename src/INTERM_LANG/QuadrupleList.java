@@ -5,17 +5,17 @@
  */
 package INTERM_LANG;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
  * @author cbanegas
  */
 public class QuadrupleList {
-    private Vector<Quadruple> list;
+    private ArrayList<Quadruple> list;
 
     public QuadrupleList() {
-        this.list = new Vector();
+        this.list = new ArrayList();
     }
     
     public void add(Quadruple n) {
@@ -31,7 +31,7 @@ public class QuadrupleList {
     }
     
     public QuadrupleList merge(QuadrupleList other) {
-        Vector<Quadruple> neoList = new Vector();
+        ArrayList<Quadruple> neoList = new ArrayList();
         neoList.addAll(this.list);
         neoList.addAll(other.list);
         QuadrupleList neo = new QuadrupleList();
