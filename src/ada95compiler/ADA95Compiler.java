@@ -7,6 +7,8 @@ package ada95compiler;
 
 import AST_TREE.ProgramInit;
 import AST_TREE.Statements;
+import INTERM_LANG.IntermediateStatement;
+import TRAVERSE_TREE.IntermediateCode;
 import TRAVERSE_TREE.SemanticAnalysis;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +40,16 @@ public class ADA95Compiler {
             SemanticAnalysis semantic = new SemanticAnalysis(symboltable);
             programa.accept(semantic);
             System.out.println("Termine");
+            if(!semantic.haserror()){
+                File intermediateCodeFile = new File(file.getAbsolutePath().replace(".adb", "") + ".o");
+                IntermediateCode ic = new IntermediateCode(intermediateCodeFile, semantic);
+                IntermediateStatement interForm = (IntermediateStatement) ic.traverse(programa);
+                ic.createFile(interForm.buildIntermediateCode());
+            }else{
+                
+            }
+            
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
