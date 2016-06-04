@@ -12,7 +12,7 @@ package INTERM_LANG;
 public class IntermediateForm {
     public QuadrupleList operations;
      
-     public IntermediateForm() {
+    public IntermediateForm() {
          this.operations = new QuadrupleList();
-     }
+    }
 }
