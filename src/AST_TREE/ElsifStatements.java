@@ -5,8 +5,6 @@
  */
 package AST_TREE;
 
-import TRAVERSE_TREE.ParentTraverse;
-import TRAVERSE_TREE.TypeTraverse;
 import java.util.ArrayList;
 
 /**
@@ -32,5 +30,4 @@ public class ElsifStatements {
     public int size(){
         return list.size();
     }
-    
 }

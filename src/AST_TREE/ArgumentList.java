@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import java.util.ArrayList;
 
 /**
@@ -31,4 +33,7 @@ public class ArgumentList {
         return list.size();
     }
     
+    public IntermediateForm accept(IntermediateTraverse it){
+        return it.traverse(this);
+    }
 }

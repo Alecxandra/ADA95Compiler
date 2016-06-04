@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
 
@@ -35,6 +37,9 @@ public class ProgramInit {
     }
      public void accept (TypeTraverse tt){
       tt.traverse(this);
+    }
+    public IntermediateForm accept(IntermediateTraverse it){
+        return it.traverse(this);
     }
 
     public int getLine() {

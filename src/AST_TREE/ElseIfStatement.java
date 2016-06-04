@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
 import java.util.ArrayList;
@@ -33,7 +35,11 @@ public class ElseIfStatement {
     public void accept (TypeTraverse tt){
       tt.traverse(this);
     }
-
+    
+    public IntermediateForm accept(IntermediateTraverse it){
+        return it.traverse(this);
+    }
+    
     public int getLine() {
         return line;
     }
@@ -49,5 +55,4 @@ public class ElseIfStatement {
     public void setColumn(int column) {
         this.column = column;
     }
-    
 }

@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
 
@@ -18,6 +20,8 @@ public abstract class Type {
     
     public abstract void accept(ParentTraverse pt);
     public abstract Type accept(TypeTraverse tt);
+    public abstract IntermediateForm accept(IntermediateTraverse it);
+    
     @Override
     public abstract boolean equals(Object obj);
     

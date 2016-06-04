@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
 
@@ -25,6 +27,9 @@ public class StringLiteral extends LiteralExpression{
     }
      public Type accept (TypeTraverse tt){
       return tt.traverse(this);
-    }     
+    }  
+    public IntermediateForm accept(IntermediateTraverse it){
+        return it.traverse(this);
+    }
             
 }

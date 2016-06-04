@@ -5,6 +5,8 @@
  */
 package AST_TREE;
 
+import INTERM_LANG.IntermediateForm;
+import TRAVERSE_TREE.IntermediateTraverse;
 import TRAVERSE_TREE.ParentTraverse;
 import TRAVERSE_TREE.TypeTraverse;
 
@@ -17,4 +19,6 @@ public abstract class LogicalExpression extends Expression{
     public abstract void accept(ParentTraverse pt);
     @Override
     public abstract Type accept(TypeTraverse tt);
+    @Override
+    public abstract IntermediateForm accept(IntermediateTraverse it);
 }
