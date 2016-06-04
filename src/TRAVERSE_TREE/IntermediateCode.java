@@ -79,9 +79,12 @@ import AST_TREE.Umin;
 import AST_TREE.VariableList;
 import AST_TREE.WhileStatement;
 import AST_TREE.WhileStatementError;
+import INTERM_LANG.IntermediateExpression;
 import INTERM_LANG.IntermediateForm;
 import INTERM_LANG.IntermediateStatement;
 import INTERM_LANG.Label;
+import INTERM_LANG.Quadruple;
+import INTERM_LANG.Temporal;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -158,17 +161,29 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(TrueType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Label next = new Label();
+        ie.operations.add(new Quadruple("","","",Quadruple.Operations.GOTO, next));
+        ie.getTrue().add(next);
+        ie.setPlace(new Temporal(Integer.toString(1)));
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(FalseType x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Label next = new Label();
+        ie.operations.add(new Quadruple("","","",Quadruple.Operations.GOTO, next));
+        ie.getFalse().add(next);
+        ie.setPlace(new Temporal(Integer.toString(0)));
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(FloatLiteral x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         IntermediateExpression ie = new IntermediateExpression();
+        ie.setPlace(new Temporal(Float.toString(x.num)));
+        return ie;
     }
 
     @Override
@@ -198,7 +213,8 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(Add x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        
     }
 
     @Override
@@ -498,12 +514,19 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(IntegerLiteral x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        ie.setPlace(new Temporal(Integer.toString(x.num)));
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(StringLiteral x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        ie.setPlace(new Temporal("\""+x.str+"\""));
+        if(!stringsTable.contains(x.str)){
+          stringsTable.add(x.str);
+        }
+        return ie;
     }
     
 }
