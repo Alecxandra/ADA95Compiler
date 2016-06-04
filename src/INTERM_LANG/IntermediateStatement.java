@@ -1,24 +1,24 @@
 package INTERM_LANG;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
  * @author cbanegas
  */
 public class IntermediateStatement extends IntermediateForm{
-    private Vector<Label> next;
+    private ArrayList<Label> next;
    
     public IntermediateStatement() { 
-        this.next = new Vector();
+        this.next = new ArrayList();
     }
 
 
-    public Vector<Label> getNext() {
+    public ArrayList<Label> getNext() {
         return next;
     }
 
-    public void setNext(Vector<Label> next) {
+    public void setNext(ArrayList<Label> next) {
         this.next = next;
     }
     

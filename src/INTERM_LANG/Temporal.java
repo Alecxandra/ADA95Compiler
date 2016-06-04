@@ -6,7 +6,7 @@ package INTERM_LANG;
  */
 public class Temporal {
     
-    private static int temporalCount;
+    private static int temporalCount = 0;
     private String temporalLiteral;
 
     public Temporal() {

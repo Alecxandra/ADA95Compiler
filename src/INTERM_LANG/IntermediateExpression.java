@@ -5,7 +5,7 @@
  */
 package INTERM_LANG;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,23 +13,23 @@ import java.util.Vector;
  */
 public class IntermediateExpression extends IntermediateStatement {
     private Temporal place;
-    private Vector<Label> t;
-    private Vector<Label> f;
+    private ArrayList<Label> t;
+    private ArrayList<Label> f;
     
     public IntermediateExpression() { 
-        this.t = new Vector();
-        this.f = new Vector();
+        this.t = new ArrayList();
+        this.f = new ArrayList();
     }
 
     public Temporal getPlace() {
         return place;
     }
 
-    public Vector<Label> getTrue() {
+    public ArrayList<Label> getTrue() {
         return t;
     }
 
-    public Vector<Label> getFalse() {
+    public ArrayList<Label> getFalse() {
         return f;
     }
 
@@ -37,11 +37,11 @@ public class IntermediateExpression extends IntermediateStatement {
         this.place = place;
     }
 
-    public void setTrue(Vector<Label> t) {
+    public void setTrue(ArrayList<Label> t) {
         this.t = t;
     }
 
-    public void setFalse(Vector<Label> f) {
+    public void setFalse(ArrayList<Label> f) {
         this.f = f;
     }
 }
