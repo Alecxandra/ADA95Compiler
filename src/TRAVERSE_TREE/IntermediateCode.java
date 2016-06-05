@@ -23,6 +23,7 @@ import AST_TREE.ElseIfStatement;
 import AST_TREE.ElseIfStatementError;
 import AST_TREE.ElsifStatements;
 import AST_TREE.Equal;
+import AST_TREE.ErrorType;
 import AST_TREE.ExitStatement;
 import AST_TREE.ExitStatementError;
 import AST_TREE.Expression;
@@ -71,6 +72,7 @@ import AST_TREE.PutError;
 import AST_TREE.ReturnStatement;
 import AST_TREE.ReturnStatementError;
 import AST_TREE.Statement;
+import AST_TREE.Statements;
 import AST_TREE.StringLiteral;
 import AST_TREE.StringType;
 import AST_TREE.TrueType;
@@ -84,6 +86,7 @@ import INTERM_LANG.IntermediateForm;
 import INTERM_LANG.IntermediateStatement;
 import INTERM_LANG.Label;
 import INTERM_LANG.Quadruple;
+import INTERM_LANG.QuadrupleList;
 import INTERM_LANG.Temporal;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -188,108 +191,360 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(LogicalExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof And){
+         return ((And)x).accept(this);
+        }else if(x instanceof Or){
+         return ((Or)x).accept(this);
+        }else if(x instanceof Not){
+         return ((Not)x).accept(this);
+        }else if(x instanceof TrueType){
+         return ((TrueType)x).accept(this);
+        }else if(x instanceof FalseType){
+        return ((FalseType)x).accept(this);
+        }else{
+        return new IntermediateExpression();
+        }
     }
 
     @Override
     public IntermediateForm traverse(LiteralExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof FloatLiteral){
+          return ((FloatLiteral)x).accept(this);
+        }else if(x instanceof IntegerLiteral){
+         return ((IntegerLiteral)x).accept(this);
+        }else if(x instanceof StringLiteral){ 
+          return ((StringLiteral)x).accept(this);
+        }else{
+         return new IntermediateExpression();
+        }
     }
 
     @Override
     public IntermediateForm traverse(Identifier x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        ie.setPlace(new Temporal(x.id));
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Expression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if(x instanceof Identifier){
+        return ((Identifier)x).accept(this);  
+      }else if(x instanceof LiteralExpression){
+       return ((LiteralExpression)x).accept(this);
+      }else if(x instanceof ArithmeticExpression){
+       return ((ArithmeticExpression)x).accept(this);
+      }else if(x instanceof Expression){
+       return ((Expression)x).accept(this);
+      }else if(x instanceof BooleanExpression){
+       return ((BooleanExpression)x).accept(this);
+      }else if(x instanceof LogicalExpression){
+       return ((LogicalExpression)x).accept(this);
+      }else if(x instanceof FunctionCall){
+       return ((FunctionCall)x).accept(this);   
+      }else{
+       return new IntermediateExpression();
+      }
     }
 
     @Override
     public IntermediateForm traverse(ArithmeticExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(x instanceof Add){
+        return ((Add)x).accept(this);  
+      }else if(x instanceof Min){
+       return ((Min)x).accept(this);
+      }else if(x instanceof Mul){
+       return ((Mul)x).accept(this);
+      }else if(x instanceof Div){
+       return ((Div)x).accept(this);
+      }else if(x instanceof Power){
+       return ((Power)x).accept(this);
+      }else if(x instanceof Umin){
+       return ((Umin)x).accept(this);   
+      }else{
+       return new IntermediateExpression();
+      }
     }
 
     @Override
     public IntermediateForm traverse(Add x) {
         IntermediateExpression ie = new IntermediateExpression();
-        
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression ex2 = (IntermediateExpression)x.exp2.accept(this);
+        ie.operations= ie.operations.merge(ex1.operations);
+        ie.operations= ie.operations.merge(ex2.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),ex2.getPlace().toString(),Quadruple.Operations.ADD);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Min x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression ex2 = (IntermediateExpression)x.exp2.accept(this);
+        ie.operations= ie.operations.merge(ex1.operations);
+        ie.operations= ie.operations.merge(ex2.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),ex2.getPlace().toString(),Quadruple.Operations.MIN);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Mul x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression ex2 = (IntermediateExpression)x.exp2.accept(this);
+        ie.operations= ie.operations.merge(ex1.operations);
+        ie.operations= ie.operations.merge(ex2.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),ex2.getPlace().toString(),Quadruple.Operations.MUL);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie; 
     }
 
     @Override
     public IntermediateForm traverse(Div x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression ex2 = (IntermediateExpression)x.exp2.accept(this);
+        ie.operations= ie.operations.merge(ex1.operations);
+        ie.operations= ie.operations.merge(ex2.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),ex2.getPlace().toString(),Quadruple.Operations.DIV);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Power x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression ex2 = (IntermediateExpression)x.exp2.accept(this);
+        ie.operations= ie.operations.merge(ex1.operations);
+        ie.operations= ie.operations.merge(ex2.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),ex2.getPlace().toString(),Quadruple.Operations.POWER);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Umin x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        Temporal temp = new Temporal();
+        IntermediateExpression ex1 = (IntermediateExpression)x.exp.accept(this);
+        
+        ie.operations= ie.operations.merge(ex1.operations);
+        Quadruple quad = new Quadruple(temp.toString(),ex1.getPlace().toString(),"",Quadruple.Operations.UMIN);
+        ie.setPlace(temp);
+        ie.operations.add(quad);
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(BooleanExpression x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if(x instanceof LessEqual){
+          return ((LessEqual)x).accept(this);
+        }else if(x instanceof GreaterEqual){
+          return ((GreaterEqual)x).accept(this);
+        }else if(x instanceof Distinct){
+          return ((Distinct)x).accept(this);
+        }else if(x instanceof Greater){
+          return ((Greater)x).accept(this);
+        }else if(x instanceof Less){
+         return ((Less)x).accept(this);
+        }else if(x instanceof Equal){
+         return ((Equal)x).accept(this);
+        }else{
+          return new IntermediateExpression();  
+        }
+
     }
 
     @Override
     public IntermediateForm traverse(LessEqual x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_LEQ, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie;
     }
 
     @Override
     public IntermediateForm traverse(GreaterEqual x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_GEQ, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie;
     }
 
     @Override
     public IntermediateForm traverse(Distinct x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_NEQ, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie;     
     }
 
     @Override
     public IntermediateForm traverse(Greater x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_GT, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie;
     }
 
     @Override
     public IntermediateForm traverse(Less x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_LT, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie; 
     }
 
     @Override
     public IntermediateForm traverse(Equal x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateExpression ie = new IntermediateExpression();
+       IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+       IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+       
+       ie.operations = ie.operations.merge(expre1.operations);
+       ie.operations = ie.operations.merge(expre2.operations);
+       
+       Label truelabel = new Label("");
+       Quadruple cuad1 = new Quadruple("",expre1.getPlace().toString(), expre2.getPlace().toString(), Quadruple.Operations.IF_EQ, truelabel);
+       ie.getTrue().add(truelabel);
+       ie.operations.add(cuad1);
+       
+       Label falselabel = new Label("");
+       Quadruple cuad2 = new Quadruple("","","", Quadruple.Operations.GOTO,falselabel);
+       ie.getFalse().add(falselabel);
+       ie.operations.add(cuad2);
+       
+       return ie; 
     }
 
     @Override
     public IntermediateForm traverse(And x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateExpression ie = new IntermediateExpression();
+      IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+      IntermediateExpression expre2 = (IntermediateExpression)x.exp2.accept(this);
+      
+      Label truelabel = new Label();
+      QuadrupleList list = new QuadrupleList();
+      list = list.merge(expre1.operations);
+      list.add(new Quadruple (truelabel));
+      list = list.merge(expre2.operations);
+      ie.operations = list;
+      complete(expre1.getTrue(), truelabel);
+      ie.setFalse(merge(expre1.getFalse(),expre2.getFalse()));
+      ie.setTrue(expre2.getTrue());
+      
+      return ie;
     }
 
     @Override
     public IntermediateForm traverse(Or x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        IntermediateExpression expre1 = (IntermediateExpression)x.exp1.accept(this);
+        IntermediateExpression expre2 = (IntermediateExpression)x.exp1.accept(this);
+        Label falselabel = new Label();
+        QuadrupleList list = new QuadrupleList();
+        list = list.merge(expre1.operations);
+        list.add(new Quadruple(falselabel));
+        list = list.merge(expre2.operations);
+        ie.operations = list;
+        complete(expre1.getFalse(),falselabel);
+        ie.setTrue(merge(expre1.getTrue(),expre2.getTrue()));
+        ie.setFalse(expre2.getFalse());
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(Not x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateExpression ie = new IntermediateExpression();
+      IntermediateExpression expre = (IntermediateExpression)x.exp.accept(this);
+      ie.setFalse(expre.getTrue());
+      ie.setTrue(expre.getFalse());
+      ie.operations= expre.operations;
+      return ie;
     }
 
     @Override
@@ -309,22 +564,40 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(AssignmentStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateStatement ie = new IntermediateStatement();
+      IntermediateExpression expre = (IntermediateExpression)x.expre.accept(this);
+      IntermediateExpression id = (IntermediateExpression)x.id.accept(this);
+      
+      ie.operations= ie.operations.merge(expre.operations);
+      ie.operations.add(new Quadruple(id.getPlace().toString(), expre.getPlace().toString(),"", Quadruple.Operations.ASSIGN));
+      return ie;
     }
 
     @Override
     public IntermediateForm traverse(IOStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if (x instanceof Get) {
+            return ((Get)x).accept(this);
+        }else {
+            return ((Put)x).accept(this);
+        }
     }
 
     @Override
     public IntermediateForm traverse(Get x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateStatement ie = new IntermediateStatement();
+       IntermediateExpression expre = (IntermediateExpression)x.accept(this);
+       ie.operations = ie.operations.merge(expre.operations);
+       ie.operations.add(new Quadruple("", expre.getPlace().toString(), "",Quadruple.Operations.READ));
+       return ie;
     }
 
     @Override
     public IntermediateForm traverse(Put x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateStatement ie = new IntermediateStatement();
+       IntermediateExpression expre = (IntermediateExpression)x.accept(this);
+       ie.operations = ie.operations.merge(expre.operations);
+       ie.operations.add(new Quadruple("", expre.getPlace().toString(), "",Quadruple.Operations.PRINT));
+       return ie;  
     }
 
     @Override
@@ -334,7 +607,92 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(IfStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      if(x.sta1 != null && x.sta2== null && x.esta==null){ //if
+          IntermediateStatement ie = new IntermediateStatement();
+          QuadrupleList list= new QuadrupleList();
+          IntermediateExpression expre = (IntermediateExpression)x.expre.accept(this);
+          Label truelabel = new Label();
+          complete(expre.getTrue(),truelabel);
+          list = list.merge(expre.operations);
+          list.add(new Quadruple(truelabel));
+          
+          IntermediateStatement sta = (IntermediateStatement)x.sta1.accept(this);
+          list = list.merge(sta.operations);
+          ie.operations=list;
+          ie.setNext(merge(expre.getFalse(),sta.getNext()));
+          return ie;
+      }else if( x.sta1 != null && x.esta== null && x.sta2 !=null){ //if else
+       IntermediateStatement ie = new IntermediateStatement();
+       QuadrupleList list = new QuadrupleList();
+       IntermediateExpression expre = (IntermediateExpression) x.expre.accept(this);
+       Label truelabel = new Label();
+       Label falselabel = new Label();
+       Label fuera = new Label("");
+       ArrayList<Label> saltos = new ArrayList();
+       saltos.add(fuera);
+       
+       complete (expre.getTrue(),truelabel);
+       list = list.merge(expre.operations);
+       list.add(new Quadruple(truelabel));
+       
+       IntermediateStatement sta = (IntermediateStatement) x.sta1.accept(this);
+       list = list.merge(sta.operations);
+       list.add(new Quadruple("","","", Quadruple.Operations.GOTO, fuera));
+       
+       complete(expre.getFalse(), falselabel);
+       list.add(new Quadruple(falselabel));
+       IntermediateStatement sta_else = (IntermediateStatement)x.sta2.accept(this);
+       list = list.merge(sta_else.operations);
+       
+       ie.operations= list;
+       ie.setNext(merge(sta.getNext(),merge(sta_else.getNext(), saltos)));
+       return ie;
+      
+      }else{//if con elseif y/o else
+       
+       IntermediateStatement ie = new IntermediateStatement();
+       QuadrupleList list = new QuadrupleList();
+       Label truelabel = new Label();
+       Label falselabel = new Label();
+       Label fuera = new Label();
+       ArrayList<Label> saltos = new ArrayList();
+       saltos.add(fuera);
+       IntermediateExpression expre = (IntermediateExpression)x.expre.accept(this);
+       
+       complete(expre.getFalse(), falselabel);
+       complete(expre.getTrue(), truelabel);
+       list = list.merge(expre.operations);
+       list.add(new Quadruple(truelabel));
+       
+       IntermediateStatement sta_true = (IntermediateStatement)x.sta1.accept(this);
+       list = list.merge(sta_true.operations);
+       list.add(new Quadruple("","","", Quadruple.Operations.GOTO, fuera));
+       
+          for (int i = 0; i < x.esta.size(); i++) {
+              Label trueif = new Label();
+              ElseIfStatement elsif=  x.esta.elementAt(i);
+              IntermediateExpression expre1 = (IntermediateExpression)elsif.expre.accept(this);
+              complete(expre1.getTrue(), trueif);
+              
+              list.add(new Quadruple(falselabel));
+              list = list.merge(expre1.operations);
+              list.add(new Quadruple(trueif));
+              IntermediateStatement stas = (IntermediateStatement)elsif.statements.accept(this);
+              list = list.merge(stas.operations);
+              list.add(new Quadruple("","","", Quadruple.Operations.GOTO, fuera));
+              falselabel = new Label();
+              complete(expre1.getFalse(), falselabel);
+              
+          }
+          list.add(new Quadruple(falselabel));
+          if(x.sta2 !=null){
+           IntermediateStatement else_sta = (IntermediateStatement)x.sta2.accept(this);
+           list = list.merge(else_sta.operations);
+          }
+          ie.operations = list;
+          ie.setNext(saltos);
+          return ie;
+      }
     }
 
     @Override
@@ -349,7 +707,22 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(WhileStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateStatement ie= new IntermediateStatement();
+      IntermediateExpression expre = (IntermediateExpression)x.expre.accept(this);
+      Label truelabel = new Label();
+      Label beginlabel = new Label();
+      ie.operations.add(new Quadruple(beginlabel));
+      ie.operations= ie.operations.merge(expre.operations);
+      ie.operations.add(new Quadruple(truelabel));
+      
+      IntermediateStatement sta = (IntermediateStatement)x.sta.accept(this);
+      ie.operations = ie.operations.merge(sta.operations);
+      ie.operations.add(new Quadruple("","","",Quadruple.Operations.GOTO ,beginlabel));
+      
+      complete(expre.getTrue(), truelabel);
+      ie.setNext(expre.getFalse());
+      return ie;
+      
     }
 
     @Override
@@ -509,7 +882,27 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(Statement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      if(x instanceof Expression){
+        return ((Expression)x).accept(this);  
+      }else if(x instanceof AssignmentStatement){
+       return ((AssignmentStatement)x).accept(this);
+      }else if(x instanceof IOStatement){
+       return ((IOStatement)x).accept(this);
+      }else if(x instanceof IfStatement){
+       return ((IfStatement)x).accept(this);
+      }else if(x instanceof WhileStatement){
+       return ((WhileStatement)x).accept(this);
+      }else if(x instanceof ExitStatement){
+       return ((ExitStatement)x).accept(this);
+      }else if(x instanceof LoopStatement){
+       return ((LoopStatement)x).accept(this);
+      }else if(x instanceof ForStatement){
+       return ((ForStatement)x).accept(this);
+      }else if(x instanceof ReturnStatement){
+       return ((ReturnStatement)x).accept(this);   
+      }else{
+       return new IntermediateStatement();
+      }
     }
 
     @Override
@@ -525,6 +918,20 @@ public class IntermediateCode implements IntermediateTraverse{
         ie.setPlace(new Temporal("\""+x.str+"\""));
         if(!stringsTable.contains(x.str)){
           stringsTable.add(x.str);
+        }
+        return ie;
+    }
+
+    @Override
+    public IntermediateForm traverse(Statements x) {
+     IntermediateStatement ie = new IntermediateStatement();
+        for (int i = 0; i < x.size(); i++) {
+          IntermediateStatement sta = (IntermediateStatement) x.elementAt(i).accept(this);
+          Label next = new Label();
+          ie.operations= ie.operations.merge(sta.operations);
+          ie.operations.add(new Quadruple(next));
+          complete(sta.getNext(),next);
+          
         }
         return ie;
     }

@@ -86,6 +86,7 @@ public interface IntermediateTraverse {
     public IntermediateForm traverse(StringType x);
     public IntermediateForm traverse(NullType x);
     public IntermediateForm traverse(Statement x);
+    public IntermediateForm traverse(Statements x);
     public IntermediateForm traverse(IntegerLiteral x);
     public IntermediateForm traverse(StringLiteral x);
 }
