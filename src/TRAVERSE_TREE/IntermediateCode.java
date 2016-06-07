@@ -549,7 +549,13 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(ArgumentList x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateExpression ie = new IntermediateExpression();
+        for (int i = 0; i < x.size(); i++) {
+            IntermediateExpression expre = (IntermediateExpression)x.elementAt(i).accept(this);
+            ie.operations = ie.operations.merge(expre.operations);
+            ie.operations.add(new Quadruple("",expre.getFalse().toString(),"",Quadruple.Operations.PARAM));
+        }
+        return ie;
     }
 
     @Override
@@ -602,7 +608,10 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(ReturnStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateStatement ie = new IntermediateStatement();
+      IntermediateExpression expre = (IntermediateExpression)x.expre.accept(this);
+      ie.operations.add(new Quadruple("RET",expre.getPlace().toString(),"",Quadruple.Operations.ASSIGN));
+      return ie;
     }
 
     @Override
@@ -732,12 +741,40 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(LoopStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       IntermediateStatement ie = new IntermediateStatement();
+       Label inicio = new Label();
+       ie.operations.add(new Quadruple(inicio));
+       IntermediateStatement sta = (IntermediateStatement)x.sta.accept(this);
+       complete(sta.getNext(),inicio);
+       ie.operations = ie.operations.merge(sta.operations);
+       ie.operations.add(new Quadruple("","","",Quadruple.Operations.GOTO,inicio));
+       return ie;
     }
 
     @Override
     public IntermediateForm traverse(ForStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateStatement ie = new IntermediateStatement();
+        IntermediateExpression start = (IntermediateExpression)x.start.accept(this);
+        IntermediateExpression end = (IntermediateExpression)x.end.accept(this);
+        IntermediateExpression id = (IntermediateExpression)x.id.accept(this);
+        QuadrupleList list = new QuadrupleList();
+        list = list.merge(start.operations);
+        list.add(new Quadruple(id.getPlace().toString(), start.getPlace().toString(),"", Quadruple.Operations.ASSIGN));
+        list = list.merge(end.operations);
+        Label inicio = new Label();
+        Label truelabel = new Label();
+        Label falselabel = new Label("");
+        list.add(new Quadruple(inicio));
+        list.add(new Quadruple("",id.getPlace().toString(), end.getPlace().toString(), Quadruple.Operations.IF_LEQ, truelabel));
+        list.add(new Quadruple("","","",Quadruple.Operations.GOTO,falselabel));
+        list.add(new Quadruple(truelabel));
+        IntermediateStatement statements = (IntermediateStatement)x.sta.accept(this);
+        complete(statements.getNext(),inicio);
+        list = list.merge(statements.operations);
+        list.add(new Quadruple("","","",Quadruple.Operations.GOTO,inicio));
+        ie.operations = list;
+        ie.getNext().add(falselabel);
+        return ie;
     }
 
     @Override
@@ -767,12 +804,23 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(ProcedureStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateStatement ie = new IntermediateStatement();
+        Label name = new Label("_"+x.postid.id);
+        ie.operations.add(new Quadruple(name));
+        IntermediateStatement sta = (IntermediateStatement)x.poststa.accept(this);
+        ie.operations = ie.operations.merge(sta.operations);
+        ie.operations.add(new Quadruple("","RET","",Quadruple.Operations.VOID_RET));
+        return ie;
     }
 
     @Override
     public IntermediateForm traverse(FunctionStatement x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateStatement ie = new IntermediateStatement();
+        Label name = new Label("_"+x.postid.id);
+        ie.operations.add(new Quadruple(name));
+        IntermediateStatement sta = (IntermediateStatement)x.poststa.accept(this);
+        ie.operations = ie.operations.merge(sta.operations);
+        return ie;
     }
 
     @Override
@@ -832,7 +880,12 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(FunctionCall x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      IntermediateExpression ie = new IntermediateExpression();
+      IntermediateExpression arguments = (IntermediateExpression)x.args.accept(this);
+      ie.operations = ie.operations.merge(arguments.operations);
+      ie.operations.add(new Quadruple("","_"+x.id.id,Integer.toString(x.args.size()),Quadruple.Operations.CALL));
+      ie.setPlace(new Temporal("RET"));
+      return ie;
     }
 
     @Override
