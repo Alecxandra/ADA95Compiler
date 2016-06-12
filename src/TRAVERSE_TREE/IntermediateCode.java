@@ -835,7 +835,13 @@ public class IntermediateCode implements IntermediateTraverse{
 
     @Override
     public IntermediateForm traverse(ProgramInit x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IntermediateStatement ie = new IntermediateStatement();
+        Label name = new Label("_"+x.postid.id);
+        ie.operations.add(new Quadruple(name));
+        IntermediateStatement sta = (IntermediateStatement)x.stas.accept(this);
+        ie.operations = ie.operations.merge(sta.operations);
+        ie.operations.add(new Quadruple("","RET","",Quadruple.Operations.VOID_RET));
+        return ie;
     }
 
     @Override
