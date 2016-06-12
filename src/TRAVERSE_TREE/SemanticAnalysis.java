@@ -822,6 +822,8 @@ public class SemanticAnalysis implements TypeTraverse{
             x.presta.elementAt(i).accept(this);
         }
         
+        this.current_id= x.preid.id;
+        
         for (int i = 0; i < x.poststa.size(); i++) {
             if(x.poststa.elementAt(i) instanceof ExitStatement){
                 print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());
@@ -895,6 +897,8 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < x.presta.size(); i++) {
             x.presta.elementAt(i).accept(this);
         }
+        
+        this.current_id= x.preid.id;
         
         for (int i = 0; i < x.poststa.size(); i++) {
             if(x.poststa.elementAt(i) instanceof ExitStatement){
@@ -1085,6 +1089,8 @@ public class SemanticAnalysis implements TypeTraverse{
             x.presta.elementAt(i).accept(this);
         }
         
+        this.current_id= x.preid.id;
+        
         for (int i = 0; i < x.poststa.size(); i++) {
             if(x.poststa.elementAt(i) instanceof ExitStatement){
                 print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());
@@ -1272,6 +1278,7 @@ public class SemanticAnalysis implements TypeTraverse{
         for (int i = 0; i < x.presta.size(); i++) {
             x.presta.elementAt(i).accept(this);
         }
+        this.current_id= x.preid.id;
         for (int i = 0; i < x.poststa.size(); i++) {
             if(x.poststa.elementAt(i) instanceof ExitStatement){
                 print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());

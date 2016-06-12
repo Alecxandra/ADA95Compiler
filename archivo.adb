@@ -1,42 +1,36 @@
 procedure principal is
-
-x,y: integer;
-
+ x: integer;
+ function max (arr: in Integer) return Integer is
+    i: Integer;
+    function min (arr1: in Integer) return Integer is
+       a: Integer;
+    begin
+       a := arr1;
+       put(a);
+       if a < 4 then
+          Put(" so is less than 4");
+          if a < 2 then
+            Put(" test");
+          end if;
+       end if;
+       return a;
+    end min;
+ begin
+    for i in 4..7 loop
+       Put("Going through the first loop");
+       Put(i);
+       min(i);
+    end loop;
+    return i;
+ end max;
 begin
-    x := 0.0
-    if x > 10 then
-     put("Hola mundo cruel");
+ get(x);
+ put(5);
+ if 1 < 4 then
+    Put(" so is less than 4");
+    if 1 < 5 then
+      Put(" test");
     end if;
+ end if;
+ max(4);
 end principal;
-    x,y,z : integer;
-    h : float;
-
-    procedure una_prueba(a,b: in integer; c: out integer) is
-        algo1 : integer;
-        begin
-                    c := a + b;
-                    if a >= 10 then
-                        put(x);
-                    else
-                        c := 20;
-                    end if;
-    end una_prueba;
-
-    function algo (dinero : in integer; algo1: in out float ) return float is
-            total : integer;
-            begin
-     
-            while total = 0 loop
-                get(total);
-            end loop;
-            return algo1;
-        end algo;
-    
-    begin 
-            exit when 10>3;
-            x := 10;
-            una_prueba(x,10,z);
-            h := algo(12,34.0);
-            put(h);
-end principal;
-

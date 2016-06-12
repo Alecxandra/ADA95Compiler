@@ -8,9 +8,11 @@ import java.util.ArrayList;
  */
 public class IntermediateStatement extends IntermediateForm{
     private ArrayList<Label> next;
+    private ArrayList<Label> outerList;
    
     public IntermediateStatement() { 
         this.next = new ArrayList();
+        this.outerList = new ArrayList();
     }
 
 
@@ -20,6 +22,14 @@ public class IntermediateStatement extends IntermediateForm{
 
     public void setNext(ArrayList<Label> next) {
         this.next = next;
+    }
+
+    public ArrayList<Label> getOuterList() {
+        return outerList;
+    }
+
+    public void setOuterList(ArrayList<Label> outerList) {
+        this.outerList = outerList;
     }
     
      public String buildIntermediateCode() {
@@ -109,6 +119,7 @@ public class IntermediateStatement extends IntermediateForm{
                     break;
                 }
             }
+            sb.append("\n");
         }
         return sb.toString();
      }
