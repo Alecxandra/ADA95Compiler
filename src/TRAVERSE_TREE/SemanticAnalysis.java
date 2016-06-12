@@ -27,12 +27,12 @@ public class SemanticAnalysis implements TypeTraverse{
    
     public SemanticAnalysis(SymbolTable symboltable) {
         this.symboltable = symboltable;
-        has_error=false;
-        scope="";
+        has_error = false;
+        scope = "";
     }
     
     public void print_error(String message, int line, int column){
-        System.err.println("ERROR: "+message+" en la linea:"+ line+", columna: "+column);
+        System.err.println("ERROR: " + message + " en la linea:" + line + ", columna: " + column);
         has_error=true;
     }
     
@@ -534,12 +534,25 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(DeclareStatement x) {
         for (int i = 0; i < x.list.size(); i++) {
-            VTableNode node = new VTableNode(x.type,0,0,x.list.elementAt(i).id,new String(this.scope));
-            if(!this.symboltable.addSymbol(node)){
-               print_error("El identificador "+x.list.elementAt(i).id+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-            }     
+            String new_scope = "";
+            if(!scope.equals("s0")){
+                for (int j = this.scope.length() - 1; j >= 0; j--) {
+                    if (this.scope.charAt(j) == 's') {
+                        new_scope = this.scope.substring(0, j);
+                        break;
+                    }
+                }
+            }else{
+               new_scope = "s0"; 
+            }
+            FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+            int dir = currentFunction.incrementDirection(x.type);
+            VTableNode node = new VTableNode(x.type, 0, dir, x.list.elementAt(i).id, new String(this.scope));
+            if (!this.symboltable.addSymbol(node)) {
+                print_error("El identificador " + x.list.elementAt(i).id + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+            }
         }
-       return new NullType();
+        return new NullType();
     }
 
     @Override
@@ -769,25 +782,56 @@ public class SemanticAnalysis implements TypeTraverse{
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
         FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope);
+        int globalDirection = 0;
         for (int i = 0; i <x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
-                
-                In param= (In)x.list.elementAt(i);
-                  for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
-                      
-                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                       }else{
-                       node.Add(paramnode);
-                      }  
-                  }
-                  
+               
+                In param = (In) x.list.elementAt(i);
+                int dir;
+                for (int j = 0; j < param.list.size(); j++) {                    
+                    if(globalDirection > 4){
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    }else{
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode = new VTableNode(param.type, 1, dir, param.list.elementAt(j).id, current_scope);
+                    
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
+
             }else if(x.list.elementAt(i) instanceof Out){
                 
                  Out param= (Out)x.list.elementAt(i);
+                 int dir;
                  for (int j = 0; j < param.list.size(); j++) {
-                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
+                     if(globalDirection > 4){
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    }else{
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode= new VTableNode(param.type,2,dir,param.list.elementAt(j).id,current_scope);
                      
                      
                      if(!this.symboltable.addSymbol(paramnode)){
@@ -799,15 +843,30 @@ public class SemanticAnalysis implements TypeTraverse{
             }else if(x.list.elementAt(i) instanceof InOut){
                
                 InOut param= (InOut)x.list.elementAt(i);
+                int dir;
                 for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
+                    if(globalDirection > 4){
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    }else{
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode=new VTableNode(param.type,3,dir,param.list.elementAt(j).id,current_scope); 
                      
-                     if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                     }else{
-                       node.Add(paramnode);
-                     } 
-                  }
+                    if(!this.symboltable.addSymbol(paramnode)){
+                       print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
+                    }else{
+                      node.Add(paramnode);
+                    } 
+                }
             }
         }
         
@@ -838,75 +897,120 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(FunctionStatement x) {
         if (!x.preid.id.equals(x.postid.id)) {
-            print_error("Los identificadores de la función no coinciden",x.getLine(),x.getColumn());
+            print_error("Los identificadores de la función no coinciden", x.getLine(), x.getColumn());
         }
-        String temp_scope=new String(this.scope);
-        String current_scope= new String(this.scope+Scope.getNewScope());
-        this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
+        String temp_scope = new String(this.scope);
+        String current_scope = new String(this.scope + Scope.getNewScope());
+        this.scope = new String(current_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id, temp_scope);
         node.setLine(x.getLine());
         node.setColumn(x.getColumn());
+        int globalDirection = 0;
         for (int i = 0; i < x.params.size(); i++) {
             if (x.params.elementAt(i) instanceof In) {
-                
-                In param= (In)x.params.elementAt(i);
-                  for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
-                      
-                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                       }else{
-                        node.Add(paramnode);
-                      }  
-                  }
-                  
-            }else if(x.params.elementAt(i) instanceof Out){
-                
-                 Out param= (Out)x.params.elementAt(i);
-                 for (int j = 0; j < param.list.size(); j++) {
-                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
-                     
-                     
-                     if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                      }else{
-                       node.Add(paramnode);   
-                     } 
-                  }
-            }else if(x.params.elementAt(i) instanceof InOut){
-               
-                InOut param= (InOut)x.params.elementAt(i);
+
+                In param = (In) x.params.elementAt(i);
+                int dir;
                 for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
-                     
-                     if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                     }else{
-                       node.Add(paramnode);
-                     } 
-                  }
+                    if (globalDirection > 4) {
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    } else {
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode = new VTableNode(param.type, 1, dir, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
+
+            } else if (x.params.elementAt(i) instanceof Out) {
+
+                Out param = (Out) x.params.elementAt(i);
+                int dir;
+                for (int j = 0; j < param.list.size(); j++) {
+                    if (globalDirection > 4) {
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    } else {
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode = new VTableNode(param.type, 2, dir, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
+            } else if (x.params.elementAt(i) instanceof InOut) {
+
+                InOut param = (InOut) x.params.elementAt(i);
+                int dir;
+                for (int j = 0; j < param.list.size(); j++) {
+                    if (globalDirection > 4) {
+                        String new_scope = "";
+                        for (int k = this.scope.length() - 1; k >= 0; k--) {
+                            if (this.scope.charAt(k) == 's') {
+                                new_scope = this.scope.substring(0, k);
+                                break;
+                            }
+                        }
+                        FTableNode currentFunction = (FTableNode) this.symboltable.findSymbol(this.current_id, new_scope);
+                        dir = currentFunction.incrementDirection(param.type);
+                    } else {
+                        dir = 0;
+                    }
+                    globalDirection++;
+                    VTableNode paramnode = new VTableNode(param.type, 3, dir, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
             }
         }
-        
-        if(!this.symboltable.addSymbol(node)){
-               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-            }
-        
-        this.current_id= x.preid.id;
-        
+
+        if (!this.symboltable.addSymbol(node)) {
+            print_error("El identificador " + x.preid + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+        }
+
+        this.current_id = x.preid.id;
+
         for (int i = 0; i < x.presta.size(); i++) {
             x.presta.elementAt(i).accept(this);
         }
-        
-        this.current_id= x.preid.id;
-        
+
+        this.current_id = x.preid.id;
+
         for (int i = 0; i < x.poststa.size(); i++) {
-            if(x.poststa.elementAt(i) instanceof ExitStatement){
-                print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());
+            if (x.poststa.elementAt(i) instanceof ExitStatement) {
+                print_error("Expresión ilegeal, Exit When fuera de un loop", x.getLine(), x.getColumn());
             }
             x.poststa.elementAt(i).accept(this);
         }
-        this.scope= new String(temp_scope);
+        this.scope = new String(temp_scope);
         return new NullType();
     }
 
@@ -938,6 +1042,7 @@ public class SemanticAnalysis implements TypeTraverse{
         FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope); 
         symboltable.addSymbol(node);
         
+        this.current_id= x.preid.id;
         Declarations declarations = x.declarations;
         for (int i = 0; i < declarations.size(); i++) {
             declarations.elementAt(i).accept(this);
@@ -1029,71 +1134,71 @@ public class SemanticAnalysis implements TypeTraverse{
 
     @Override
     public Type traverse(ProcedureStatementError x) {
-        
+
         if (!x.preid.id.equals(x.postid.id)) {
-            print_error("Los identificadores del procedimiento no coinciden",x.getLine(),x.getColumn());
+            print_error("Los identificadores del procedimiento no coinciden", x.getLine(), x.getColumn());
         }
-        String temp_scope=new String(this.scope);
-        String current_scope= new String(this.scope+Scope.getNewScope());
-        this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope);
-        for (int i = 0; i <x.list.size(); i++) {
+        String temp_scope = new String(this.scope);
+        String current_scope = new String(this.scope + Scope.getNewScope());
+        this.scope = new String(current_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id, temp_scope);
+        for (int i = 0; i < x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
-                
-                In param= (In)x.list.elementAt(i);
-                  for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode = new VTableNode(param.type,1,0,param.list.elementAt(j).id,current_scope);
-                      
-                      if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                       }else{
-                       node.Add(paramnode);
-                      }  
-                  }
-                  
-            }else if(x.list.elementAt(i) instanceof Out){
-                
-                 Out param= (Out)x.list.elementAt(i);
-                 for (int j = 0; j < param.list.size(); j++) {
-                     VTableNode paramnode= new VTableNode(param.type,2,0,param.list.elementAt(j).id,current_scope);
-                     
-                     
-                     if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                      }else{
-                       node.Add(paramnode);   
-                     } 
-                  }
-            }else if(x.list.elementAt(i) instanceof InOut){
-               
-                InOut param= (InOut)x.list.elementAt(i);
+
+                In param = (In) x.list.elementAt(i);
                 for (int j = 0; j < param.list.size(); j++) {
-                      VTableNode paramnode=new VTableNode(param.type,3,0,param.list.elementAt(j).id,current_scope); 
-                     
-                     if(!this.symboltable.addSymbol(paramnode)){
-                        print_error("El identificador "+paramnode.getId()+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-                     }else{
-                       node.Add(paramnode);
-                     } 
-                  }
+
+                    VTableNode paramnode = new VTableNode(param.type, 1, 0, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
+
+            } else if (x.list.elementAt(i) instanceof Out) {
+
+                Out param = (Out) x.list.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                    VTableNode paramnode = new VTableNode(param.type, 2, 0, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
+            } else if (x.list.elementAt(i) instanceof InOut) {
+
+                InOut param = (InOut) x.list.elementAt(i);
+                for (int j = 0; j < param.list.size(); j++) {
+                    VTableNode paramnode = new VTableNode(param.type, 3, 0, param.list.elementAt(j).id, current_scope);
+
+                    if (!this.symboltable.addSymbol(paramnode)) {
+                        print_error("El identificador " + paramnode.getId() + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+                    } else {
+                        node.Add(paramnode);
+                    }
+                }
             }
         }
-        this.scope= new String(temp_scope);
-        if(!this.symboltable.addSymbol(node)){
-               print_error("El identificador "+x.preid+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-            }
-        
-        this.current_id= x.preid.id;
-        
+        this.scope = new String(temp_scope);
+        if (!this.symboltable.addSymbol(node)) {
+            print_error("El identificador " + x.preid + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+        }
+
+        this.current_id = x.preid.id;
+
         for (int i = 0; i < x.presta.size(); i++) {
             x.presta.elementAt(i).accept(this);
         }
-        
-        this.current_id= x.preid.id;
-        
+
+        this.current_id = x.preid.id;
+
         for (int i = 0; i < x.poststa.size(); i++) {
-            if(x.poststa.elementAt(i) instanceof ExitStatement){
-                print_error("Expresión ilegeal, Exit When fuera de un loop",x.getLine(),x.getColumn());
+            if (x.poststa.elementAt(i) instanceof ExitStatement) {
+                print_error("Expresión ilegeal, Exit When fuera de un loop", x.getLine(), x.getColumn());
             }
             x.poststa.elementAt(i).accept(this);
         }
@@ -1103,12 +1208,12 @@ public class SemanticAnalysis implements TypeTraverse{
     @Override
     public Type traverse(DeclareStatementError x) {
         for (int i = 0; i < x.list.size(); i++) {
-            VTableNode node = new VTableNode(x.type,0,0,x.list.elementAt(i).id,new String(this.scope));
-            if(!this.symboltable.addSymbol(node)){
-               print_error("El identificador "+x.list.elementAt(i).id+" ya esta declarado en este ámbito",x.getLine(),x.getColumn());          
-            }     
+            VTableNode node = new VTableNode(x.type, 0, 0, x.list.elementAt(i).id, new String(this.scope));
+            if (!this.symboltable.addSymbol(node)) {
+                print_error("El identificador " + x.list.elementAt(i).id + " ya esta declarado en este ámbito", x.getLine(), x.getColumn());
+            }
         }
-       return new ErrorType();
+        return new ErrorType();
     }
 
     @Override
@@ -1116,25 +1221,25 @@ public class SemanticAnalysis implements TypeTraverse{
         SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
         Type type = x.expre.accept(this);
         if (node == null) {
-          print_error("la variable "+x.id.id+" no ha sido declarada",x.getLine(),x.getColumn());
-          return new ErrorType();
-        }
-        
-        if(!(node instanceof VTableNode)){
-            print_error("El identificador "+x.id.id+" no es una variable",x.getLine(),x.getColumn());
+            print_error("la variable " + x.id.id + " no ha sido declarada", x.getLine(), x.getColumn());
             return new ErrorType();
-        }else{
-            VTableNode param =(VTableNode)node; 
+        }
+
+        if (!(node instanceof VTableNode)) {
+            print_error("El identificador " + x.id.id + " no es una variable", x.getLine(), x.getColumn());
+            return new ErrorType();
+        } else {
+            VTableNode param = (VTableNode) node;
             if (param.getForm() == VTableNode.IN) {
-                print_error("La variable "+param.getId()+" es de tipo IN, su valor no puede ser modificado ",x.getLine(),x.getColumn());
+                print_error("La variable " + param.getId() + " es de tipo IN, su valor no puede ser modificado ", x.getLine(), x.getColumn());
                 return new ErrorType();
             }
-            
-         if (!(((VTableNode)node).getType().equals(type))) {
-            if(!(((VTableNode)node).getType() instanceof ErrorType || type instanceof ErrorType)){ 
-                print_error("no se puede asignar una expresion de tipo " + type.toString() +" a una variable de tipo "+((VTableNode)node).getType().toString(),x.getLine(),x.getColumn());
-            }
-            return new ErrorType();
+
+            if (!(((VTableNode) node).getType().equals(type))) {
+                if (!(((VTableNode) node).getType() instanceof ErrorType || type instanceof ErrorType)) {
+                    print_error("no se puede asignar una expresion de tipo " + type.toString() + " a una variable de tipo " + ((VTableNode) node).getType().toString(), x.getLine(), x.getColumn());
+                }
+                return new ErrorType();
         }
         }
         

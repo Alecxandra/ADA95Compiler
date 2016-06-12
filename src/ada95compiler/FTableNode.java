@@ -5,6 +5,8 @@
  */
 package ada95compiler;
 
+import AST_TREE.BooleanType;
+import AST_TREE.IntegerType;
 import AST_TREE.Type;
 import java.util.ArrayList;
 
@@ -18,12 +20,14 @@ public class FTableNode extends SymbolTableNode{
     private boolean hasReturn;
     private int column;
     private int line;
+    private int direction;
     
     public FTableNode(Type return_type, String Id, String Scope) {
         super(Id,Scope);
         this.return_type = return_type;
         this.params= new ArrayList();
         this.hasReturn = false;
+        this.direction = 0;
     }
     
     public void Add(VTableNode x){
@@ -69,5 +73,17 @@ public class FTableNode extends SymbolTableNode{
     public void setLine(int line) {
         this.line = line;
     }
+    
+    public int incrementDirection(Type t){
+        if(t instanceof IntegerType){
+            this.direction += 4;
+            return this.direction;
+        }else if(t instanceof BooleanType){
+            this.direction += 1;
+            return this.direction;
+        }else{
+            return -1;
+        }
+    } 
     
 }
