@@ -16,12 +16,21 @@ public class Quadruple {
     private String op2;
     private Operations type;
     private Label l;
+    private String scope;
 
     public Quadruple(String store, String op1, String op2, Operations type) {
         this.store = store;
         this.op1 = op1;
         this.op2 = op2;
         this.type = type;
+    }
+    
+    public Quadruple(String store, String op1, String op2, Operations type, String scope) {
+        this.store = store;
+        this.op1 = op1;
+        this.op2 = op2;
+        this.type = type;
+        this.scope = scope;
     }
 
     public Quadruple(String store, String op1, String op2, Operations type, Label l) {
