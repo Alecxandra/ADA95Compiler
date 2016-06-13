@@ -5,7 +5,7 @@ L1:
 if i > 10 goto L2
 goto L3
 L2:
-goto 
+goto L4
 L3:
 goto L0
 L4:

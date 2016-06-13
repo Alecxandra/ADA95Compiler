@@ -630,6 +630,7 @@ public class IntermediateCode implements IntermediateTraverse {
             list = list.merge(sta.operations);
             ie.operations = list;
             ie.setNext(merge(expre.getFalse(), sta.getNext()));
+            ie.setOuterList(sta.getOuterList());
             return ie;
         } else if (x.sta1 != null && x.esta == null && x.sta2 != null) { //if else
             IntermediateStatement ie = new IntermediateStatement();
@@ -656,6 +657,7 @@ public class IntermediateCode implements IntermediateTraverse {
 
             ie.operations = list;
             ie.setNext(merge(sta.getNext(), merge(sta_else.getNext(), saltos)));
+            ie.setOuterList(sta.getOuterList());
             return ie;
 
         } else {//if con elseif y/o else
@@ -692,15 +694,18 @@ public class IntermediateCode implements IntermediateTraverse {
                 list.add(new Quadruple("", "", "", Quadruple.Operations.GOTO, fuera));
                 falselabel = new Label();
                 complete(expre1.getFalse(), falselabel);
+                ie.setOuterList(stas.getOuterList());
 
             }
             list.add(new Quadruple(falselabel));
             if (x.sta2 != null) {
                 IntermediateStatement else_sta = (IntermediateStatement) x.sta2.accept(this);
                 list = list.merge(else_sta.operations);
+                ie.setOuterList(else_sta.getOuterList());
             }
             ie.operations = list;
             ie.setNext(saltos);
+            
             return ie;
         }
     }
@@ -731,6 +736,7 @@ public class IntermediateCode implements IntermediateTraverse {
 
         complete(expre.getTrue(), truelabel);
         ie.setNext(expre.getFalse());
+        ie.setOuterList(sta.getOuterList());
         return ie;
 
     }
@@ -760,6 +766,7 @@ public class IntermediateCode implements IntermediateTraverse {
         complete(sta.getNext(), inicio);
         ie.operations = ie.operations.merge(sta.operations);
         ie.operations.add(new Quadruple("", "", "", Quadruple.Operations.GOTO, inicio));
+        ie.setOuterList(sta.getOuterList());
         return ie;
     }
 
@@ -786,6 +793,7 @@ public class IntermediateCode implements IntermediateTraverse {
         list.add(new Quadruple("", "", "", Quadruple.Operations.GOTO, inicio));
         ie.operations = list;
         ie.getNext().add(falselabel);
+        ie.setOuterList(statements.getOuterList());
         return ie;
     }
 
