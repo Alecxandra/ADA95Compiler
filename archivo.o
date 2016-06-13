@@ -1,57 +1,12 @@
 _principal:
-read x
 L0:
-print 5
+i := 0
 L1:
-if 1 < 4 goto L2
-goto L7
+if i > 10 goto L2
+goto L3
 L2:
-print " so is less than 4"
+goto 
 L3:
-if 1 < 5 goto L4
-goto L6
+goto L0
 L4:
-print " test"
-L5:
-L6:
-L7:
-params 4
-call _max, 1
-L8:
 RET
-_max:
-i := 4
-L9:
-if i <= 7 goto L10
-goto L14
-L10:
-print "Going through the first loop"
-L11:
-print i
-L12:
-params i
-call _min, 1
-L13:
-goto L9
-L14:
-RET := i
-L15:
-_min:
-a := arr1
-L16:
-print a
-L17:
-if a < 4 goto L18
-goto L23
-L18:
-print " so is less than 4"
-L19:
-if a < 2 goto L20
-goto L22
-L20:
-print " test"
-L21:
-L22:
-L23:
-RET := a
-L24:

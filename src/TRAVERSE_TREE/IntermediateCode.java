@@ -1031,6 +1031,11 @@ public class IntermediateCode implements IntermediateTraverse {
             ie.operations = ie.operations.merge(sta.operations);
             ie.operations.add(new Quadruple(next));
             complete(sta.getNext(), next);
+            if (x.elementAt(i) instanceof WhileStatement || x.elementAt(i) instanceof ForStatement || x.elementAt(i) instanceof LoopStatement) {
+               complete(sta.getOuterList(), next);
+            }else{
+            ie.setOuterList(sta.getOuterList());
+            }
 
         }
         return ie;
