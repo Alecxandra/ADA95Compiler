@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class FinalCodeBuilder {
     public static final String $v0 = "$v0";
-    public static final String $v1 = "$v1";
 
     public static final String $a0 = "$a0";
     public static final String $a1 = "$a1";
@@ -49,28 +48,10 @@ public class FinalCodeBuilder {
     public static final String $fp = "$fp";
     public static final String $ra = "$ra";
     
-    public static final String $f0 = "$f0";
-    public static final String $f2 = "$f2";
-    public static final String $f4 = "$f4";
-    public static final String $f6 = "$f6";
-    public static final String $f8 = "$f8";
-    public static final String $f10 = "$f10";
-    public static final String $f12 = "$f12";
-    public static final String $f14 = "$f14";
-    public static final String $f16 = "$f16";
-    public static final String $f18 = "$f18";
-    public static final String $f20 = "$f20";
-    public static final String $f22 = "$f22";
-    public static final String $f24 = "$f24";
-    public static final String $f26 = "$f26";
-    public static final String $f28 = "$f28";
-    public static final String $f30 = "$f30";
-    
     private enum OperationType {
-        INTEGER_OPERATION, DOUBLE_OPERATION, CHAR_OPERATION
+        INTEGER_OPERATION, BOOLEAN_OPERATION
     }
     
-    private static final String GLOBAL_SCOPE = "s0";
     
     private class Info {
         public String reg;
@@ -100,7 +81,6 @@ public class FinalCodeBuilder {
 
         // Filling hashmap
         avalibleTemps.put($v0, true);
-        avalibleTemps.put($v1, true);
 
         avalibleTemps.put($a0, true);
         avalibleTemps.put($a1, true);
@@ -125,22 +105,6 @@ public class FinalCodeBuilder {
         avalibleTemps.put($s6, true);
         avalibleTemps.put($s7, true);
         
-        avalibleTemps.put($f0, true);
-        avalibleTemps.put($f2, true);
-        avalibleTemps.put($f4, true);
-        avalibleTemps.put($f6, true);
-        avalibleTemps.put($f8, true);
-        avalibleTemps.put($f10, true);
-        avalibleTemps.put($f12, false);
-        avalibleTemps.put($f14, true);
-        avalibleTemps.put($f16, true);
-        avalibleTemps.put($f18, true);
-        avalibleTemps.put($f20, true);
-        avalibleTemps.put($f22, true);
-        avalibleTemps.put($f24, true);
-        avalibleTemps.put($f26, true);
-        avalibleTemps.put($f28, true);
-        avalibleTemps.put($f30, true);
 
         this.intermediateForm = intermediateForm;
     }
