@@ -80,6 +80,18 @@ public class SymbolTable {
         }
         return functions;
     }
+    
+    public ArrayList<VTableNode> getAllVars( String scope){
+        ArrayList<VTableNode> result = new ArrayList();
+        for (int i = 0; i < this.symbolList.size(); i++) {
+            if (this.symbolList.get(i) instanceof VTableNode && this.symbolList.get(i).Scope.equals(scope)) {
+                result.add((VTableNode)this.symbolList.get(i));
+            }
+    
+        }
+        
+        return result;
+    }
      
     
 }

@@ -5,12 +5,17 @@
  */
 package FINAL_CODE;
 
+import AST_TREE.BooleanType;
+import AST_TREE.IntegerType;
 import INTERM_LANG.IntermediateStatement;
+import INTERM_LANG.Quadruple;
 import TRAVERSE_TREE.SemanticAnalysis;
+import ada95compiler.VTableNode;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -120,18 +125,28 @@ public class FinalCodeBuilder {
         return null;
     }
     
-    private String getAvaliableDoubleTemp() {
-        for (int i = 2; i < 31; i += 2) {
-            if (avalibleTemps.get("$f" + i)) {
-                avalibleTemps.put("$f" + i, false);
-                return "$f" + i;
+    private String getAviableArguments(){
+        for (int i = 0; i < 4; i++) {
+            if (avalibleTemps.get("$a" + i)) {
+                avalibleTemps.put("$a" + i, false);
+                return "$a" + i;
             }
         }
-        
-        return null;
+       return null;
     }
     
-    private void setAvaliableTemp(String reg) {
+    private String getAviableSTemps(){
+        for (int i = 0; i < 4; i++) {
+            if (avalibleTemps.get("$s" + i)) {
+                avalibleTemps.put("$s" + i, false);
+                return "$s" + i;
+            }
+        }
+       return null;
+    }
+     
+    
+    private void setAvaliable(String reg) {
         avalibleTemps.put(reg, true);
     }
 
@@ -142,6 +157,79 @@ public class FinalCodeBuilder {
     }
     
     public String buildFinalCode() {
+        StringBuilder final_code = new StringBuilder() ;
+        ArrayList<VTableNode> s0_variables =this.semanticTable.getSymboltable().getAllVars("s0");
+        final_code.append(".data\n");
+        for (int i = 0; i < s0_variables.size(); i++) {
+           VTableNode node = s0_variables.get(i);
+            if ( node.getType().equals(new IntegerType())) {
+                final_code.append("_"+node.getId()+":\t.word\t0");
+            }else if(node.getType().equals(new BooleanType())){
+                final_code.append("_"+node.getId()+":\t.byte\t' '");
+            }else{
+            /* aqui seria el codigo del float (no esta en el requerimiento)*/
+            }
+            final_code.append('\n');
+        }
+        
+        for (int i = 0; i < this.stringsTable.size(); i++) {
+            final_code.append("_msg"+i+":\t.asciiz\t\""+this.stringsTable.get(i)+"\"\n");
+        }
+         final_code.append("\n.text\n.globl main\n\n");
+         
+         StringBuilder final_code_body = new StringBuilder();
+         for (int i = 0; i < this.intermediateForm.operations.size(); i++) {
+            Quadruple quad = this.intermediateForm.operations.elementAt(i);
+            switch(quad.getType()){
+                case ADD:
+                    break;
+                case MIN:
+                    break;
+                case UMIN:
+                    break;
+                case MUL:
+                    break; 
+                case DIV:
+                    break;
+                case IF_GEQ:
+                    break;
+                case IF_LEQ:
+                    break;
+                case IF_GT:
+                    break;
+                case IF_LT:
+                    break;
+                case IF_NEQ:
+                    break;
+                case IF_EQ:
+                    break;
+                case ASSIGN:
+                    break;
+                case PARAM:
+                    break;
+                case CALL:
+                    break;
+                case GOTO:
+                    break;
+                case PRINT:
+                    break;
+                case READ:
+                    break;
+                case LABEL:
+                    break;
+                case EXIT:
+                    break;
+                case VOID_RET:
+                    break;
+                case POWER:
+                    break;
+                case FUNCTION_END:
+                    break;
+                case CLOSE:
+                    break;
+            
+            }
+        }
         return "";
         
     }
