@@ -118,6 +118,14 @@ public class IntermediateStatement extends IntermediateForm{
                     sb.append(currentQuadruple.getOp1());
                     break;
                 }
+                case CLOSE: {
+                    sb.append("fin_programa");
+                    break;
+                }
+                case FUNCTION_END: {
+                    sb.append("fin_funcion");
+                    break;
+                }
             }
             sb.append("\n");
         }

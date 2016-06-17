@@ -844,7 +844,7 @@ public class IntermediateCode implements IntermediateTraverse {
             IntermediateStatement funcs = (IntermediateStatement) x.presta.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        
+        ie.operations.add(new Quadruple(Quadruple.Operations.FUNCTION_END));
         return ie;
     }
 
@@ -863,7 +863,7 @@ public class IntermediateCode implements IntermediateTraverse {
             IntermediateStatement funcs = (IntermediateStatement) x.presta.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        
+        ie.operations.add(new Quadruple(Quadruple.Operations.FUNCTION_END));
         return ie;
     }
 
@@ -905,7 +905,7 @@ public class IntermediateCode implements IntermediateTraverse {
             IntermediateStatement funcs = (IntermediateStatement) x.declarations.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-       
+        ie.operations.add(new Quadruple(Quadruple.Operations.CLOSE));
         return ie;
     }
 
