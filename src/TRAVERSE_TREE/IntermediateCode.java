@@ -88,6 +88,8 @@ import INTERM_LANG.Label;
 import INTERM_LANG.Quadruple;
 import INTERM_LANG.QuadrupleList;
 import INTERM_LANG.Temporal;
+import ada95compiler.Scope;
+import ada95compiler.SymbolTableNode;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -105,15 +107,17 @@ public class IntermediateCode implements IntermediateTraverse {
     private StringBuilder file;
     private IntermediateStatement program;
     private SemanticAnalysis semanticTable;
-    private static final String GLOBAL_SCOPE = "s0";
     private ArrayList<String> stringsTable;
     private ArrayList<Double> doublesTable;
+    private String scope;
 
     public IntermediateCode(File outputFile, SemanticAnalysis semanticTable) throws IOException {
         this.out = new BufferedWriter(new FileWriter(outputFile));
         this.semanticTable = semanticTable;
         stringsTable = new ArrayList();
         doublesTable = new ArrayList();
+        this.scope = "";
+        Scope.resetCount();
     }
 
     public void createFile(String content) throws IOException {
@@ -222,8 +226,9 @@ public class IntermediateCode implements IntermediateTraverse {
 
     @Override
     public IntermediateForm traverse(Identifier x) {
+        SymbolTableNode node = this.semanticTable.getSymboltable().findSymbol(x.id,this.scope);
         IntermediateExpression ie = new IntermediateExpression();
-        ie.setPlace(new Temporal(x.id));
+        ie.setPlace(new Temporal("_"+x.id+ "_"+ node.getScope()));
         return ie;
     }
 
@@ -825,7 +830,11 @@ public class IntermediateCode implements IntermediateTraverse {
     @Override
     public IntermediateForm traverse(ProcedureStatement x) {
         IntermediateStatement ie = new IntermediateStatement();
-        Label name = new Label("_" + x.postid.id);
+        String temp_scope=new String(this.scope);
+        String current_scope= new String(this.scope+Scope.getNewScope());
+        this.scope= new String(current_scope);
+        
+        Label name = new Label("_" + x.postid.id + "_"+temp_scope);
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
@@ -842,7 +851,10 @@ public class IntermediateCode implements IntermediateTraverse {
     @Override
     public IntermediateForm traverse(FunctionStatement x) {
         IntermediateStatement ie = new IntermediateStatement();
-        Label name = new Label("_" + x.postid.id);
+        String temp_scope = new String(this.scope);
+        String current_scope = new String(this.scope + Scope.getNewScope());
+        this.scope = new String(current_scope);
+        Label name = new Label("_" + x.postid.id+ "_"+ temp_scope);
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
@@ -879,7 +891,11 @@ public class IntermediateCode implements IntermediateTraverse {
     @Override
     public IntermediateForm traverse(ProgramInit x) {
         IntermediateStatement ie = new IntermediateStatement();
-        Label name = new Label("_" + x.postid.id);
+        
+        String current_scope= Scope.getNewScope();
+        this.scope = new String(current_scope);
+        
+        Label name = new Label("_" + x.postid.id + "_"+ current_scope);
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.stas.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
@@ -935,10 +951,11 @@ public class IntermediateCode implements IntermediateTraverse {
 
     @Override
     public IntermediateForm traverse(FunctionCall x) {
+        SymbolTableNode node = this.semanticTable.getSymboltable().findSymbol(x.id.toString(),this.scope);
         IntermediateExpression ie = new IntermediateExpression();
         IntermediateExpression arguments = (IntermediateExpression) x.args.accept(this);
         ie.operations = ie.operations.merge(arguments.operations);
-        ie.operations.add(new Quadruple("", "_" + x.id.id, Integer.toString(x.args.size()), Quadruple.Operations.CALL));
+        ie.operations.add(new Quadruple("", "_" + x.id.id+"_"+node.getScope(), Integer.toString(x.args.size()), Quadruple.Operations.CALL));
         ie.setPlace(new Temporal("RET"));
         return ie;
     }

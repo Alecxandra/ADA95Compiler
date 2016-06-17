@@ -15,4 +15,8 @@ public class Scope {
     public static String getNewScope(){
      return String.format("s%d", count++);
     }
+    
+    public static void resetCount() {
+        Scope.count = 0;
+    }
 }

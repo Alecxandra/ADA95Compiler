@@ -30,6 +30,12 @@ public class SemanticAnalysis implements TypeTraverse{
         has_error = false;
         scope = "";
     }
+
+    public SymbolTable getSymboltable() {
+        return symboltable;
+    }
+    
+    
     
     public void print_error(String message, int line, int column){
         System.err.println("ERROR: " + message + " en la linea:" + line + ", columna: " + column);
