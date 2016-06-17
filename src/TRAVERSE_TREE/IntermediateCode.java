@@ -845,6 +845,7 @@ public class IntermediateCode implements IntermediateTraverse {
             ie.operations = ie.operations.merge(funcs.operations);
         }
         ie.operations.add(new Quadruple(Quadruple.Operations.FUNCTION_END));
+        this.scope = temp_scope;
         return ie;
     }
 
@@ -864,6 +865,7 @@ public class IntermediateCode implements IntermediateTraverse {
             ie.operations = ie.operations.merge(funcs.operations);
         }
         ie.operations.add(new Quadruple(Quadruple.Operations.FUNCTION_END));
+        this.scope = temp_scope;
         return ie;
     }
 

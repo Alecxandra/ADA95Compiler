@@ -2,23 +2,29 @@ procedure principal is
  x: float;
  y: float;
 
- function resta ( j, k: in out float ) return float is
-      rest: float;
-     begin
-      rest := j - k ;
-      return rest;
- end resta;
-
- function suma ( n, m: in out float ) return float is
-  sum: float;
+ procedure prueba is
+   i: integer;
  begin
-  sum := n + m ;
-  return sum;
- end suma;
+  i :=10;
+  put ("hola");
+ end prueba;
+ 
+ procedure prueba1 is
+   i: integer;
+ begin
+   i := 10;
+  put ("hola");
+ end prueba1;
+ 
+ function rest ( n, j: in out integer) return integer is
+   algo : integer;
+  begin
+  algo:= 10;
+   return algo;
+ end rest; 
 
  begin
   y := 10.0;
-  x := suma(x,y);
   put("el resultado es: ");
   put(x); 
    
