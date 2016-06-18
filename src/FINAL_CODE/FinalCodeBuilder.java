@@ -7,6 +7,7 @@ package FINAL_CODE;
 
 import AST_TREE.BooleanType;
 import AST_TREE.IntegerType;
+import AST_TREE.StringType;
 import INTERM_LANG.IntermediateStatement;
 import INTERM_LANG.Quadruple;
 import TRAVERSE_TREE.SemanticAnalysis;
@@ -54,7 +55,7 @@ public class FinalCodeBuilder {
     public static final String $ra = "$ra";
     
     private enum OperationType {
-        INTEGER_OPERATION, BOOLEAN_OPERATION
+        INTEGER_OPERATION, BOOLEAN_OPERATION,
     }
     
     
@@ -845,35 +846,89 @@ public class FinalCodeBuilder {
                       final_code_body.append("la "+$a0+", message"+ Integer.toString(stringsTable.indexOf(quad.getOp1().replaceAll("\"", ""))) +"\n");
                       final_code_body.append("syscall\n");
                     
-                    }else if(quad.getOp1().matches("[0-9]+")){
+                    }else if(quad.getOp1().matches("[0-9]+")){/* es integer */
                       String t1 = getAvaliableTemp();
                       final_code_body.append("li "+$v0+", 4\n");
                       final_code_body.append("li "+t1+", "+quad.getOp1()+"\n");
                       final_code_body.append("move "+$a0+", "+t1+"\n");
                       final_code_body.append("syscall\n");
                       setAvaliable(t1);
-                    }else{
-                     
+                    }else{ /* es identificador */
+                      String identifier = quad.getOp1();
+                      String[] parse = identifier.split("_");
+                      if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                        VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                        if(var.getType().equals(new IntegerType())){
+                           final_code_body.append("li "+$v0+", 1\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("syscall\n");
+                        }else if( var.getType().equals(new StringType())){
+                           final_code_body.append("li "+$v0+", 4\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("syscall\n");
+                        }else if( var.getType().equals(new BooleanType())){
+                           final_code_body.append("li "+$v0+", 1\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("syscall\n");
+                        }
+                      }else{
+                        String t1= this.finalTemps.get(quad.getOp1()).reg;
+                        OperationType type = this.finalTemps.get(quad.getOp1()).type;
                         
+                        if(type == OperationType.INTEGER_OPERATION){
+                          final_code_body.append("li "+$v0 +", 1\n");
+                          final_code_body.append("move "+ $a0+", "+t1+"\n");
+                          final_code_body.append("syscall\n");
+                          
+                        }else if(type == OperationType.BOOLEAN_OPERATION){
+                          final_code_body.append("li "+$v0 +", 1\n");
+                          final_code_body.append("move "+ $a0+", "+t1+"\n");
+                          final_code_body.append("syscall\n"); 
+                        }
+                        setAvaliable(t1);
+                        this.finalTemps.remove(quad.getOp1());
+                      }
                     }
                     
                     break;
                 }
                    
-                case READ:
+                case READ:{
+                    String identifier = quad.getOp1();
+                    String[] parse = identifier.split("_");
+                    VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0],parse[1]);
+                    
+                    if(var.getType().equals(new IntegerType())){
+                      final_code_body.append("li "+$v0+", 5\n");
+                      final_code_body.append("syscall\n");
+                      final_code_body.append("sw "+$v0 +", _"+parse[0]+ "\n");
+                    }
+                    
                     break;
-                case LABEL:
+                }
+                   
+                case LABEL:{
+                  final_code_body.append(quad.getOp1()+":");
+                  break;
+                }
+                
+                case VOID_RET:{
+                   break;
+                }
+                    
+                case POWER:{
                     break;
-                case EXIT:
+                }
+                   
+                case FUNCTION_END:{
+                   break;
+                }
+                   
+                case CLOSE:{
+                    
                     break;
-                case VOID_RET:
-                    break;
-                case POWER:
-                    break;
-                case FUNCTION_END:
-                    break;
-                case CLOSE:
-                    break;
+                }
+                   
             
             }
         }
