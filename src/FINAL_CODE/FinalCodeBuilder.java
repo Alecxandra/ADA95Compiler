@@ -25,6 +25,7 @@ import java.util.List;
  * @author cbanegas
  */
 public class FinalCodeBuilder {
+    String regex ="[\"][\\w\\W]*[\"]";
     public static final String $v0 = "$v0";
 
     public static final String $a0 = "$a0";
@@ -55,7 +56,7 @@ public class FinalCodeBuilder {
     public static final String $ra = "$ra";
     
     private enum OperationType {
-        INTEGER_OPERATION, BOOLEAN_OPERATION,
+        INTEGER_OPERATION, BOOLEAN_OPERATION
     }
     
     
@@ -75,15 +76,13 @@ public class FinalCodeBuilder {
     private HashMap<String, Info> finalTemps;
     private IntermediateStatement intermediateForm;
     private List<String> stringsTable;
-    private List<Double> doublesTable;
     
-     public FinalCodeBuilder(SemanticAnalysis semanticTable, File out, IntermediateStatement intermediateForm, List<String> stringsTable, List<Double> doublesTable) throws IOException {
+     public FinalCodeBuilder(SemanticAnalysis semanticTable, File out, IntermediateStatement intermediateForm, List<String> stringsTable) throws IOException {
         this.semanticTable = semanticTable;
         this.out = new BufferedWriter(new FileWriter(out));
         this.avalibleTemps = new HashMap();
         this.finalTemps = new HashMap();
         this.stringsTable = stringsTable;
-        this.doublesTable = doublesTable;
 
         // Filling hashmap
         avalibleTemps.put($v0, true);
@@ -197,7 +196,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp1();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
                              final_code_body.append("lw "+ t1+","+quad.getOp1());
@@ -219,7 +218,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp2();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
                              final_code_body.append("lw "+ t2+","+quad.getOp2());
@@ -234,7 +233,7 @@ public class FinalCodeBuilder {
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
                         
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
                           final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
                           setAvaliable(t3);
                           
@@ -272,7 +271,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp1();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
                              final_code_body.append("lw "+ t1+","+quad.getOp1());
@@ -294,7 +293,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp2();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
                              final_code_body.append("lw "+ t2+","+quad.getOp2());
@@ -309,7 +308,7 @@ public class FinalCodeBuilder {
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
                         
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
                           final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
                           setAvaliable(t3);
                           
@@ -350,7 +349,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp1();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
                              final_code_body.append("lw "+ t1+","+quad.getOp1());
@@ -372,7 +371,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp2();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
                              final_code_body.append("lw "+ t2+","+quad.getOp2());
@@ -387,7 +386,7 @@ public class FinalCodeBuilder {
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
                         
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
                           final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
                           setAvaliable(t3);
                           
@@ -422,7 +421,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp1();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
                              final_code_body.append("lw "+ t1+","+quad.getOp1());
@@ -444,7 +443,7 @@ public class FinalCodeBuilder {
                            /* obteniendo el scope del id */
                            String identifier = quad.getOp2();
                            String[] parse = identifier.split("_");
-                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
                              final_code_body.append("lw "+ t2+","+quad.getOp2());
@@ -459,7 +458,7 @@ public class FinalCodeBuilder {
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
                         
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
                           final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
                           setAvaliable(t3);
                           
@@ -496,7 +495,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -516,7 +515,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -551,7 +550,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -571,7 +570,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -604,7 +603,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -624,7 +623,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -659,7 +658,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -679,7 +678,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -714,7 +713,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -734,7 +733,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -769,7 +768,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp1();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
                         final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
@@ -789,7 +788,7 @@ public class FinalCodeBuilder {
                      }else{ /* si es identificador*/
                       String variable=quad.getOp2();
                       String[] parse = variable.split("_");
-                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
                         final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
@@ -841,7 +840,7 @@ public class FinalCodeBuilder {
                 }
                     
                 case PRINT:{
-                    if(quad.getOp1().matches("[\\\"][\\W\\W]*[\\\"]")){
+                    if(quad.getOp1().matches(regex)){
                       final_code_body.append("li "+ $v0 + ", 4\n");
                       final_code_body.append("la "+$a0+", message"+ Integer.toString(stringsTable.indexOf(quad.getOp1().replaceAll("\"", ""))) +"\n");
                       final_code_body.append("syscall\n");
@@ -856,19 +855,19 @@ public class FinalCodeBuilder {
                     }else{ /* es identificador */
                       String identifier = quad.getOp1();
                       String[] parse = identifier.split("_");
-                      if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
-                        VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
+                        VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                         if(var.getType().equals(new IntegerType())){
                            final_code_body.append("li "+$v0+", 1\n");
-                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[1]+"\n");
                            final_code_body.append("syscall\n");
                         }else if( var.getType().equals(new StringType())){
                            final_code_body.append("li "+$v0+", 4\n");
-                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[1]+"\n");
                            final_code_body.append("syscall\n");
                         }else if( var.getType().equals(new BooleanType())){
                            final_code_body.append("li "+$v0+", 1\n");
-                           final_code_body.append("lw "+ $a0+", "+"_"+parse[0]+"\n");
+                           final_code_body.append("lw "+ $a0+", "+"_"+parse[1]+"\n");
                            final_code_body.append("syscall\n");
                         }
                       }else{
@@ -896,12 +895,12 @@ public class FinalCodeBuilder {
                 case READ:{
                     String identifier = quad.getOp1();
                     String[] parse = identifier.split("_");
-                    VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0],parse[1]);
+                    VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1],parse[2]);
                     
                     if(var.getType().equals(new IntegerType())){
                       final_code_body.append("li "+$v0+", 5\n");
                       final_code_body.append("syscall\n");
-                      final_code_body.append("sw "+$v0 +", _"+parse[0]+ "\n");
+                      final_code_body.append("sw "+$v0 +", _"+parse[1]+ "\n");
                     }
                     
                     break;

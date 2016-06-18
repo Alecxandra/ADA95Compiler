@@ -7,6 +7,7 @@ package ada95compiler;
 
 import AST_TREE.ProgramInit;
 import AST_TREE.Statements;
+import FINAL_CODE.FinalCodeBuilder;
 import INTERM_LANG.IntermediateStatement;
 import TRAVERSE_TREE.IntermediateCode;
 import TRAVERSE_TREE.SemanticAnalysis;
@@ -45,8 +46,9 @@ public class ADA95Compiler {
                 IntermediateCode ic = new IntermediateCode(intermediateCodeFile, semantic);
                 IntermediateStatement interForm = (IntermediateStatement) ic.traverse(programa);
                 ic.createFile(interForm.buildIntermediateCode());
-            }else{
-                
+                File finalCodeFile = new File(file.getAbsoluteFile().getAbsolutePath().replace(".adb", "") + ".s");
+                FinalCodeBuilder fcb = new FinalCodeBuilder(semantic, finalCodeFile, interForm, ic.getStringsTable());
+                fcb.writeFinalCode(fcb.buildFinalCode());   
             }
             
             

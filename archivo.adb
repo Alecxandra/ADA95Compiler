@@ -1,9 +1,9 @@
 procedure principal is
  x: integer;
- y: float;
+ y: integer;
 
 begin
-  y := 10.0;
+  y := 10;
   put("el resultado es: ");
   put(x); 
    
