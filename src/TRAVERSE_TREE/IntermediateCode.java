@@ -788,13 +788,16 @@ public class IntermediateCode implements IntermediateTraverse {
         Label inicio = new Label();
         Label truelabel = new Label();
         Label falselabel = new Label("");
+        Label increment = new Label();
         list.add(new Quadruple(inicio));
         list.add(new Quadruple("", id.getPlace().toString(), end.getPlace().toString(), Quadruple.Operations.IF_LEQ, truelabel));
         list.add(new Quadruple("", "", "", Quadruple.Operations.GOTO, falselabel));
         list.add(new Quadruple(truelabel));
         IntermediateStatement statements = (IntermediateStatement) x.sta.accept(this);
-        complete(statements.getNext(), inicio);
+        complete(statements.getNext(), increment);
         list = list.merge(statements.operations);
+        list.add(new Quadruple(increment));
+        list.add(new Quadruple("_"+x.id.id+"_"+this.scope,"_"+x.id.id+"_"+this.scope,"1",Quadruple.Operations.ADD));
         list.add(new Quadruple("", "", "", Quadruple.Operations.GOTO, inicio));
         ie.operations = list;
         ie.getNext().add(falselabel);

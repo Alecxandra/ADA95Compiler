@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -176,6 +177,7 @@ public class FinalCodeBuilder {
             final_code.append("_msg"+i+":\t.asciiz\t\""+this.stringsTable.get(i)+"\"\n");
         }
          final_code.append("\n.text\n.globl main\n\n");
+         final_code.append("main: \n\n");
          
          StringBuilder final_code_body = new StringBuilder();
          for (int i = 0; i < this.intermediateForm.operations.size(); i++) {
@@ -186,7 +188,8 @@ public class FinalCodeBuilder {
                  String t3 = null;
                  OperationType type = null;
                     if (this.finalTemps.get(quad.getOp1()) != null) {
-                        
+                        t1 = finalTemps.get(quad.getOp1()).reg;
+                        type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
                          t1 = getAviableSTemps();
@@ -199,7 +202,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             final_code_body.append("lw "+ t1+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -212,7 +215,7 @@ public class FinalCodeBuilder {
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
                          t2 = getAviableSTemps();
-                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
                            /* obteniendo el scope del id */
@@ -221,7 +224,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             final_code_body.append("lw "+ t2+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -229,16 +232,14 @@ public class FinalCodeBuilder {
                     
                     if( type == OperationType.INTEGER_OPERATION){
                         t3= getAvaliableTemp();
-                        final_code_body.append("add "+t3+","+t1+","+t2+"\n");
+                        final_code_body.append("add "+t3+", "+t1+", "+t2+"\n");
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
-                        
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
-                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                        if(var_result.contains("_")){ /* es identificador */
+                         final_code_body.append("sw "+t3+","+"_"+parse[1]+"\n");
                           setAvaliable(t3);
-                          
-                        }else{
-                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                        }else{ /*es temporal*/
+                           this.finalTemps.put(quad.getStore(),new Info(t3,type));
                           if(this.finalTemps.get(quad.getOp1()) != null){
                             this.finalTemps.remove(quad.getOp1());
                           }
@@ -247,6 +248,7 @@ public class FinalCodeBuilder {
                             this.finalTemps.remove(quad.getOp2());  
                           }
                         }
+                      
                     }
                     
                   setAvaliable(t1);
@@ -258,10 +260,11 @@ public class FinalCodeBuilder {
                     
                 case MIN: {
                    String t1 = null;   
-                   String t3 = null;
-                   OperationType type = null;
+                 String t3 = null;
+                 OperationType type = null;
                     if (this.finalTemps.get(quad.getOp1()) != null) {
-                        
+                        t1 = finalTemps.get(quad.getOp1()).reg;
+                        type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
                          t1 = getAviableSTemps();
@@ -274,7 +277,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             final_code_body.append("lw "+ t1+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -287,7 +290,7 @@ public class FinalCodeBuilder {
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
                          t2 = getAviableSTemps();
-                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
                            /* obteniendo el scope del id */
@@ -296,7 +299,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             final_code_body.append("lw "+ t2+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -304,16 +307,14 @@ public class FinalCodeBuilder {
                     
                     if( type == OperationType.INTEGER_OPERATION){
                         t3= getAvaliableTemp();
-                        final_code_body.append("sub "+t3+","+t1+","+t2+"\n");
+                        final_code_body.append("sub "+t3+", "+t1+", "+t2+"\n");
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
-                        
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
-                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                        if(var_result.contains("_")){ /* es identificador */
+                         final_code_body.append("sw "+t3+","+"_"+parse[1]+"\n");
                           setAvaliable(t3);
-                          
-                        }else{
-                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                        }else{ /*es temporal*/
+                           this.finalTemps.put(quad.getStore(),new Info(t3,type));
                           if(this.finalTemps.get(quad.getOp1()) != null){
                             this.finalTemps.remove(quad.getOp1());
                           }
@@ -322,9 +323,11 @@ public class FinalCodeBuilder {
                             this.finalTemps.remove(quad.getOp2());  
                           }
                         }
+                      
                     }
                     
                   setAvaliable(t1);
+                  
                   setAvaliable(t2);
                   
                   break;
@@ -336,10 +339,11 @@ public class FinalCodeBuilder {
                     
                 case MUL:{
                   String t1 = null;   
-                   String t3 = null;
-                   OperationType type = null;
+                 String t3 = null;
+                 OperationType type = null;
                     if (this.finalTemps.get(quad.getOp1()) != null) {
-                        
+                        t1 = finalTemps.get(quad.getOp1()).reg;
+                        type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
                          t1 = getAviableSTemps();
@@ -352,7 +356,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             final_code_body.append("lw "+ t1+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -365,7 +369,7 @@ public class FinalCodeBuilder {
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
                          t2 = getAviableSTemps();
-                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
                            /* obteniendo el scope del id */
@@ -374,7 +378,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             final_code_body.append("lw "+ t2+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -382,16 +386,14 @@ public class FinalCodeBuilder {
                     
                     if( type == OperationType.INTEGER_OPERATION){
                         t3= getAvaliableTemp();
-                        final_code_body.append("mul "+t3+","+t1+","+t2+"\n");
+                        final_code_body.append("mul "+t3+", "+t1+", "+t2+"\n");
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
-                        
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
-                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                        if(var_result.contains("_")){ /* es identificador */
+                         final_code_body.append("sw "+t3+","+"_"+parse[1]+"\n");
                           setAvaliable(t3);
-                          
-                        }else{
-                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                        }else{ /*es temporal*/
+                           this.finalTemps.put(quad.getStore(),new Info(t3,type));
                           if(this.finalTemps.get(quad.getOp1()) != null){
                             this.finalTemps.remove(quad.getOp1());
                           }
@@ -400,18 +402,21 @@ public class FinalCodeBuilder {
                             this.finalTemps.remove(quad.getOp2());  
                           }
                         }
+                      
                     }
                     
                   setAvaliable(t1);
-                  setAvaliable(t2);  
+                  
+                  setAvaliable(t2); 
                   break;
                 }
                 case DIV:{
                    String t1 = null;   
-                   String t3 = null;
-                   OperationType type = null;
+                 String t3 = null;
+                 OperationType type = null;
                     if (this.finalTemps.get(quad.getOp1()) != null) {
-                        
+                        t1 = finalTemps.get(quad.getOp1()).reg;
+                        type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
                          t1 = getAviableSTemps();
@@ -424,7 +429,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t1 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             final_code_body.append("lw "+ t1+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -437,7 +442,7 @@ public class FinalCodeBuilder {
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
                          t2 = getAviableSTemps();
-                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
                            /* obteniendo el scope del id */
@@ -446,7 +451,7 @@ public class FinalCodeBuilder {
                            VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                            if(var.getType().equals(new IntegerType())){
                              t2 = getAvaliableTemp();
-                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             final_code_body.append("lw "+ t2+", "+"_"+parse[1]+"\n");
                              type = OperationType.INTEGER_OPERATION;
                            }
                        }
@@ -454,16 +459,14 @@ public class FinalCodeBuilder {
                     
                     if( type == OperationType.INTEGER_OPERATION){
                         t3= getAvaliableTemp();
-                        final_code_body.append("div "+t3+","+t1+","+t2+"\n");
+                        final_code_body.append("div "+t3+", "+t1+", "+t2+"\n");
                         String var_result= quad.getStore();
                         String[] parse = var_result.split("_");
-                        
-                        if(this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null){
-                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                        if(var_result.contains("_")){ /* es identificador */
+                         final_code_body.append("sw "+t3+","+"_"+parse[1]+"\n");
                           setAvaliable(t3);
-                          
-                        }else{
-                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                        }else{ /*es temporal*/
+                           this.finalTemps.put(quad.getStore(),new Info(t3,type));
                           if(this.finalTemps.get(quad.getOp1()) != null){
                             this.finalTemps.remove(quad.getOp1());
                           }
@@ -472,9 +475,11 @@ public class FinalCodeBuilder {
                             this.finalTemps.remove(quad.getOp2());  
                           }
                         }
+                      
                     }
                     
                   setAvaliable(t1);
+                  
                   setAvaliable(t2);
                    break; 
                 }
@@ -498,7 +503,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -518,7 +523,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+","+"_"+parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -553,7 +558,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -573,7 +578,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+", "+"_"+parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -606,7 +611,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -626,7 +631,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -661,7 +666,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -681,7 +686,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -716,7 +721,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -736,7 +741,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -771,7 +776,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t1 = getAvaliableTemp();
-                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        final_code_body.append("lw "+t1+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -791,7 +796,7 @@ public class FinalCodeBuilder {
                       VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                       if(var.getType().equals(new IntegerType())){
                         t2 = getAvaliableTemp();
-                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        final_code_body.append("lw "+t2+", "+"_"+ parse[1]+"\n");
                         type = OperationType.INTEGER_OPERATION;
                       }
                      }
@@ -808,22 +813,25 @@ public class FinalCodeBuilder {
                     
                 case ASSIGN:{
                    OperationType type = null;
-                   
+                    String t1 = null;
+                    
                    if(quad.getOp1().matches("[0-9]+")){ /* es integer*/
-                     String t1 = null;
-                     if(this.finalTemps.get(quad.getOp1())!=null){
+                     t1 = getAvaliableTemp();
+                     final_code_body.append("li" +t1+","+  quad.getOp1()+"\n");
+                   }
+                   
+                    if(this.finalTemps.get(quad.getOp1())!=null){
                         t1= this.finalTemps.get(quad.getOp1()).reg;
                         type= this.finalTemps.get(quad.getOp1()).type;
-                     }else{
-                       t1 = getAvaliableTemp();
-                       final_code_body.append("li" +t1+","+  quad.getOp1()+"\n");
                      }
-                      final_code_body.append("sw "+t1+", "+quad.getOp1()+"\n");
+                    
+                      String identifier = quad.getStore();
+                      String[] parse = identifier.split("_");
+                      final_code_body.append("sw "+t1+", "+"_"+parse[1]+"\n");
                       setAvaliable(t1);
                       if(this.finalTemps.get(quad.getOp1()) != null){
                         this.finalTemps.remove(quad.getOp1());
                       }
-                   }
                    break;
                 }
                 case PARAM:{
@@ -842,7 +850,7 @@ public class FinalCodeBuilder {
                 case PRINT:{
                     if(quad.getOp1().matches(regex)){
                       final_code_body.append("li "+ $v0 + ", 4\n");
-                      final_code_body.append("la "+$a0+", message"+ Integer.toString(stringsTable.indexOf(quad.getOp1().replaceAll("\"", ""))) +"\n");
+                      final_code_body.append("la "+$a0+", _msg"+ Integer.toString(stringsTable.indexOf(quad.getOp1().replaceAll("\"", ""))) +"\n");
                       final_code_body.append("syscall\n");
                     
                     }else if(quad.getOp1().matches("[0-9]+")){/* es integer */
@@ -907,7 +915,7 @@ public class FinalCodeBuilder {
                 }
                    
                 case LABEL:{
-                  final_code_body.append(quad.getOp1()+":");
+                  final_code_body.append(quad.getLabel()+": \n");
                   break;
                 }
                 
@@ -924,7 +932,8 @@ public class FinalCodeBuilder {
                 }
                    
                 case CLOSE:{
-                    
+                    final_code_body.append("li "+ $v0+", 10\n");
+                    final_code_body.append("syscall\n");
                     break;
                 }
                    

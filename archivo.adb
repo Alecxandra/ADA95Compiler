@@ -1,10 +1,17 @@
 procedure principal is
- x: integer;
- y: integer;
-
+ i: integer;
 begin
-  y := 10;
-  put("el resultado es: ");
-  put(x); 
-   
+
+    put("Hola");
+  i := 0;
+  while true loop
+    if i >= 10 and i <= 15 then
+        put(i);
+        put("\n");
+    end if;
+    i := i +1;
+    exit when i = 30;
+  end loop;
+
+
 end principal;
