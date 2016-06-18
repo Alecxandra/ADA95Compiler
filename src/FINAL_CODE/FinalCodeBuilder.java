@@ -181,38 +181,685 @@ public class FinalCodeBuilder {
          for (int i = 0; i < this.intermediateForm.operations.size(); i++) {
             Quadruple quad = this.intermediateForm.operations.elementAt(i);
             switch(quad.getType()){
-                case ADD:
+                case ADD: {
+                 String t1 = null;   
+                 String t3 = null;
+                 OperationType type = null;
+                    if (this.finalTemps.get(quad.getOp1()) != null) {
+                        
+                    }else{
+                       if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
+                         t1 = getAviableSTemps();
+                         final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp1();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    String t2 = null;
+                    if (this.finalTemps.get(quad.getOp2()) != null) {
+                        t2 = finalTemps.get(quad.getOp2()).reg;
+                        type = finalTemps.get(quad.getOp2()).type;
+                    }else{
+                       if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
+                         t2 = getAviableSTemps();
+                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp2();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t2 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    if( type == OperationType.INTEGER_OPERATION){
+                        t3= getAvaliableTemp();
+                        final_code_body.append("add "+t3+","+t1+","+t2+"\n");
+                        String var_result= quad.getStore();
+                        String[] parse = var_result.split("_");
+                        
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                          setAvaliable(t3);
+                          
+                        }else{
+                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                          if(this.finalTemps.get(quad.getOp1()) != null){
+                            this.finalTemps.remove(quad.getOp1());
+                          }
+                          
+                          if(this.finalTemps.get(quad.getOp2()) != null){
+                            this.finalTemps.remove(quad.getOp2());  
+                          }
+                        }
+                    }
+                    
+                  setAvaliable(t1);
+                  
+                  setAvaliable(t2);
+                    
+                  break;
+                }
+                    
+                case MIN: {
+                   String t1 = null;   
+                   String t3 = null;
+                   OperationType type = null;
+                    if (this.finalTemps.get(quad.getOp1()) != null) {
+                        
+                    }else{
+                       if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
+                         t1 = getAviableSTemps();
+                         final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp1();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    String t2 = null;
+                    if (this.finalTemps.get(quad.getOp2()) != null) {
+                        t2 = finalTemps.get(quad.getOp2()).reg;
+                        type = finalTemps.get(quad.getOp2()).type;
+                    }else{
+                       if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
+                         t2 = getAviableSTemps();
+                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp2();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t2 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    if( type == OperationType.INTEGER_OPERATION){
+                        t3= getAvaliableTemp();
+                        final_code_body.append("sub "+t3+","+t1+","+t2+"\n");
+                        String var_result= quad.getStore();
+                        String[] parse = var_result.split("_");
+                        
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                          setAvaliable(t3);
+                          
+                        }else{
+                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                          if(this.finalTemps.get(quad.getOp1()) != null){
+                            this.finalTemps.remove(quad.getOp1());
+                          }
+                          
+                          if(this.finalTemps.get(quad.getOp2()) != null){
+                            this.finalTemps.remove(quad.getOp2());  
+                          }
+                        }
+                    }
+                    
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                  
+                  break;
+                }
+                  
+                case UMIN:{
+                  break;
+                }
+                    
+                case MUL:{
+                  String t1 = null;   
+                   String t3 = null;
+                   OperationType type = null;
+                    if (this.finalTemps.get(quad.getOp1()) != null) {
+                        
+                    }else{
+                       if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
+                         t1 = getAviableSTemps();
+                         final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp1();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    String t2 = null;
+                    if (this.finalTemps.get(quad.getOp2()) != null) {
+                        t2 = finalTemps.get(quad.getOp2()).reg;
+                        type = finalTemps.get(quad.getOp2()).type;
+                    }else{
+                       if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
+                         t2 = getAviableSTemps();
+                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp2();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t2 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    if( type == OperationType.INTEGER_OPERATION){
+                        t3= getAvaliableTemp();
+                        final_code_body.append("mul "+t3+","+t1+","+t2+"\n");
+                        String var_result= quad.getStore();
+                        String[] parse = var_result.split("_");
+                        
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                          setAvaliable(t3);
+                          
+                        }else{
+                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                          if(this.finalTemps.get(quad.getOp1()) != null){
+                            this.finalTemps.remove(quad.getOp1());
+                          }
+                          
+                          if(this.finalTemps.get(quad.getOp2()) != null){
+                            this.finalTemps.remove(quad.getOp2());  
+                          }
+                        }
+                    }
+                    
+                  setAvaliable(t1);
+                  setAvaliable(t2);  
+                  break;
+                }
+                case DIV:{
+                   String t1 = null;   
+                   String t3 = null;
+                   OperationType type = null;
+                    if (this.finalTemps.get(quad.getOp1()) != null) {
+                        
+                    }else{
+                       if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
+                         t1 = getAviableSTemps();
+                         final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp1();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t1+","+quad.getOp1());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    String t2 = null;
+                    if (this.finalTemps.get(quad.getOp2()) != null) {
+                        t2 = finalTemps.get(quad.getOp2()).reg;
+                        type = finalTemps.get(quad.getOp2()).type;
+                    }else{
+                       if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
+                         t2 = getAviableSTemps();
+                         final_code_body.append("li "+ t2+ ","+ quad.getOp2()+"\n");
+                         type = OperationType.INTEGER_OPERATION;
+                       }else{ /* es un id, se usa lw*/
+                           /* obteniendo el scope del id */
+                           String identifier = quad.getOp2();
+                           String[] parse = identifier.split("_");
+                           VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                           if(var.getType().equals(new IntegerType())){
+                             t2 = getAvaliableTemp();
+                             final_code_body.append("lw "+ t2+","+quad.getOp2());
+                             type = OperationType.INTEGER_OPERATION;
+                           }
+                       }
+                    }
+                    
+                    if( type == OperationType.INTEGER_OPERATION){
+                        t3= getAvaliableTemp();
+                        final_code_body.append("div "+t3+","+t1+","+t2+"\n");
+                        String var_result= quad.getStore();
+                        String[] parse = var_result.split("_");
+                        
+                        if(this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]) != null){
+                          final_code_body.append("sw "+t3+","+quad.getStore()+"\n");
+                          setAvaliable(t3);
+                          
+                        }else{
+                          this.finalTemps.put(quad.getStore(),new Info(t3,type));
+                          if(this.finalTemps.get(quad.getOp1()) != null){
+                            this.finalTemps.remove(quad.getOp1());
+                          }
+                          
+                          if(this.finalTemps.get(quad.getOp2()) != null){
+                            this.finalTemps.remove(quad.getOp2());  
+                          }
+                        }
+                    }
+                    
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                   break; 
+                }
+                    
+                case IF_GEQ:{
+                  String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("bge "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                  
+                  break;
+                }
+                
+                case IF_LEQ:{
+                 String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("ble "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                  break;
+                }
+                case IF_GT:{
+                  String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("bgt "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                  
                     break;
-                case MIN:
+                }
+                
+                case IF_LT:{
+                     String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("blt "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                    
                     break;
-                case UMIN:
+                }
+                    
+                case IF_NEQ:{
+                       String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("bne "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2);
+                    
+                  break;
+                }
+                   
+                case IF_EQ:{
+                        String t1 = null;
+                  String t2 = null;
+                  OperationType type =null;
+                  
+                  if(this.finalTemps.get(quad.getOp1()) != null){
+                    t1 = this.finalTemps.get(quad.getOp1()).reg;
+                    type = this.finalTemps.get(quad.getOp1()).type;
+                  }else{
+                     if(quad.getOp1().matches("[0-9]+")){ /* opcion integer*/
+                      t1 = getAvaliableTemp();
+                      final_code_body.append("li "+t1+","+quad.getOp1()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp1();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t1 = getAvaliableTemp();
+                        final_code_body.append("lw "+t1+","+quad.getOp1()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }  
+                  
+                  if(this.finalTemps.get(quad.getOp2()) != null){
+                    t2 = this.finalTemps.get(quad.getOp2()).reg;
+                    type = this.finalTemps.get(quad.getOp2()).type;
+                  }else{
+                     if(quad.getOp2().matches("[0-9]+")){ /* opcion integer*/
+                      t2 = getAvaliableTemp();
+                      final_code_body.append("li "+t2+","+quad.getOp2()+"\n");
+                      type = OperationType.INTEGER_OPERATION;
+                     }else{ /* si es identificador*/
+                      String variable=quad.getOp2();
+                      String[] parse = variable.split("_");
+                      VTableNode var = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[0], parse[1]);
+                      if(var.getType().equals(new IntegerType())){
+                        t2 = getAvaliableTemp();
+                        final_code_body.append("lw "+t2+","+quad.getOp2()+"\n");
+                        type = OperationType.INTEGER_OPERATION;
+                      }
+                     }
+                  }
+                  
+                  if (type == OperationType.INTEGER_OPERATION){
+                    final_code_body.append("beq "+t1+", "+t2+", "+ quad.getLabel().toString()+"\n");
+                  }
+                  
+                  setAvaliable(t1);
+                  setAvaliable(t2); 
+                  break;
+                }
+                    
+                case ASSIGN:{
+                   OperationType type = null;
+                   
+                   if(quad.getOp1().matches("[0-9]+")){ /* es integer*/
+                     String t1 = null;
+                     if(this.finalTemps.get(quad.getOp1())!=null){
+                        t1= this.finalTemps.get(quad.getOp1()).reg;
+                        type= this.finalTemps.get(quad.getOp1()).type;
+                     }else{
+                       t1 = getAvaliableTemp();
+                       final_code_body.append("li" +t1+","+  quad.getOp1()+"\n");
+                     }
+                      final_code_body.append("sw "+t1+", "+quad.getOp1()+"\n");
+                      setAvaliable(t1);
+                      if(this.finalTemps.get(quad.getOp1()) != null){
+                        this.finalTemps.remove(quad.getOp1());
+                      }
+                   }
+                   break;
+                }
+                case PARAM:{
+                   break;
+                }
+                    
+                case CALL:{
+                   break;
+                }
+                   
+                case GOTO:{
+                   final_code_body.append("b "+quad.getLabel()+"\n");
+                   break;
+                }
+                    
+                case PRINT:{
+                    if(quad.getOp1().matches("[\\\"][\\W\\W]*[\\\"]")){
+                      final_code_body.append("li "+ $v0 + ", 4\n");
+                      final_code_body.append("la "+$a0+", message"+ Integer.toString(stringsTable.indexOf(quad.getOp1().replaceAll("\"", ""))) +"\n");
+                      final_code_body.append("syscall\n");
+                    
+                    }else if(quad.getOp1().matches("[0-9]+")){
+                      String t1 = getAvaliableTemp();
+                      final_code_body.append("li "+$v0+", 4\n");
+                      final_code_body.append("li "+t1+", "+quad.getOp1()+"\n");
+                      final_code_body.append("move "+$a0+", "+t1+"\n");
+                      final_code_body.append("syscall\n");
+                      setAvaliable(t1);
+                    }else{
+                     
+                        
+                    }
+                    
                     break;
-                case MUL:
-                    break; 
-                case DIV:
-                    break;
-                case IF_GEQ:
-                    break;
-                case IF_LEQ:
-                    break;
-                case IF_GT:
-                    break;
-                case IF_LT:
-                    break;
-                case IF_NEQ:
-                    break;
-                case IF_EQ:
-                    break;
-                case ASSIGN:
-                    break;
-                case PARAM:
-                    break;
-                case CALL:
-                    break;
-                case GOTO:
-                    break;
-                case PRINT:
-                    break;
+                }
+                   
                 case READ:
                     break;
                 case LABEL:
