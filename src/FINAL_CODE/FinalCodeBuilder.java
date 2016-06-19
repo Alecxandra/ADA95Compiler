@@ -192,7 +192,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
-                         t1 = getAviableSTemps();
+                         t1 = getAvaliableTemp();
                          final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -214,7 +214,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp2()).type;
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
-                         t2 = getAviableSTemps();
+                         t2 = getAvaliableTemp();
                          final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -267,7 +267,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
-                         t1 = getAviableSTemps();
+                         t1 = getAvaliableTemp();
                          final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -289,7 +289,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp2()).type;
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
-                         t2 = getAviableSTemps();
+                         t2 = getAvaliableTemp();
                          final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -346,7 +346,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
-                         t1 = getAviableSTemps();
+                         t1 = getAvaliableTemp();
                          final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -368,7 +368,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp2()).type;
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
-                         t2 = getAviableSTemps();
+                         t2 = getAvaliableTemp();
                          final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -419,7 +419,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp1()).type;  
                     }else{
                        if(quad.getOp1().matches("[0-9]*")){ /* suma de integers */
-                         t1 = getAviableSTemps();
+                         t1 = getAvaliableTemp();
                          final_code_body.append("li "+ t1+ ","+ quad.getOp1()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -441,7 +441,7 @@ public class FinalCodeBuilder {
                         type = finalTemps.get(quad.getOp2()).type;
                     }else{
                        if(quad.getOp2().matches("[0-9]*")){ /* suma de integers */
-                         t2 = getAviableSTemps();
+                         t2 = getAvaliableTemp();
                          final_code_body.append("li "+ t2+ ", "+ quad.getOp2()+"\n");
                          type = OperationType.INTEGER_OPERATION;
                        }else{ /* es un id, se usa lw*/
@@ -861,8 +861,7 @@ public class FinalCodeBuilder {
                     /* aqui los argumentos se meten en la pila */
                    }
                    
-                   
-                   
+                   setAvaliable(t1);
                    break;
                 }
                     
