@@ -817,21 +817,26 @@ public class FinalCodeBuilder {
                     
                    if(quad.getOp1().matches("[0-9]+")){ /* es integer*/
                      t1 = getAvaliableTemp();
-                     final_code_body.append("li" +t1+","+  quad.getOp1()+"\n");
+                     final_code_body.append("li" +t1+", "+ quad.getOp1()+"\n");
+                   }else if(this.finalTemps.get(quad.getOp1())!=null){
+                      t1= this.finalTemps.get(quad.getOp1()).reg;
+                      type= this.finalTemps.get(quad.getOp1()).type;
                    }
                    
-                    if(this.finalTemps.get(quad.getOp1())!=null){
-                        t1= this.finalTemps.get(quad.getOp1()).reg;
-                        type= this.finalTemps.get(quad.getOp1()).type;
-                     }
-                    
-                      String identifier = quad.getStore();
-                      String[] parse = identifier.split("_");
+                   String identifier = quad.getStore();
+                   String[] parse = identifier.split("_"); 
+                   if( identifier.equals("RET")){
+                     final_code_body.append("move "+$v0+", "+t1+"\n");
+                   }else{
                       final_code_body.append("sw "+t1+", "+"_"+parse[1]+"\n");
-                      setAvaliable(t1);
-                      if(this.finalTemps.get(quad.getOp1()) != null){
-                        this.finalTemps.remove(quad.getOp1());
-                      }
+                   }  
+                    
+                   setAvaliable(t1);
+                   
+                   if(this.finalTemps.get(quad.getOp1()) != null){
+                    this.finalTemps.remove(quad.getOp1());
+                   }
+                   
                    break;
                 }
                 case PARAM:{
