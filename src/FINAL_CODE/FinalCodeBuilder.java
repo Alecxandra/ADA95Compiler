@@ -835,7 +835,29 @@ public class FinalCodeBuilder {
                    break;
                 }
                 case PARAM:{
-                    /*  AQUIIIII   */
+                    String t1 =null;
+                    OperationType type =null;
+                   if(quad.getOp1().matches("[0-9]+")){ /* Es Integer */
+                        t1 = getAvaliableTemp();
+                       final_code_body.append("li "+t1+", "+quad.getOp1()+"\n");
+                   }else if (quad.getOp1().contains("_")){/* Es Identificador*/
+                       String identifier = quad.getOp1();
+                       String[] parse = identifier.split("_");
+                       t1 = getAvaliableTemp();
+                       final_code_body.append("lw "+t1+", "+"_"+parse[1]+"\n");
+                   }else{
+                     t1 = this.finalTemps.get(quad.getOp1()).reg;
+                     type = this.finalTemps.get(quad.getOp1()).type;
+                   }
+                   String argument = getAviableArguments();
+                   if(argument != null){
+                    final_code_body.append("move "+argument+", "+t1+"\n");
+                   }else{
+                    /* aqui los argumentos se meten en la pila */
+                   }
+                   
+                   
+                   
                    break;
                 }
                     
