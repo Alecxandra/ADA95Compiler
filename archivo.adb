@@ -1,17 +1,15 @@
 procedure principal is
  i: integer;
+
+ function suma (x,y: in out integer) return integer is
+  z: integer; 
+ begin
+  z:= x + y;
+  return z;
+ end suma;
+
 begin
-
-    put("Hola");
-  i := 0;
-  while true loop
-    if i >= 10 and i <= 15 then
-        put(i);
-        put("\n");
-    end if;
-    i := i +1;
-    exit when i = 30;
-  end loop;
-
-
+  i:= suma(5,6); 
+  put("El resultado es: ");
+  put(i);
 end principal;
