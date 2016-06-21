@@ -1327,7 +1327,9 @@ public class FinalCodeBuilder {
                         }
 
                     }
-
+                     for (int j = 0; j < 4; j++) {
+                        setAvaliable("$s"+j);
+                    }
                     break;
                 }
 
