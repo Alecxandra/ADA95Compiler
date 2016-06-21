@@ -1156,11 +1156,23 @@ public class FinalCodeBuilder {
                         t1 = getAvaliableTemp();
                         final_code_body.append("li " + t1 + ", " + quad.getOp1() + "\n");
                     } else if (quad.getOp1().contains("_")) {/* Es Identificador*/
-
                         String identifier = quad.getOp1();
                         String[] parse = identifier.split("_");
-                        t1 = getAvaliableTemp();
-                        final_code_body.append("lw " + t1 + ", " + "_" + parse[1] + "\n");
+                        VTableNode node = (VTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
+                        if(node.getScope().equals("s0")){
+                         t1 = getAvaliableTemp();
+                         final_code_body.append("lw " + t1 + ", " + "_" + parse[1] + "\n");
+                        } else{
+                           if(node.isParam()){
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("move " + t1 +", "+node.getCurrent_reg()+ "\n");
+                           }else{
+                             t1 = getAvaliableTemp();
+                             final_code_body.append("lw " + t1 +", -"+node.getFinalcode_direction()+"($fp)"+ "\n");
+                           }
+                        
+                        }
+                        
                     } else {
                         t1 = this.finalTemps.get(quad.getOp1()).reg;
                         type = this.finalTemps.get(quad.getOp1()).type;
@@ -1203,42 +1215,53 @@ public class FinalCodeBuilder {
                         final_code_body.append("move " + $a0 + ", " + t1 + "\n");
                         final_code_body.append("syscall\n");
                         setAvaliable(t1);
-                    } else { /* es identificador */
-
+                    }else if (quad.getOp1().contains("_")) {/* es identificador */
                         String identifier = quad.getOp1();
                         String[] parse = identifier.split("_");
                         if (this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]) != null) {
                             VTableNode var = (VTableNode) this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
-                            if (var.getType().equals(new IntegerType())) {
-                                final_code_body.append("li " + $v0 + ", 1\n");
-                                final_code_body.append("lw " + $a0 + ", " + "_" + parse[1] + "\n");
-                                final_code_body.append("syscall\n");
-                            } else if (var.getType().equals(new StringType())) {
-                                final_code_body.append("li " + $v0 + ", 4\n");
-                                final_code_body.append("lw " + $a0 + ", " + "_" + parse[1] + "\n");
-                                final_code_body.append("syscall\n");
-                            } else if (var.getType().equals(new BooleanType())) {
-                                final_code_body.append("li " + $v0 + ", 1\n");
-                                final_code_body.append("lw " + $a0 + ", " + "_" + parse[1] + "\n");
-                                final_code_body.append("syscall\n");
+                            if(var.getScope().equals("s0")){
+                                if (var.getType().equals(new IntegerType())) {
+                                    final_code_body.append("li " + $v0 + ", 1\n");
+                                    final_code_body.append("lw " + $a0 + ", " + "_" + parse[1] + "\n");
+                                    final_code_body.append("syscall\n");
+                                } else if (var.getType().equals(new BooleanType())) {
+                                    final_code_body.append("li " + $v0 + ", 1\n");
+                                    final_code_body.append("lw " + $a0 + ", " + "_" + parse[1] + "\n");
+                                    final_code_body.append("syscall\n");
+                                }
+                            }else{
+                              if(var.isParam()){
+                               final_code_body.append("li " + $v0 + ", 1\n");
+                               final_code_body.append("move" + $a0 +", " +var.getCurrent_reg()+ "\n");
+                               final_code_body.append("syscall\n");
+                              }else{
+                               final_code_body.append("li " + $v0 + ", 1\n");
+                               final_code_body.append("lw" + $a0 +", -" +var.getFinalcode_direction()+"($fp)"+ "\n");
+                               final_code_body.append("syscall\n"); 
+                              }
+                            
                             }
-                        } else {
-                            String t1 = this.finalTemps.get(quad.getOp1()).reg;
-                            OperationType type = this.finalTemps.get(quad.getOp1()).type;
-
-                            if (type == OperationType.INTEGER_OPERATION) {
-                                final_code_body.append("li " + $v0 + ", 1\n");
-                                final_code_body.append("move " + $a0 + ", " + t1 + "\n");
-                                final_code_body.append("syscall\n");
-
-                            } else if (type == OperationType.BOOLEAN_OPERATION) {
-                                final_code_body.append("li " + $v0 + ", 1\n");
-                                final_code_body.append("move " + $a0 + ", " + t1 + "\n");
-                                final_code_body.append("syscall\n");
-                            }
-                            setAvaliable(t1);
-                            this.finalTemps.remove(quad.getOp1());
+                            
+                            
                         }
+                    } else { 
+                        String t1 = this.finalTemps.get(quad.getOp1()).reg;
+                        OperationType type = this.finalTemps.get(quad.getOp1()).type;
+
+                        if (type == OperationType.INTEGER_OPERATION) {
+                            final_code_body.append("li " + $v0 + ", 1\n");
+                            final_code_body.append("move " + $a0 + ", " + t1 + "\n");
+                            final_code_body.append("syscall\n");
+
+                        } else if (type == OperationType.BOOLEAN_OPERATION) {
+                            final_code_body.append("li " + $v0 + ", 1\n");
+                            final_code_body.append("move " + $a0 + ", " + t1 + "\n");
+                            final_code_body.append("syscall\n");
+                        }
+                        setAvaliable(t1);
+                        this.finalTemps.remove(quad.getOp1());
+                        
                     }
 
                     break;
@@ -1248,12 +1271,26 @@ public class FinalCodeBuilder {
                     String identifier = quad.getOp1();
                     String[] parse = identifier.split("_");
                     VTableNode var = (VTableNode) this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
-
-                    if (var.getType().equals(new IntegerType())) {
+                     if(var.getScope().equals("s0")){
+                       if (var.getType().equals(new IntegerType())) {
                         final_code_body.append("li " + $v0 + ", 5\n");
                         final_code_body.append("syscall\n");
                         final_code_body.append("sw " + $v0 + ", _" + parse[1] + "\n");
-                    }
+                       }
+                       
+                     }else{
+                       if(var.isParam()){
+                        final_code_body.append("li " + $v0 + ", 5\n");
+                        final_code_body.append("syscall\n");
+                        final_code_body.append("move " + var.getCurrent_reg() + ", $v0"+ "\n");
+                       }else{
+                        final_code_body.append("li " + $v0 + ", 5\n");
+                        final_code_body.append("syscall\n");
+                        final_code_body.append("sw " + $v0 + ", -"+var.getFinalcode_direction()+"($fp)" + "\n");
+                       }
+                     
+                     }
+                    
 
                     break;
                 }

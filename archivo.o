@@ -1,26 +1,67 @@
 _principal_s0:
-print "Ingrese un numero: "
+t0 := 1 + 10
+_i_s0 := t0
 L0:
-read _num1_s0
+t1 := _i_s0 + 10
+print t1
 L1:
-print "Ingrese un numero: "
+read _i_s0
 L2:
-read _num2_s0
-L3:
-params _num1_s0
-params _num2_s0
+params 1
+params 2
 call _suma_s0, 2
-_i_s0 := RET
+_x1_s0 := RET
+L3:
+if _x1_s0 >= 12 goto L4
+goto L5
 L4:
-print "El resultado es: "
+print "hola"
+L7:
+goto L11
 L5:
-print _i_s0
-L6:
+if _x1_s0 < 20 goto L8
+goto L10
+L8:
+read _i_s0
+L9:
+goto L11
+L10:
+L11:
+L13:
+if _x1_s0 <> 10 goto L12
+goto L17
+L12:
+print "hola"
+L14:
+if _x1_s0 < 10 goto L15
+goto L16
+L15:
+goto L17
+L16:
+goto L13
+L17:
+L18:
+goto L18
+L19:
+_x1_s0 := 1
+L20:
+if _x1_s0 <= 10 goto L21
+goto L24
+L21:
+print "hola"
+L23:
+L22:
+_x1_s0 := _x1_s0 + 1
+goto L20
+L24:
 fin_programa
 _suma_s0:
-t0 := _x_s0s1 + _y_s0s1
-_z_s0s1 := t0
-L7:
-RET := _z_s0s1
-L8:
+RET := t2
+L25:
 fin_funcion _suma_s0
+_algo_s0:
+_dundo_s0s2 := 20
+L26:
+print _dundo_s0s2
+L27:
+fin_funcion _algo_s0

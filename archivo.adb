@@ -1,22 +1,42 @@
 procedure principal is
- i: integer;
- num1: integer;
- num2: integer;
+ i, x1 : integer;
 
- function suma (x,y: in out integer) return integer is
-  z: integer; 
+   function suma (x,y: in out integer) return integer is
+      z: integer;
+    begin
+      return x+y;
+   end suma; 
+
+   procedure algo (cosas : in integer) is
+     dundo: integer;
+    begin
+    dundo :=20;
+      put(dundo);
+   end algo;
+
  begin
-   
-  z := x + y;
-  return z;
- end suma;
+ i := 1+10;
+ put(i+10);
+ get(i);
+ x1 := suma(1,2);
 
-begin
-  put("Ingrese un numero: ");
-  get(num1);
-  put("Ingrese un numero: ");
-  get(num2);
-  i:= suma(num1,num2); 
-  put("El resultado es: ");
-  put(i);
+ if x1 >= 12 then
+   put("hola");
+ elsif x1 < 20 then
+  get(i);  
+ end if;
+
+ while x1 /=  10  loop
+   put("hola");
+   exit when x1 < 10;
+ end loop;
+
+ loop
+
+ end loop;
+
+ for x1 in 1..10 loop
+   put("hola");
+ end loop;
+
 end principal;
