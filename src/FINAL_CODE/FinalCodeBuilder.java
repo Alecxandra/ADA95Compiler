@@ -1305,9 +1305,10 @@ public class FinalCodeBuilder {
                             ArrayList<VTableNode> vars = this.semanticTable.getSymboltable().getAllVars(var_scope);
                             int stackcount = 8;
                             int varinside = 0;
-                            final_code_body.append("move $fp, $sp \n");
+                            
                             final_code_body.append("sw $fp, -4($sp) \n");
                             final_code_body.append("sw $ra, -8($sp) \n");
+                            final_code_body.append("move $fp, $sp \n");
                             for (int j = 0; j < vars.size(); j++) {
                                 if (vars.get(j).isParam()) {
                                     String reg = getAviableSTemps();
