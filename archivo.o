@@ -1,25 +1,35 @@
 _principal_s0:
-params 2
-params 2
-call _prueba_s0, 2
-_result_s0 := RET
+print "Ingrese un numero: "
 L0:
-print _result_s0
+read _num1_s0
 L1:
+print "Ingrese un numero: "
+L2:
+read _num2_s0
+L3:
+params _num1_s0
+params _num2_s0
+call _suma_s0, 2
+_i_s0 := RET
+L4:
+print "El resultado es: "
+L5:
+print _i_s0
+L6:
 fin_programa
-_prueba_s0:
+_suma_s0:
 params _x_s0s1
 params _y_s0s1
-call _suma_s0s1, 2
-_resultado_s0s1 := RET
-L2:
-RET := _resultado_s0s1
-L3:
-fin_funcion _prueba_s0
-_suma_s0s1:
-t0 := _num1_s0s1s2 + _num2_s0s1s2
-_retorno_s0s1s2 := t0
-L4:
-RET := _retorno_s0s1s2
-L5:
-fin_funcion _suma_s0s1
+call _teaparty_s0s1, 2
+_z_s0s1 := RET
+L7:
+RET := _z_s0s1
+L8:
+fin_funcion _suma_s0
+_teaparty_s0s1:
+t0 := _a_s0s1s2 + _b_s0s1s2
+_c_s0s1s2 := t0
+L9:
+RET := _c_s0s1s2
+L10:
+fin_funcion _teaparty_s0s1
