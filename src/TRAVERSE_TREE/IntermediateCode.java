@@ -842,13 +842,13 @@ public class IntermediateCode implements IntermediateTraverse {
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
-        
+        ie.operations.add(new Quadruple("","_" + x.postid.id + "_"+temp_scope, "", Quadruple.Operations.FUNCTION_END));
         
         for (int i = 0; i < x.presta.size(); i++) {
             IntermediateStatement funcs = (IntermediateStatement) x.presta.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        ie.operations.add(new Quadruple("","_" + x.postid.id + "_"+temp_scope, "", Quadruple.Operations.FUNCTION_END));
+        
         this.scope = temp_scope;
         return ie;
     }
@@ -864,12 +864,12 @@ public class IntermediateCode implements IntermediateTraverse {
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
-        
+         ie.operations.add(new Quadruple("","_" + x.postid.id+ "_"+ temp_scope,"",Quadruple.Operations.FUNCTION_END));
         for (int i = 0; i < x.presta.size(); i++) {
             IntermediateStatement funcs = (IntermediateStatement) x.presta.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        ie.operations.add(new Quadruple("","_" + x.postid.id+ "_"+ temp_scope,"",Quadruple.Operations.FUNCTION_END));
+       
         this.scope = temp_scope;
         return ie;
     }
