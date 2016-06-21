@@ -1,25 +1,26 @@
 _principal_s0:
-_x1_s0 := 20
+print "Ingrese un numero: "
 L0:
-t1 := 5 * _x1_s0
-t0 := t1 + 10
-params t0
-t3 := 6 / _x1_s0
-t2 := t3 + 9
-params t2
+read _num1_s0
+L1:
+print "Ingrese un numero: "
+L2:
+read _num2_s0
+L3:
+params _num1_s0
+params _num2_s0
 call _suma_s0, 2
 _i_s0 := RET
-L1:
-print "El resultado es: "
-L2:
-print _i_s0
-L3:
-RET
-_suma_s0:
-t4 := _x_s0s1 + _y_s0s1
-_z_s0s1 := t4
 L4:
-RET := _z_s0s1
+print "El resultado es: "
 L5:
-fin_funcion _suma_s0
+print _i_s0
+L6:
 fin_programa
+_suma_s0:
+t0 := _x_s0s1 + _y_s0s1
+_z_s0s1 := t0
+L7:
+RET := _z_s0s1
+L8:
+fin_funcion _suma_s0

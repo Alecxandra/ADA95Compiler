@@ -906,13 +906,12 @@ public class IntermediateCode implements IntermediateTraverse {
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.stas.accept(this);
         ie.operations = ie.operations.merge(sta.operations);
-        ie.operations.add(new Quadruple("", "RET", "", Quadruple.Operations.VOID_RET));
+        ie.operations.add(new Quadruple(Quadruple.Operations.CLOSE));
         
         for (int i = 0; i < x.declarations.size(); i++) {
             IntermediateStatement funcs = (IntermediateStatement) x.declarations.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        ie.operations.add(new Quadruple(Quadruple.Operations.CLOSE));
         return ie;
     }
 
