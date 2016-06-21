@@ -11,6 +11,7 @@ import AST_TREE.StringType;
 import INTERM_LANG.IntermediateStatement;
 import INTERM_LANG.Quadruple;
 import TRAVERSE_TREE.SemanticAnalysis;
+import ada95compiler.FTableNode;
 import ada95compiler.VTableNode;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -866,6 +867,10 @@ public class FinalCodeBuilder {
                 }
                     
                 case CALL:{
+                   final_code_body.append("jal "+quad.getOp1()+"\n");
+                    for (int j = 0; j <=3; j++) {
+                        setAvaliable("$a"+j);
+                    }
                    break;
                 }
                    
@@ -941,8 +946,39 @@ public class FinalCodeBuilder {
                     break;
                 }
                    
-                case LABEL:{
-                  final_code_body.append(quad.getLabel()+": \n");
+                case LABEL:{  
+                    final_code_body.append(quad.getLabel()+": \n");  
+                    if(quad.getLabel().toString().contains("_")){
+                      String[] parse = quad.getLabel().toString().split("_");
+                      FTableNode function = (FTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
+                      if(!function.getChild_scope().equals("")){
+                       String var_scope = function.getChild_scope();
+                       ArrayList<VTableNode> vars = this.semanticTable.getSymboltable().getAllVars(var_scope);
+                       int stackcount=8;
+                       int varinside=0;
+                       final_code_body.append("move $fp, $sp \n");
+                       final_code_body.append("sw $fp, -4($sp) \n");
+                       final_code_body.append("sw $ra, -8($sp) \n");
+                        for (int j = 0; j < vars.size(); j++) {
+                            if (vars.get(j).isParam()) {
+                                String reg = getAviableSTemps();
+                                vars.get(j).setCurrent_reg(reg);
+                                stackcount += 4;
+                                final_code_body.append("sw "+reg+" , -"+stackcount+"($sp)\n");
+                                String number = ""+ reg.charAt(reg.length()-1);
+                                final_code_body.append("move "+reg+", "+"$a"+number+"\n");
+                            }else{
+                                varinside+=4;
+                                int direction=stackcount+varinside;
+                                vars.get(j).setFinalcode_direction(""+direction);
+                            }
+                        }
+                        final_code_body.append("sub $sp, $sp, "+(stackcount+varinside)+"\n");
+                        
+                      }
+                      
+                    }
+                  
                   break;
                 }
                 
@@ -955,6 +991,29 @@ public class FinalCodeBuilder {
                 }
                    
                 case FUNCTION_END:{
+                    final_code_body.append("_fin"+quad.getOp1()+":"+"\n");
+                    final_code_body.append("move $sp, $fp \n");
+                    System.out.println(quad.getOp1());
+                    String[] parse = quad.getOp1().split("_");
+                    FTableNode function = (FTableNode)this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
+                    String var_scope= function.getChild_scope();
+                    ArrayList<VTableNode> vars = this.semanticTable.getSymboltable().getAllVars(var_scope);
+                    int stackcount=8;
+                    int varinside=0;
+                    int contador_s=0;
+                    for (int j = 0; j < vars.size(); j++) {
+                         if (vars.get(j).isParam()) {
+                                stackcount += 4;
+                                final_code_body.append("lw $s"+contador_s+" , -"+stackcount+"($fp)\n");
+                                contador_s++;
+                            }else{
+                                varinside+=4;
+                            }
+                    }
+                    final_code_body.append("lw $ra, -8($fp) \n");
+                    final_code_body.append("lw $fp, -4($fp) \n");
+                    final_code_body.append("jr $ra\n");
+                    
                    break;
                 }
                    

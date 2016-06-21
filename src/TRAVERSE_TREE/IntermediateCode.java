@@ -109,6 +109,7 @@ public class IntermediateCode implements IntermediateTraverse {
     private SemanticAnalysis semanticTable;
     private ArrayList<String> stringsTable;
     private ArrayList<Double> doublesTable;
+    private String current_function;
     private String scope;
 
     public IntermediateCode(File outputFile, SemanticAnalysis semanticTable) throws IOException {
@@ -616,7 +617,7 @@ public class IntermediateCode implements IntermediateTraverse {
     public IntermediateForm traverse(ReturnStatement x) {
         IntermediateStatement ie = new IntermediateStatement();
         IntermediateExpression expre = (IntermediateExpression) x.expre.accept(this);
-        ie.operations.add(new Quadruple("RET", expre.getPlace().toString(), "", Quadruple.Operations.ASSIGN));
+        ie.operations.add(new Quadruple("RET", expre.getPlace().toString(), "", Quadruple.Operations.ASSIGN, new Label(this.current_function)));
         return ie;
     }
 
@@ -836,7 +837,7 @@ public class IntermediateCode implements IntermediateTraverse {
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        
+        this.current_function= "_" + x.postid.id + "_"+temp_scope;
         Label name = new Label("_" + x.postid.id + "_"+temp_scope);
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
@@ -858,6 +859,7 @@ public class IntermediateCode implements IntermediateTraverse {
         String temp_scope = new String(this.scope);
         String current_scope = new String(this.scope + Scope.getNewScope());
         this.scope = new String(current_scope);
+        this.current_function= "_" + x.postid.id+ "_"+ temp_scope;
         Label name = new Label("_" + x.postid.id+ "_"+ temp_scope);
         ie.operations.add(new Quadruple(name));
         IntermediateStatement sta = (IntermediateStatement) x.poststa.accept(this);
@@ -867,7 +869,7 @@ public class IntermediateCode implements IntermediateTraverse {
             IntermediateStatement funcs = (IntermediateStatement) x.presta.elementAt(i).accept(this);
             ie.operations = ie.operations.merge(funcs.operations);
         }
-        ie.operations.add(new Quadruple(Quadruple.Operations.FUNCTION_END));
+        ie.operations.add(new Quadruple("","_" + x.postid.id+ "_"+ temp_scope,"",Quadruple.Operations.FUNCTION_END));
         this.scope = temp_scope;
         return ie;
     }

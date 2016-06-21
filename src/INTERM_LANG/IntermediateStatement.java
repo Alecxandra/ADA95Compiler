@@ -123,7 +123,7 @@ public class IntermediateStatement extends IntermediateForm{
                     break;
                 }
                 case FUNCTION_END: {
-                    sb.append("fin_funcion");
+                    sb.append("fin_funcion "+currentQuadruple.getOp1());
                     break;
                 }
             }

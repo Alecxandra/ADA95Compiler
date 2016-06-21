@@ -21,13 +21,15 @@ public class FTableNode extends SymbolTableNode{
     private int column;
     private int line;
     private int direction;
+    private String child_scope;
     
-    public FTableNode(Type return_type, String Id, String Scope) {
+    public FTableNode(Type return_type, String Id, String Scope, String child_scope) {
         super(Id,Scope);
         this.return_type = return_type;
         this.params= new ArrayList();
         this.hasReturn = false;
         this.direction = 0;
+        this.child_scope= child_scope;
     }
     
     public void Add(VTableNode x){
@@ -85,5 +87,21 @@ public class FTableNode extends SymbolTableNode{
             return -1;
         }
     } 
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public String getChild_scope() {
+        return child_scope;
+    }
+
+    public void setChild_scope(String child_scope) {
+        this.child_scope = child_scope;
+    }
     
 }

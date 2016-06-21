@@ -20,6 +20,8 @@ public class VTableNode extends SymbolTableNode{
     private Type type;
     private int form;
     private int direction;
+    private String current_reg;
+    private String finalcode_direction;
     
     public static final int PARAM = 0;
     public static final int IN = 1;
@@ -31,6 +33,7 @@ public class VTableNode extends SymbolTableNode{
         this.type = type;
         this.form = form;
         this.direction = direction;
+        this.current_reg="";
     }
 
     public int getDirection() {
@@ -70,6 +73,22 @@ public class VTableNode extends SymbolTableNode{
     @Override
     public String toString() {
         return this.type.toString();
+    }
+
+    public String getCurrent_reg() {
+        return current_reg;
+    }
+
+    public void setCurrent_reg(String current_reg) {
+        this.current_reg = current_reg;
+    }
+
+    public String getFinalcode_direction() {
+        return finalcode_direction;
+    }
+
+    public void setFinalcode_direction(String finalcode_direction) {
+        this.finalcode_direction = finalcode_direction;
     }
     
 }

@@ -787,7 +787,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id,temp_scope,current_scope);
         int globalDirection = 0;
         for (int i = 0; i <x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
@@ -908,7 +908,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope = new String(this.scope);
         String current_scope = new String(this.scope + Scope.getNewScope());
         this.scope = new String(current_scope);
-        FTableNode node = new FTableNode(x.type, x.preid.id, temp_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id, temp_scope, current_scope);
         node.setLine(x.getLine());
         node.setColumn(x.getColumn());
         int globalDirection = 0;
@@ -1045,7 +1045,7 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         String current_scope= Scope.getNewScope();
         this.scope = new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope); 
+        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope,""); 
         symboltable.addSymbol(node);
         
         this.current_id= x.preid.id;
@@ -1147,7 +1147,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope = new String(this.scope);
         String current_scope = new String(this.scope + Scope.getNewScope());
         this.scope = new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(), x.preid.id, temp_scope);
+        FTableNode node = new FTableNode(new NullType(), x.preid.id, temp_scope, current_scope);
         for (int i = 0; i < x.list.size(); i++) {
             if (x.list.elementAt(i) instanceof In) {
 
@@ -1336,7 +1336,7 @@ public class SemanticAnalysis implements TypeTraverse{
         String temp_scope=new String(this.scope);
         String current_scope= new String(this.scope+Scope.getNewScope());
         this.scope= new String(current_scope);
-        FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope);
+        FTableNode node = new FTableNode(x.type, x.preid.id,temp_scope, current_scope);
         node.setColumn(x.getColumn());
         node.setLine(x.getLine());
         for (int i = 0; i < x.params.size(); i++) {
@@ -1449,7 +1449,7 @@ public class SemanticAnalysis implements TypeTraverse{
         }
         String current_scope= Scope.getNewScope();
         this.scope = new String(current_scope);
-        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope); 
+        FTableNode node = new FTableNode(new NullType(),x.preid.id,current_scope,""); 
         symboltable.addSymbol(node);
         
         Declarations declarations = x.declarations;
