@@ -1,19 +1,24 @@
---
--- Function using variable-sized array parameter.
---
-procedure f2 is
-   function Max (Arr: in Integer) return Integer is
-      I: Integer;
-   begin
-      for djasd in 4..7 loop
-         Put("Going through the first loop");
-         Put(Index);
-      end loop;
-      return TheMax;
-   end Max;
+procedure principal is
+ function fac(n: in out integer) return integer is
+  x: integer;
+ begin
+  if n = 0 or n=1 then
+   return 1;
+  end if;
+  x := fac(n-1);
+  x := n*x;
+  return x;
+ end fac;
+ 
+ procedure leer is
+  x,y : integer;
+  begin
+   put("Introduzca un numero: ");
+   get(x);
+   y := fac(x);
+   put("El resultado es: ");
+   put(y);
+ end leer;
 begin
-   Put(S);
-   Put(" ");
-   Put(a);
-   Put("ASD");
-end f2;
+ leer();
+end principal;

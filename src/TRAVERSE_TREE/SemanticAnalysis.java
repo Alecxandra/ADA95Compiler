@@ -717,10 +717,12 @@ public class SemanticAnalysis implements TypeTraverse {
         Type type2 = x.start.accept(this);
         SymbolTableNode node = this.symboltable.findSymbol(x.id.id, this.scope);
         if (node == null) {
-            print_error("La variable " + node.getId() + " en el for, no ha sido declarada", x.getLine(), x.getColumn());
+            print_error("La variable usada " + x.id + " en el for, no ha sido declarada", x.getLine(), x.getColumn());
         }
-        VTableNode param = (VTableNode) node;
-        if (param.getForm() == VTableNode.IN) {
+        
+        if(node != null){
+         VTableNode param = (VTableNode) node;
+         if (param.getForm() == VTableNode.IN) {
             print_error("el contador " + param.getId() + " es de tipo IN, su valor no puede ser modificado", x.getLine(), x.getColumn());
         }
 
@@ -728,6 +730,10 @@ public class SemanticAnalysis implements TypeTraverse {
             print_error("la variable " + param.getId() + " debe ser de tipo Integer", x.getLine(), x.getColumn());
             return new ErrorType();
         }
+        }
+        
+        
+        
 
         if (!(type1 instanceof IntegerType && type2 instanceof IntegerType)) {
             print_error("las expresiones del rango del for deben ser Integer", x.getLine(), x.getColumn());

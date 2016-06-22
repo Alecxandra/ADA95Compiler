@@ -1,25 +1,13 @@
 _principal_s0:
 params 2
 params 2
-call _prueba_s0, 2
-_result_s0 := RET
+call _suma_s0, 2
+_resultado_s0 := RET
 L0:
-print _result_s0
+print _resultado_s0
 L1:
 fin_programa
-_prueba_s0:
-params _x_s0s1
-params _y_s0s1
-call _suma_s0s1, 2
-_resultado_s0s1 := RET
+_suma_s0:
+RET := t0
 L2:
-RET := _resultado_s0s1
-L3:
-fin_funcion _prueba_s0
-_suma_s0s1:
-t0 := _num1_s0s1s2 + _num2_s0s1s2
-_retorno_s0s1s2 := t0
-L4:
-RET := _retorno_s0s1s2
-L5:
-fin_funcion _suma_s0s1
+fin_funcion _suma_s0
