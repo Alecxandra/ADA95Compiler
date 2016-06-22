@@ -1,5 +1,6 @@
 .data
-_resultado:	.word	0
+_i:	.word	0
+_x:	.word	0
 
 .text
 .globl main
@@ -7,35 +8,27 @@ _resultado:	.word	0
 main: 
 
 _principal_s0: 
-li $t0, 2
-move $a0, $t0
-li $t0, 2
-move $a1, $t0
-jal _suma_s0
-sw $v0, _resultado
+li $t0, 0
+sw $t0, _i
 L0: 
-li $v0, 1
-lw $a0, _resultado
-syscall
+li $t0, 1
+sw $t0, _i
 L1: 
+lw $t0, _i
+li $t1,5
+beq $t0, $t1, L2
+b L5
+L2: 
+li $v0, 5
+syscall
+sw $v0, _x
+L4: 
+L3: 
+lw $t0, _i
+li $t1, 1
+add $t2, $t0, $t1
+sw $t2,_i
+b L1
+L5: 
 li $v0, 10
 syscall
-_suma_s0: 
-sw $fp, -4($sp) 
-sw $ra, -8($sp) 
-move $fp, $sp 
-sw $s0 , -12($sp)
-move $s0, $a0
-sw $s1 , -16($sp)
-move $s1, $a1
-sub $sp, $sp, 20
-move $v0, null
-b _fin_suma_s0
-L2: 
-_fin_suma_s0:
-move $sp, $fp 
-lw $s0 , -12($fp)
-lw $s1 , -16($fp)
-lw $ra, -8($fp) 
-lw $fp, -4($fp) 
-jr $ra

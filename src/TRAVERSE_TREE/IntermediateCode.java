@@ -617,6 +617,7 @@ public class IntermediateCode implements IntermediateTraverse {
     public IntermediateForm traverse(ReturnStatement x) {
         IntermediateStatement ie = new IntermediateStatement();
         IntermediateExpression expre = (IntermediateExpression) x.expre.accept(this);
+        ie.operations = ie.operations.merge(expre.operations);
         ie.operations.add(new Quadruple("RET", expre.getPlace().toString(), "", Quadruple.Operations.ASSIGN, new Label(this.current_function)));
         return ie;
     }

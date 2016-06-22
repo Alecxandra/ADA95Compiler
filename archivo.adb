@@ -1,12 +1,8 @@
 procedure principal is
-  resultado : integer;
- function suma(x,y: in out integer) return integer is
-  result: integer;
-  begin
-   return x+y;
- end suma; 
-begin
- resultado := suma(2,2);
- put(resultado);
+i,x : integer;
+ begin
+  i:= 0;
+  for i in 1..5 loop
+   get(x);
+  end loop;
 end principal;
-
