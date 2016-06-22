@@ -1,8 +1,11 @@
 procedure principal is
 i,x : integer;
  begin
-  i:= 0;
-  for i in 1..5 loop
-   get(x);
+  i:= 1;
+  loop
+   put("hola");
+   put("\n");
+   exit when i = 5;
+   i := i+1;
   end loop;
 end principal;

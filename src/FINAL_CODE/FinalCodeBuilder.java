@@ -791,7 +791,7 @@ public class FinalCodeBuilder {
                     }
 
                     if (type == OperationType.INTEGER_OPERATION) {
-                        final_code_body.append("beq " + t1 + ", " + t2 + ", " + quad.getLabel().toString() + "\n");
+                        final_code_body.append("ble " + t1 + ", " + t2 + ", " + quad.getLabel().toString() + "\n");
                     }
 
                     setAvaliable(t1);
