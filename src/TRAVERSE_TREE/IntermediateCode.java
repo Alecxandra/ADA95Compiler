@@ -1066,7 +1066,7 @@ public class IntermediateCode implements IntermediateTraverse {
             if (x.elementAt(i) instanceof WhileStatement || x.elementAt(i) instanceof ForStatement || x.elementAt(i) instanceof LoopStatement) {
                complete(sta.getOuterList(), next);
             }else{
-            ie.setOuterList(sta.getOuterList());
+            ie.setOuterList(merge(ie.getOuterList(),sta.getOuterList()));
             }
 
         }

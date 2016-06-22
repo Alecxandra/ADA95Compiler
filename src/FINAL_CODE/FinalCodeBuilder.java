@@ -1345,7 +1345,7 @@ public class FinalCodeBuilder {
                 case FUNCTION_END: {
                     final_code_body.append("_fin" + quad.getOp1() + ":" + "\n");
                     final_code_body.append("move $sp, $fp \n");
-                    System.out.println(quad.getOp1());
+                    
                     String[] parse = quad.getOp1().split("_");
                     FTableNode function = (FTableNode) this.semanticTable.getSymboltable().findSymbol(parse[1], parse[2]);
                     String var_scope = function.getChild_scope();

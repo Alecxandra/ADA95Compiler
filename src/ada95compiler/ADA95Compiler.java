@@ -40,7 +40,6 @@ public class ADA95Compiler {
             SymbolTable symboltable= new SymbolTable();
             SemanticAnalysis semantic = new SemanticAnalysis(symboltable);
             programa.accept(semantic);
-            System.out.println("Termine");
             if(!semantic.haserror()){
                 File intermediateCodeFile = new File(file.getAbsolutePath().replace(".adb", "") + ".o");
                 IntermediateCode ic = new IntermediateCode(intermediateCodeFile, semantic);
@@ -53,7 +52,7 @@ public class ADA95Compiler {
             
             
         } catch (Exception ex) {
-            ex.printStackTrace();
+            
         }
     }
     

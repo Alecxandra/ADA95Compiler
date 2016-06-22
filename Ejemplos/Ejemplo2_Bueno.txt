@@ -1,47 +1,32 @@
--- ojasoda asjdas dapsod adk
+procedure principal is
+ 
+ function fibo (n : in out integer) return integer is
+  x,y: integer;
+  begin
+   if n = 1 then
+    return 1;
+   end if;
 
-procedure LoopDemo is
+   if n = 2 then
+    return 1;
+   end if;
+    x:=fibo(n-1);
+    y:=fibo(n-2);
+   return x + y;
 
-   Index, Count : INTEGER;
-
-begin
-   Index := 1;
-   loop                            
-   -- This is the simplest loop
-      Put("Index =");
-      Put(Index);
-      Index := Index + 1;
-      exit when Index = 5;
+ end fibo;
+ 
+ procedure leer is
+  i,n: integer;
+  begin
+   for i in 1..6 loop
+    n:= fibo(i);
+    put(n);
+    put("\n");
    end loop;
+ end leer;
 
-   Index := 1;
-   loop                           
-   -- Another simplest loop
-      Put("Index =");
-      Put(Index);
-      Index := Index + 1;
-      if Index = 5 then 
-         Index := 3; 
-      end if;
-   end loop;
+ begin
+ leer();
 
-   Count := 1;
-   while Count < 5 loop            
-   -- This is the while loop
-      Put("Count =");
-      Put(Count);
-      Count := Count + 1;
-   end loop;
-
-   for Index in 1..4 loop          
-   -- This is the for loop
-      Put("Doubled index =");
-      Put(2 * Index);
-   end loop;
-
-   for Index in 7..11 loop         
-   -- An empty loop
-      null;
-   end loop;
-
-end LoopDemo;
+end principal;

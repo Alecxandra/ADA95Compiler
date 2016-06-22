@@ -1,29 +1,4 @@
 procedure principal is
-<<<<<<< HEAD
- function fac(n: in out integer) return integer is
-  x: integer;
- begin
-  if n = 0 or n=1 then
-   return 1;
-  end if;
-  x := fac(n-1);
-  x := n*x;
-  return x;
- end fac;
- 
- procedure leer is
-  x,y : integer;
-  begin
-   put("Introduzca un numero: ");
-   get(x);
-   y := fac(x);
-   put("El resultado es: ");
-   put(y);
- end leer;
-begin
- leer();
-end principal;
-=======
  i: integer;
  num1: integer;
  num2: integer;
@@ -49,4 +24,4 @@ begin
   put("El resultado es: ");
   put(i);
 end principal;
->>>>>>> f23260585481da5b84e282b52b37415e4d5f11b5
+

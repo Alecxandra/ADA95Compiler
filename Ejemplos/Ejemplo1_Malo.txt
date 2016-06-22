@@ -1,19 +1,32 @@
---
--- Function using variable-sized array parameter.
---
-procedure f2 is
-   function Max (Arr:  Integer) return Integer is
-      I : Integer;
-   begin
-      for djasd in 4..7 loop
-         Put("Going through the first loop")
-         Put(Index);
-      end loop
-      return TheMax;
-   end Max;
-begin
-   Put(S);
-   Put(" ")
-   Put(a ;
-   Put("ASD");
-end f2 
+procedure principal is
+ 
+ function fibo (n : in out integer) return integer is
+  x,y: integer;
+  begin
+   if n = 1 then
+    return 1;
+   end if;
+
+   if n = 2 then
+    return 1;
+   end if;
+    x:=fibo(n-1);
+    y:=fibo(n-2);
+   return x + y;
+
+ end fibo;
+ 
+ procedure leer is
+  i,n: integer;
+  begin
+   for i in 1..6 loop
+    n:= fibo(i);
+    put(n);
+    put("\n");
+   end loop;
+ end leer;
+
+ begin
+ leer();
+
+end principal;
